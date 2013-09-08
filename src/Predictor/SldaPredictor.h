@@ -52,7 +52,6 @@ private:
 	// Configuration parameters
 	std::string sldaSettings;
 	std::string sldaInitMethod;
-	std::string sldaDirectory;
 	std::string sldaModelDir;
 	float alpha;
 	int numTopics;
@@ -60,10 +59,10 @@ private:
 	//	Configuration keys
 	const std::string sldaSettingsKey = moduleName + "settings";
 	const std::string sldaInitMethodKey = moduleName + "init";
-	const std::string sldaDirectoryKey = moduleName + "directory";
 	const std::string sldaModelDirKey = moduleName + "model";
 	const std::string alphaKey = moduleName + "alpha";
 	const std::string numTopicsKey = moduleName + "num_topics";
+	const std::string settingsDir = moduleName + "settingsDir";
 
 
 

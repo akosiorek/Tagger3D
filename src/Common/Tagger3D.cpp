@@ -114,13 +114,17 @@ void Tagger3D::train() {
 	INFO(logger, "Describing keypoints");
 	descriptors = descriptor->describe( colorClouds, keypointClouds, normalClouds );
 
-	INFO(logger, "Clusterizing");
+
+
+
 	switch( getParam<int>(trainCluster) ) {
 	case 1:
+		INFO(logger, "Clusterizing");
 		cluster->train(descriptors);
-			cluster->save();
-			break;
+		cluster->save();
+		break;
 	case 0:
+		INFO(logger, "Loading centroids");
 		cluster->load();
 		break;
 	default:

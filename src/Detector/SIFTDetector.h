@@ -20,7 +20,6 @@ public:
 	virtual ~SIFTDetector();
 
 	ScaleCloud::Ptr detect(const ColorCloud::Ptr &cloud);
-	ScaleVec detect(const ColorVec &clouds);
 
 private:
 	SIFTDetector();

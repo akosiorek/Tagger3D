@@ -20,7 +20,7 @@ public:
 	virtual ~Detector();
 
 	virtual  ScaleCloud::Ptr detect(const ColorCloud::Ptr &cloud) = 0;
-	virtual ScaleVec detect(const ColorVec &clouds) = 0;
+	virtual ScaleVec detect(const ColorVec &clouds);
 
 protected:
 

@@ -80,6 +80,7 @@ std::map<std::string, std::string> Config::getConfigMap() {
 	std::string helpTmp = help + "," + help[0];
 	std::string versionTmp = version + "," + version[0];
 	std::string pictureTmp = picture + "," + picture[0];
+	std::string modeTmp = mode + "," + mode[0];
 
 	/**
 	 *	Options allowed only on a command line.
@@ -93,14 +94,6 @@ std::map<std::string, std::string> Config::getConfigMap() {
 	/**
 	 * 	Options allowed on a command line and in a config file.
 	 */
-	po::options_description dirOps("Directories");
-	dirOps.add_options()
-		("testImgList", po::value<std::string>(), "A *.txt file with a list of test images");
-		("trainImgList", po::value<std::string>(), "A *.txt file with a list of train images");
-		("testLabel", po::value<std::string>(), "A *.txt with labels of the testset");
-		("trainLabel", po::value<std::string>(), "A *.txt with labels of the trainset");
-		;
-
 	po::options_description sldaOps("sLDA options");
 	sldaOps.add_options()
 		("alpha", po::value<std::string>(), "Alpha value")
@@ -116,14 +109,17 @@ std::map<std::string, std::string> Config::getConfigMap() {
 		("clusterCount", po::value<std::string>(), "Number of clusters")
 		("criteriaEps", po::value<std::string>(), "Required precision")
 		("criteriaItr", po::value<std::string>(), "Maximum number of iterations")
+		("trainCluster", po::value<std::string>(), "train cluster if 1");
 		;
 
 
 	po::options_description configOps("Configuration");
 	configOps.add_options()
+		(modeTmp.c_str(), po::value<std::string>(), "Mode")
+		(directory.c_str(), po::value<std::string>(), "Model directory")
 		(pictureTmp.c_str(), po::value<std::string>(), "Path to a picture")
 		;
-	configOps.add(dirOps).add(sldaOps).add(clusterOps);
+	configOps.add(sldaOps).add(clusterOps);
 
 	/**
 	 *	Hidden options. Allowed on a command line and in a config file.
@@ -142,7 +138,7 @@ std::map<std::string, std::string> Config::getConfigMap() {
 	visibleOptions.add(genericOps).add(configOps);
 
 	po::positional_options_description positionalOptions;
-	positionalOptions.add(config.c_str(), -1);
+	positionalOptions.add(config.c_str(), 1).add(mode.c_str(), 1).add(directory.c_str(), 1);
 
 	 po::variables_map vm;
 

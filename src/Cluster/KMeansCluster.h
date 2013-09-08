@@ -103,7 +103,6 @@ private:
 	std::string matcherType;
 	std::string centroidIoName;
 	std::string ioFileFormat;
-	std::string inputOutputPath;
 
 	/**
 	 * KMeans key values. Configuration parameters' values should be stored
@@ -118,7 +117,6 @@ private:
 	const std::string matcherTypeKey = moduleName + "matcherType";
 	const std::string centroidIoNameKey = moduleName + "centroidIoName";
 	const std::string ioFileFormatKey = moduleName + "ioFileFormat";
-	const std::string inputOutputPathKey = moduleName + "inputOutputPath";
 
 	bool createKMeans();
 	bool createDescriptorMatcher();

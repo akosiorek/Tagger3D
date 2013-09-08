@@ -33,6 +33,8 @@ int main(int argc, char** argv) {
 
 	t3d::Config config(argc, const_cast<const char**>(argv));
 	const std::map<std::string, std::string> configMap = config.getConfigMap();
+	if( configMap.empty() )
+		exit(2);
 
 	t3d::Tagger3D tagger(configMap);
 	tagger.run();

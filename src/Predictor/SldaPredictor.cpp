@@ -15,7 +15,7 @@ namespace Tagger3D {
 SldaPredictor::SldaPredictor(const std::map<std::string, std::string> &_configMap) : Predictor(_configMap) {
 
 
-	sldaSettings = const_cast<char*>(getParam<std::string>( sldaSettingsKey ).c_str() );
+	sldaSettings = getParam<std::string>(settingsDir) + "/" + getParam<std::string>( sldaSettingsKey );
 
 	if( !fileExists(sldaSettings) ) {
 		std::runtime_error e("File " + sldaSettings + " does not exist");
@@ -23,9 +23,8 @@ SldaPredictor::SldaPredictor(const std::map<std::string, std::string> &_configMa
 		throw e;
 	}
 
-	sldaInitMethod = const_cast<char*>(getParam<std::string>( sldaInitMethodKey ).c_str() );
-	sldaDirectory = const_cast<char*>(getParam<std::string>( sldaDirectoryKey ).c_str() );
-	sldaModelDir = const_cast<char*>(getParam<std::string>( sldaModelDirKey).c_str() );
+	sldaInitMethod = getParam<std::string>( sldaInitMethodKey );
+	sldaModelDir = directory + "/" + getParam<std::string>( sldaModelDirKey);
 	alpha = getParam<float>( alphaKey );
 	numTopics = getParam<int>( numTopicsKey );
 	createSlda();
@@ -63,9 +62,9 @@ void SldaPredictor::train() {
 		throw e;
 	}
 
-	make_directory( const_cast<char*>( sldaDirectory.c_str()) );
+	make_directory( const_cast<char*>( directory.c_str()  ));
 	sldaModel->init(alpha, numTopics, sldaCorpus.get() );
-	sldaModel->v_em( sldaCorpus.get(), sldaSet.get(), const_cast<char*>( sldaInitMethod.c_str()), const_cast<char*>( sldaDirectory.c_str()) );
+	sldaModel->v_em( sldaCorpus.get(), sldaSet.get(), const_cast<char*>( sldaInitMethod.c_str()), const_cast<char*>( directory.c_str()) );
 	TRACE(logger, "train: Finished");
 }
 
@@ -89,8 +88,8 @@ std::vector<int> SldaPredictor::predict() {
 	if( !modelLoaded )
 		load();
 
-	make_directory( const_cast<char*>( sldaDirectory.c_str()) );
-	sldaModel->infer_only( sldaCorpus.get(), sldaSet.get(), const_cast<char*>( sldaDirectory.c_str()) );
+	make_directory( const_cast<char*>( directory.c_str()) );
+	sldaModel->infer_only( sldaCorpus.get(), sldaSet.get(), const_cast<char*>( directory.c_str()) );
 	TRACE(logger, "predict: Finished");
 	//TODO return something useful
 	return std::vector<int>();

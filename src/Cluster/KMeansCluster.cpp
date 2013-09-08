@@ -28,10 +28,10 @@ KMeansCluster::KMeansCluster(const std::map<std::string, std::string>& _configMa
 	criteriaEps = getParam<float>(criteriaEpsKey);
 	criteriaItr = getParam<int>(criteriaItrKey);
 	attempts = getParam<int>(attemptsKey);
+	flags = getParam<int>(flagsKey);
 	matcherType = getParam<std::string>(matcherTypeKey);
 	centroidIoName = getParam<std::string>(centroidIoNameKey);
 	ioFileFormat = getParam<std::string>(ioFileFormatKey);
-	inputOutputPath = getParam<std::string>(inputOutputPathKey);
 
 	if( attempts == 0) {
 		std::invalid_argument e("Attemps should be > 0");
@@ -174,7 +174,7 @@ bool KMeansCluster::save() {
 		throw e;
 	}
 
-	fs::path path(inputOutputPath);
+	fs::path path(directory);
 	if( !fs::exists( path ) ) {
 		fs::create_directories(path);
 		if(  !fs::exists( path )) {
@@ -184,7 +184,7 @@ bool KMeansCluster::save() {
 			throw e;
 		}
 	}
-	std::string name = path.string() + centroidIoName + ioFileFormat;  	// path to XML file
+	std::string name = directory + "/" + centroidIoName + ioFileFormat;  	// path to XML file
 	cv::FileStorage fs(name, cv::FileStorage::WRITE); 					// open file in write format
 	if( !fs.isOpened()) {
 
@@ -221,7 +221,7 @@ bool KMeansCluster::save() {
 bool KMeansCluster::load() {
 
 	TRACE(logger,"load: Starting" );
-	fs::path path(inputOutputPath);
+	fs::path path(directory);
 	if( !fs::exists(path) ) {
 
 		std::runtime_error e ("The specified path " + path.string() + " does not exist.");
@@ -243,7 +243,7 @@ bool KMeansCluster::load() {
 	}
 
 	TRACE(logger,"load: Opening file storage" );
-	std::string name = path.string() + centroidIoName + ioFileFormat;
+	std::string name = directory + "/" + centroidIoName + ioFileFormat;
 	cv::FileStorage fs(name, cv::FileStorage::READ);
 	if( !fs.isOpened()) {
 		fs.open(name, cv::FileStorage::READ);

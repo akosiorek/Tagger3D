@@ -36,6 +36,8 @@ protected:
 
 	const std::string separator = ".";
 	lgr::LoggerPtr logger;
+	std::string directory;
+	const std::string directoryKey = "directory";
 
 private:
 	ProcessObject();

@@ -103,7 +103,6 @@ protected:
 
 	cv::Mat labels;
 	cv::Mat centroids;
-	std::map<std::string, std::string> configMap;
 
 	const std::string moduleName = "cluster" + separator;
 	bool loaded;

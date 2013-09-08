@@ -36,6 +36,8 @@ private:
 	const std::string help = "help";
 	const std::string version = "version";
 	const std::string picture = "picture";
+	const std::string mode = "mode";
+	const std::string directory = "directory";
 
 	std::map<std::string,std::string> parseConfigFile(std::string filePath);
 

@@ -17,6 +17,8 @@ ProcessObject::ProcessObject(const std::map<std::string, std::string> &_configMa
 
 		throw std::invalid_argument("Empty configuration map");
 	}
+
+	directory = getParam<std::string>( directoryKey);
 }
 
 ProcessObject::~ProcessObject() {}
