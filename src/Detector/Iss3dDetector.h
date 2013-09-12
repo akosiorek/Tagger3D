@@ -18,7 +18,7 @@ namespace Tagger3D {
 /*
  *
  */
-class Iss3dDetector: public Tagger3D::Detector {
+class Iss3dDetector: public Detector {
 	/**
 	 *
 	 */
@@ -30,6 +30,22 @@ public:
 
 private:
 	Iss3dDetector();
+	void createDetector();
+
+	std::unique_ptr<pcl::ISSKeypoint3D<pcl::PointXYZRGB, pcl::PointXYZRGB>> detector;
+
+	const std::string
+		gamma21 = moduleName + "gamma21",
+		gamma32 = moduleName + "gamma32",
+		minNeighbours = moduleName + "minNeighbours",
+		threads = moduleName + "threads",
+		modelResolution = moduleName + "modelResolution";
+
+	float
+		salientRadius,
+		nonMaxRadius,
+		normalRadius,
+		borderRadius;
 };
 
 } /* namespace Tagger3D */

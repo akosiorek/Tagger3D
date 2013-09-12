@@ -24,7 +24,7 @@ message( STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}" )
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMakeScripts" )
 message( STATUS "CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}" ) 
  
-# PCL 
+# PCL  
 find_package( PCL 1.7 REQUIRED )
 include_directories( ${PCL_INCLUDE_DIRS} )
 link_directories( ${PCL_LIBRARY_DIRS} )
@@ -78,7 +78,7 @@ add_executable ( ${Project}
 	Config/Config.cpp  
 	ImgReader/ImgReader.cpp ImgReader/RangeImgReader.cpp ImgReader/PcdReader.cpp
 	PointNormal/PointNormal.cpp PointNormal/NormalEstimator.cpp 
-	Detector/Detector.cpp Detector/SIFTDetector.cpp
+	Detector/Detector.cpp Detector/SIFTDetector.cpp Detector/SusanDetector.cpp Detector/Iss3dDetector.cpp
 	Descriptor/Descriptor.cpp Descriptor/PFHDescriptor.cpp Descriptor/FPFHDescriptor.cpp
 	Descriptor/CloudParser/CloudParser.cpp 
 	Cluster/Cluster.cpp Cluster/KMeansCluster.cpp

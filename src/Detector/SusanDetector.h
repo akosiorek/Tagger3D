@@ -26,7 +26,7 @@ public:
 	SusanDetector(const std::map<std::string, std::string> &configMap);
 	virtual ~SusanDetector();
 
-	ScaleCloud::Ptr detect(const ColorCloud::Ptr &cloud);
+	//ScaleCloud::Ptr detect(const ColorCloud::Ptr &cloud);
 
 private:
 	SusanDetector();

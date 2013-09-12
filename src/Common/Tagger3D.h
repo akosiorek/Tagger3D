@@ -75,6 +75,7 @@ private:
 
 	enum { TRAIN, TEST, TRAINTEST, PREDICT };
 	enum { RANGEIMG_READER, PCD_READER };
+	enum { SIFT, ISS3D };
 	enum { PFH_DESC, FPFH_DESC };
 	enum { SLDA, SVM };
 
@@ -84,9 +85,11 @@ private:
 	// Config keys
 	const std::string mode = moduleName + "mode";
 	const std::string readerType = moduleName + "readerType";
+	const std::string detectorType = moduleName + "detectorType";
 	const std::string descType = moduleName + "descType";
 	const std::string predictorType = moduleName + "predictorType";
 	const std::string trainCluster = moduleName + "trainCluster";
+
 
 };
 

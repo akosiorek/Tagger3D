@@ -11,6 +11,7 @@
 #include "../ImgReader/PcdReader.h"
 #include "../PointNormal/NormalEstimator.h"
 #include "../Detector/SIFTDetector.h"
+#include "../Detector/Iss3dDetector.h"
 #include "../Descriptor/PFHDescriptor.h"
 #include "../Descriptor/FPFHDescriptor.h"
 #include "../Cluster/KMeansCluster.h"
@@ -36,7 +37,15 @@ Tagger3D::Tagger3D(const std::map<std::string, std::string> &configMap) : Proces
 	}
 
 	pointNormal = std::unique_ptr<PointNormal> (new NormalEstimator(configMap));
-	detector = std::unique_ptr<Detector> (new SIFTDetector(configMap));
+
+	switch( getParam<int>( detectorType )) {
+	case SIFT: detector = std::unique_ptr<Detector> (new SIFTDetector(configMap)); break;
+	case ISS3D: detector = std::unique_ptr<Detector> (new Iss3dDetector(configMap)); break;
+	default:
+			std::runtime_error e("Invalid detector type");
+			ERROR(logger, e.what());
+			throw e;
+		}
 
 	switch( getParam<int>( descType )) {
 	case PFH_DESC: descriptor = std::unique_ptr<Descriptor> (new PFHDescriptor(configMap)); break;

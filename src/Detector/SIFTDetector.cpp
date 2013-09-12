@@ -56,10 +56,6 @@ ScaleCloud::Ptr SIFTDetector::detect(const ColorCloud::Ptr &cloud) {
 		ERROR(logger, "detect: " << e.what() );
 		throw e;
 	}
-
-//	for( auto &point : keyPoints->points)
-//		std::cout << point.x << "," << point.y << "," << point.z << " ";
-//	std::cout << std::endl;
 	return keyPoints;
 }
 

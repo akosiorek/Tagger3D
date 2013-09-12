@@ -10,7 +10,7 @@
 
 namespace Tagger3D {
 
-SusanDetector::SusanDetector(const std::map<std::string, std::string> &configMap) : Detector(configMap {
+SusanDetector::SusanDetector(const std::map<std::string, std::string> &configMap) : Detector(configMap) {
 	// TODO Auto-generated constructor stub
 
 }
