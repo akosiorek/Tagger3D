@@ -26,7 +26,7 @@ Indentation Mode=normal
 Mode=BibTeX
 
 [document-settings,item:article.tex]
-Bookmarks=26
+Bookmarks=51,34,5
 Encoding=UTF-8
 FoldedColumns=
 FoldedLines=
@@ -41,7 +41,7 @@ encoding=UTF-8
 highlight=BibTeX
 line=115
 mode=BibTeX
-open=true
+open=false
 order=1
 
 [item:article.tex]
@@ -49,7 +49,7 @@ archive=true
 column=0
 encoding=UTF-8
 highlight=LaTeX
-line=105
+line=39
 mode=LaTeX
 open=true
 order=0
@@ -72,6 +72,6 @@ ViMarks=
 
 [view-settings,view=0,item:article.tex]
 CursorColumn=0
-CursorLine=105
+CursorLine=39
 JumpList=
-ViMarks=a,42,15
+ViMarks=a,51,0,b,51,0,c,34,0,d,5,0

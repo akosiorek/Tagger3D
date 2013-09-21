@@ -1,8 +1,9 @@
 \documentclass[a4paper,10pt]{article}
 \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 
 %opening
-\title{Bag of Words 3D object categorization based on scale-invariant features}
+\title{Rozpoznawanie obiektów trójwymiarowych na podstawie danych RGBD wykorzystując podejście Bag of Words}
 \author{Adam Kosiorek}
 \bibliographystyle{abbrv}
 \begin{document}
@@ -11,144 +12,53 @@
 
 \begin{abstract}
 
+Abstrakt
+
 \end{abstract}
- 
 
-\section{Introduction}
+\section{Wstęp}
+\subsection{Motywacja}
 
-  Mobile robotics has already begun its entrance into our households. It is conceivable that numerous tasks from our daily routines will be no
-  longer of our interest, for personal robotic assistanst will take care of them. Among their most obvious duties are now or will be:
-  cleaning, cooking  and elderly care. A robot aspiring to become a personal assistant has a number of requirements to fullfil. These 
-  requirements might consist of, but are not limited to: an ability of simultaneous localization and mapping or SLAM, a clever human-machine 
-  interface and a capability of interaction with its enviornment. As for the last part, a capacity of object categorization is essential. One 
-  has to bear in mind that the categorization is very different from: recognition, content based image retrieval or CBIR and detection as outlined
-  in \cite{csurka2004visual}. 
+  Rozwój nowych technologii pozwala na gromadzenie oraz przetwarzanie bardzo dużych ilości danych. Aparaty i kamery cyfrowe przyczyniają się do powstawania milionów gigabajtów informacji każdego dnia. Co więcej, dobrej jakości urządzenia służące do obrazowania trójwymiarowego osiągnęły tak niskie ceny, że można je znaleźć w wielu gospodarstwach domowych. Jednym z nich jest \textit{Microsoft Kinect} -- korzystający z technologii \textit{PrimeSense} --- oparty o światło strukturalne sensor rejestrujący dane RGBD.
   
-  An intermediate image representation that seems to yield the best results in scene classification, 2D object categorization and 3D shape retrieval
-  over the past decade as seen in \cite{fei2005bayesian}, \cite{csurka2004visual}, \cite{li2010investigating} and \cite{tsai2012bag}
-  is a Bag of Words model. It seems that it has not been used for 3D object categorization so far.
+  Nowe technologie przyczyniają się też do spadku cen robotów mobilnych. Można sobie wyobrazić, że w niedalekiej przyszłości zrobotyzowani asystenci zawitają w domach. Roboty takie będą musiały spełniać szereg wymagań związanych z wymogami bezpieczeństwa oraz wygodą użytkowania. W szczególności roboty takie muszą być wyposażone w mechanizmy pozwalające na ich bezpieczną, a zarazem efektywną interakcją z otoczeniem --- w tym z ludźmi. 
   
-  Bag of Words model has numerous advantages over raw images. Firstly, with appropriate features used for word formation the resulting 
-  representation can be invariant to affine transforms and lighting conditions. Moreover, it addresses the issue of a semantic gap. It is 
-  challanging to determine whether certain low level visual features (or their description) are characteristic for any higher-level object.
-  On the other hand, clustering thousands of such described features yields a relatively low number of intermediate level features - the visual words.
-  
-  A typicial pipeline for Bag of Words scene or object categorization is as follows:
+  Zapewnienie poprawnej interakcji z otoczeniem wymaga spełnienia wielu warunków. Między innymi są to: 
   \begin{itemize}
-  \item Points or regions of interest have to be detected.
-  \item Each keypoint have to be described, thus resulting in a point in multi-dimensional space (or a vector)
-  \item Every vector have to be assigned to a corresponding term from a pre-constructed visual vocabulary by a vector 
-  quantization algorithm.
-  \item The obtained histograms of visual words has to be fed into a multi-class classification algorithm.
+   \item Interfejs człowiek-maszyna powinien pozwalać na swobodną komunikację
+   \item Posiadanie wiedzy na temat aktualnego położenia oraz dysponowanie mapą otoczenia - problem opisywany w literaturze jako \textit{SLAM --- Simultaneous Localization And Mapping}
+   \item Zdolność semantycznej klasyfikacji miejsca, w którym robot się znajduje, celem przystosowania zachowania się robota
+   \item Zdolnośc semantycznej klasyfikacji pojedyńczych obiektów   
   \end{itemize}
   
-  Csurka \textit{et al} \cite{csurka2004visual} has presented a bag of words framework for 2D object categorization. They have employed the
-  Harris affine detector for keypoint detection and SIFT for keypoint description. Even tough the training set has produced circa. 640 000 
-  keypoints the visual vocabulary has been constructed by clustering with kmeans algorithm only 5 000 keypoints per category or 35 000 in 
-  total. Then, histograms of visual words were processed by multi-class classificators - namely the Na\"{i}ve Bayes and the Support Vector Machine.
-  As expected, the SVM proved superior yielding 85\% accuracy as opposed to Na\"{i}ve Bayes' 72\%. While being efficient and quite effective, this
-  approach considers only two dimensional data. Mobile robots are usually equipped with a device capable of capturing three dimensional point clouds
-  such as laser scanners or rgbd cameras. Utilization of the enriched spatial information might result in a higher accuracy.
+  Wykorzystanie informacji przestrzennej mogłoby być problematyczne w przypadku semantycznej kategoryzacjii scen. W przypadku, gdy robot nie przebywa w budynku próba rejestracji chmury punktów z otoczenia może zakończyć się częściowym powodzeniem --- jeśli nie będą występowały żadne obiekty w zasięgu np. skanera laserowego, to punkty nie zostaną zarejestrowane. Sytuacja przedstawia się zupełnie inaczej w przypadku kategoryzacji obiektów. Sam fakt wystąpienia problemu kategoryzacji obiektu oznacza, że obiekt ten jest w zasięgu sensorów rejestrujących otoczenie robota, a więc możliwe jest zebranie chmury punktów z tego przedmiotu. 
+
+
+\subsection{Cel pracy}
+
+  Celem niniejszej pracy jest napisanie aplikacji służącej do semantycznej kategoryzacji obiektów trójwymiarowych wykorzystującej podejście Bag of Words. Aplikacja powinna działać w czasie rzeczywistym, a jej skuteczność powinna pozwalać na wykorzystanie jej w rzeczywistych robotach mobilnych.
+
+\subsection{Zakres pracy}
+
+  W pracy zostały przyjęte następujące założenia projektowe:
+  \begin{itemize}
+   \item System operuje na danych RGBD
+   \item Analizowane obrazy powinny zostać przygotowane w ten sposób, że rozpoznawany obiekt powinien wypełniać ponad połowę powierzchni zdjęcia
+   \item Kategoryzacja obiektów odbywa się z pominięciem segmentacji obrazu.
+  \end{itemize}
   
-  Recelty Zhang \textit{et al} \cite{zhangcategory} has employed a semi-supervised graphical model object categorization approach. 
-  A structure-based graphical model is trained using the spatial-information from the RGBD images. It is believed that the spatial
-  information can help overcome intra-category texture variations and various rigid transformations, thus enabling the user to provide
-  just one annotated image of an object from every category to initialize the training. The model can then be refined with not annotated images.
-  Furthermore, object is divided into several parts and a separate codebooks are constructed for each of them. The matching can be performed 
-  on 2D or 3D images. Their average accuracy is above 85\% on 5 categories. Even though Zhang's method is easy to use for an end-user and 
-  delievers state-of-the-art result it is very complex and difficult to implement.
-  
+  Do realizacji projektu wykorzystano biblioteki: \emph{OpenCV, PointCloudLibrary, Boost}. Wszystkie wykorzystywane algorytmy przetwarzania obrazu oraz uczenia maszynowego zostały zaimplementowane przez osoby trzecie, a w większości pochodzą z wymienionych bibliotek.
  
-  
-\section{Literature review} 
 
-\subsection{3D content based shape retrieval}
+\section{Przegląd literatury}
 
-  Textual annotation and text-based search engines might provide statisfactory results when text documents are concerned. This method fails
-  \cite{tangelder2008survey}, however, as soon as 2d images or 3d shapes are examined. One possible explanation is that human-annotations
-  of visual (either 2d or 3d) objects is strongly dependant on the annotator's backgroud i.e. language, ethnicity. Content Based Image
-  Retrieval, introduced in 1990s, lacks this disadvantage \cite{tangelder2008survey}. CBIR was first adapted to 2D images as a method of 
-  extracting low-level visual features \cite{tsai2012bag}. A hypothesis is that the extracted features can be described, thus creating an 
-  intermediate represenatation of an image. Such representations can be a subject to comparison with respect to some dissimilarity measure.
-  Visual features are usually described as (key)points in a high-dimensional space \cite{tsai2012bag}. The dissimilarity measure can take a 
-  form of a metric in this space. Therefore, distinct features can be compared in terms of a distance between them.
+\section{Proponowane podejście}
 
-  A shape retrieval framework can be divided into two phases. Firstly, a database has to be built offline. A pre-annotated dataset is a
-  prerequisite. Such a database should not contain images, nor shapes, but rather extracted and described keypoints of those. Secondly, 
-  queries can be processed online by matching them against database's entries. A searching algorithm should be available. For a better 
-  performance, the offline database should be organized in a structure that would reduce computational effort of finding the best match.
-  A query can be formed in several ways: One can browse a database and select an entry as a query, feature description can be provided 
-  or a query-by-example can be made. In the last case, feature descriptors has to be computed before the process of finding the best 
-  match can begin.
+\section{Opis zastosowanych rozwiązań}
 
-  Shape matching techniques can be divided into three broad categories \cite{tangelder2008survey}, namely (1) feature based methods, (2) 
-  graph based methods and (3) other methods.
+\section{Eksperymenty}
 
-\subsubsection{Feature based methods}
-
-  Feature based methods focus on geometric features and their spatial distribution. This category can be further divided into (1) global features, 
-  (2) global features distribution, (3) spatial features and (4) local features. The sub-category is very different, for it employs several 
-  descriptors, one for each sub-region of an object. The first three method make use of just one descriptor per object. The descriptors are 
-  \textit{d}-dimensional, with a \textit{d} being a fixed number of dimensions for all shapes. Only the local features approach provide satisfactory 
-  results in partial matching.
-
-\subsubsection{Graph based methods}
-
-  Graph based methods try to utilize more information than feature based methods mentioned above. The latter base predominantly on the
-  geometrical properties of an object. The former, on the other hand, build a graph reflecting relationships  between the geometrical
-  properties. 
-
-
-\subsubsection{Other methods}
-
-
-\subsection{A bag of words approach}
-
-  Even though the process of feature extraction and description is automatic, the CBIR has a major drawback commonly referred to
-  as a semantic gap. Acording to \cite{tsai2012bag}, a semantic gap is „the gap between th extracted and indexed low-level features
-  by computers and the high-level concepts (or semantics) of users' queries”. That is, for visual features extracted and concepts
-  operated by humans are on very different levels of abstraction, a formulation of users' queries in terms of low-level features is
-  highly problematic. 
-
-
-\subsection{A bag of words approach for 3D object categorization}
-
-\section{Knowledge base}
-
-\subsection{Detection}
-
-    The purpose of the detection process is to find interest points that would be distinctive to the given object and yet
-    invariant to affine transforms as well as enviornmental conditions. The Scale-Invariant Feature Transform as described
-    in \cite{lowe1999object} has been used extensively for the past decade and can boast of all the required characteristics.
-    
-    In order to compute the keypoints' locations the processed image is rescaled into multiple scales. To identify keypoints 
-    locations the minima and maxima of a difference of Gaussian in the scale space are found. Each point is sampled relative to 
-    its scale. Candidate object models are defined. Afterwards, a scale-space Hoguh transform hash-table is formed and then through
-    a least-squares fit the final model estimation is carried out.
-
-\subsection{Description}
-\subsection{Vector Quantization}
-\subsection{Prediction}
-
-\subsection{OpenCV}
-\subsection{PointCloud Library}
-
-\section{Tagger3D}
-
-\subsection{Design basis}
-\subsection{Processing pipeline}
-\subsection{System architecture}
-\subsection{Implementation details}
-
-\section{Testing enviornment}
-
-\subsection{Dataset}
-\subsection{Workstation}
-
-\section{Results}
-
-\section{Conclusions}
-
+\section{Podsumowanie}
 
 \bibliography{article}
 
