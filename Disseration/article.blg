@@ -1,49 +1,57 @@
 This is BibTeX, Version 0.99d (TeX Live 2012/Debian)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: article.aux
-The style file: bababbrv.bst
-I found no \citation commands---while reading file article.aux
+The style file: abbrv.bst
 Database file #1: article.bib
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-You've used 0 entries,
-            2788 wiz_defined-function locations,
-            630 strings with 5708 characters,
-and the built_in function-call counts, 44 in all, are:
-= -- 0
-> -- 0
+I was expecting a `,' or a `}'---line 148 of file article.bib
+ :   
+ :   url = {http://pointclouds.org/}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 160 of file article.bib
+ :     
+ :     url = {http://opencv.org/}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You've used 2 entries,
+            2118 wiz_defined-function locations,
+            508 strings with 4070 characters,
+and the built_in function-call counts, 653 in all, are:
+= -- 57
+> -- 45
 < -- 0
-+ -- 0
-- -- 0
-* -- 2
-:= -- 9
-add.period$ -- 0
-call.type$ -- 0
-change.case$ -- 0
++ -- 18
+- -- 16
+* -- 49
+:= -- 128
+add.period$ -- 6
+call.type$ -- 2
+change.case$ -- 14
 chr.to.int$ -- 0
-cite$ -- 0
-duplicate$ -- 0
-empty$ -- 1
-format.name$ -- 0
-if$ -- 1
+cite$ -- 2
+duplicate$ -- 21
+empty$ -- 39
+format.name$ -- 16
+if$ -- 123
 int.to.chr$ -- 0
-int.to.str$ -- 0
-missing$ -- 0
-newline$ -- 15
-num.names$ -- 0
-pop$ -- 0
+int.to.str$ -- 2
+missing$ -- 2
+newline$ -- 13
+num.names$ -- 4
+pop$ -- 10
 preamble$ -- 1
-purify$ -- 0
+purify$ -- 12
 quote$ -- 0
-skip$ -- 1
+skip$ -- 15
 stack$ -- 0
-substring$ -- 0
-swap$ -- 0
+substring$ -- 16
+swap$ -- 2
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 0
+type$ -- 8
 warning$ -- 0
-while$ -- 0
-width$ -- 0
-write$ -- 14
-(There was 1 error message)
+while$ -- 5
+width$ -- 3
+write$ -- 24
+(There were 2 error messages)

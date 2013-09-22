@@ -1,15 +1,14 @@
-\begin{thebibliography}{}
-  \providebibliographyfont{name}{}%
-  \providebibliographyfont{lastname}{}%
-  \providebibliographyfont{title}{\emph}%
-  \providebibliographyfont{jtitle}{\btxtitlefont}%
-  \providebibliographyfont{etal}{\emph}%
-  \providebibliographyfont{journal}{}%
-  \providebibliographyfont{volume}{}%
-  \providebibliographyfont{ISBN}{\MakeUppercase}%
-  \providebibliographyfont{ISSN}{\MakeUppercase}%
-  \providebibliographyfont{url}{\url}%
-  \providebibliographyfont{numeral}{}%
-  \expandafter\btxselectlanguage\expandafter {\btxfallbacklanguage}
+\begin{thebibliography}{1}
+
+\bibitem{ponce2011cv}
+J.~Ponce, D.~Forsyth, E.-p. Willow, S.~Antipolis-M{\'e}diterran{\'e}e,
+  R.~d'activit{\'e} RAweb, L.~Inria, and I.~Alumni.
+\newblock Computer vision: a modern approach.
+\newblock {\em Computer}, 16:11, 2011.
+
+\bibitem{tsai2012bag}
+C.-F. Tsai.
+\newblock Bag-of-words representation in image annotation: A review.
+\newblock {\em ISRN Artificial Intelligence}, 2012, 2012.
 
 \end{thebibliography}

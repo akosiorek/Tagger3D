@@ -1,7 +1,7 @@
-\documentclass[a4paper,10pt,twocolumn]{article}
+\documentclass[a4paper,10pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[top=2cm, bottom=2cm, left=3cm, right=2cm]{geometry}
+\usepackage[top=3cm, bottom=3cm, left=4cm, right=3cm]{geometry}
 
 
 %opening
@@ -32,6 +32,8 @@ Abstrakt
    \item Zdolność semantycznej klasyfikacji pojedyńczych obiektów   
   \end{itemize}
   
+  Trzy ostatnie spośród wymienionych punktów są zupełnie naturalne dla ludzi. Od dnia narodzin stajemy przed zadaniem rozpoznawanie swojego otoczenia, miejsca w którym się znajdujemy i przedmiotów, z którymi mamy do czynienia. Czynności te wydają się nam bardzo łatwe --- od samego początku dysponujemy bardzo dużą ilością danych dotyczących naszego otoczenia, których źródłem są nasze zmysły. Ponadto uczymy się od starszych jak zachowywać się w określonych miejscach, jak obchodzić się z konkretnymi przedmiotami. Maszyny zazwyczaj nie mają tak bogatych danych opisujących geometrię, kolor czy fakturę otaczających przedmiotów, nie mają też wiedzy nt. semantycznego znaczenia tych przedmiotów. Z tego powodu powstaje wiele algorytmów służacych do opisania otaczającego nas świata oraz takich, które uczą się rozpoznawać obiekty.
+  
   W przypadku semantycznej klasyfikacji otoczenia robota można zauważyć, że rejestracja wszystkich elementów otoczenia wykorzystując np. skaner laserowy będzie niemożliwa. Skanery takie mają ograniczony zasięg, a w przypadku przebywania w otwartej przestrzeni większość obiektów może znaleźć się poza zasięgiem skanera. Prowadzi to do utrudnienia bądź uniemożliwienia wykorzystania informacji przestrznnej do rozpoznawania otoczenia robota. W przypadku semanycznej klasyfikacji obiektów sytuacja przedstawia się inaczej --- sam fakt wystąpienia problemu dowodzi, że obiekt znalazł się w zasiegu sensorów. Możliwa jest więc rejestracja chmury punktów opisująca badany przedmiot oraz wykorzystanie informacji przestrzennej w celu klasyfikacji.
   
 
@@ -52,7 +54,34 @@ Abstrakt
   
   Zakłada się, że zostaną wykorzystane implementacje algorytmów uwzględniające wielowątkowość, w celu przyśpieszenia działania programu. Ponadto możliwe jest wykorzystanie platformy CUDA w celu porównania wydajności i dalszego przyśpieszenia obliczeń.
  
-\section{Przegląd literatury}
+\section{Bag of Words image representation}
+
+  As portreyed in \cite{tsai2012bag} the Bag of Words or BoW model has originated from the text retrieval domain. The original use enabled a vector-like representation of a text document. One of the most simple cases would be to, given a dictionary, construct a histogram depicting the incidence of words in a particular text document. Such an approach obliterates any grammatical dependencies in order to retain only the statistical information associated with each word. It is believed that the words' frequencies are connceted to the semantic meaning of the document.
+  
+  The following questions emerge: 
+  \begin{itemize}
+    \item How does this apply to computer vision?
+    \item How can one convert an image to a text document? 
+  \end{itemize}
+  
+  In order to answer the first question one has to consider how computers process data. Digital images are nothing but streams of binary code. A simple conversion to an RGB format makes the data structured and is enough for people to understand their contents. Unforunately, such image representation is extrmelly vulnerable to translation and rotation as well as changing lighting conditions. One way to address these disadvantages would be to compute locations of some characteristic points (keypoints) and describe them somehow. Even then, however, the resulting represenation is low level and incomprehensible for humans. Defining robot's behaviour basing on such data might prove cumbersome, for there are too many details to consider. All of the above is reffered to as a semantic gap. It is defined by Tsai, with respect to the Content Based Image Retrieval or \textit{CBIR}, as \emph{`the gap between the extracted and indexed low-level features by computers and the high-level concepts (or semantics) of user’s queries'}. Suppose a text document can be created from an image. If this is the case, then the document can be converted into a BoW model. Since the latter contains information about the semantic significance of the image an impact of the semantic gap can be reduced.
+  
+  As for the second question, there is a quite well established pipeline that enables creation of text documents from images. The steps of the BoW methodology are as follows:
+  \begin{itemize}
+   \item Keypoint detection --- keypoints are local interest points or regions. They are usually computed in such a way so as to provide scale and location invariance. Rigid transformation and illumination invariance would be desired but it somewhat harder to achieve
+   \item Keypoint description --- each keypoint have to be described in a manner that distinguish the particular keypoint in some way.
+   \item Vector quantization --- clustering algorithms are used to find regions in the high dimensional space of keypoint descriptors. When the clusters are found, each described keypoint can be assigned to a corresponding cluster. Then, an image can be represented by the number of clusters, to which the image's keypoing were assigned. The clusters' numbers are called visual words.
+  \end{itemize}
+
+  
+  
+ 
+\section{Literature review}
+  
+  Scene and objet categorization, according to  \cite{ponce2011cv} requires employment of computer vision as well as machine learning algorithms. The authors focus on a pipline incorporating a bag of words image representation followed by a usage of a classification algorithm.
+  
+  
+
 
 \section{Proponowane podejście}
 
