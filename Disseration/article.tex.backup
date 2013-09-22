@@ -1,9 +1,11 @@
-\documentclass[a4paper,10pt]{article}
+\documentclass[a4paper,10pt,twocolumn]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage[top=2cm, bottom=2cm, left=3cm, right=2cm]{geometry}
+
 
 %opening
-\title{Rozpoznawanie obiektów trójwymiarowych na podstawie danych RGBD wykorzystując podejście Bag of Words}
+\title{Rozpoznawanie obiektów trójwymiarowych na podstawie danych RGBD}
 \author{Adam Kosiorek}
 \bibliographystyle{abbrv}
 \begin{document}
@@ -17,26 +19,25 @@ Abstrakt
 \end{abstract}
 
 \section{Wstęp}
-\subsection{Motywacja}
 
   Rozwój nowych technologii pozwala na gromadzenie oraz przetwarzanie bardzo dużych ilości danych. Aparaty i kamery cyfrowe przyczyniają się do powstawania milionów gigabajtów informacji każdego dnia. Co więcej, dobrej jakości urządzenia służące do obrazowania trójwymiarowego osiągnęły tak niskie ceny, że można je znaleźć w wielu gospodarstwach domowych. Jednym z nich jest \textit{Microsoft Kinect} -- korzystający z technologii \textit{PrimeSense} --- oparty o światło strukturalne sensor rejestrujący dane RGBD.
   
-  Nowe technologie przyczyniają się też do spadku cen robotów mobilnych. Można sobie wyobrazić, że w niedalekiej przyszłości zrobotyzowani asystenci zawitają w domach. Roboty takie będą musiały spełniać szereg wymagań związanych z wymogami bezpieczeństwa oraz wygodą użytkowania. W szczególności roboty takie muszą być wyposażone w mechanizmy pozwalające na ich bezpieczną, a zarazem efektywną interakcją z otoczeniem --- w tym z ludźmi. 
+  Nowe technologie przyczyniają się też do spadku cen robotów mobilnych. Można sobie wyobrazić, że w niedalekiej przyszłości zrobotyzowani asystenci zawitają w domach. Roboty takie będą musiały spełniać szereg wymagań związanych z wymogami bezpieczeństwa oraz wygodą użytkowania. W szczególności będą musiały być wyposażone w mechanizmy pozwalające na bezpieczną, a zarazem efektywną interakcję z otoczeniem --- w tym z ludźmi. 
   
   Zapewnienie poprawnej interakcji z otoczeniem wymaga spełnienia wielu warunków. Między innymi są to: 
   \begin{itemize}
-   \item Interfejs człowiek-maszyna powinien pozwalać na swobodną komunikację
+   \item Interfejs człowiek-maszyna powinien pozwalać na swobodną komunikację z robotem.
    \item Posiadanie wiedzy na temat aktualnego położenia oraz dysponowanie mapą otoczenia - problem opisywany w literaturze jako \textit{SLAM --- Simultaneous Localization And Mapping}
-   \item Zdolność semantycznej klasyfikacji miejsca, w którym robot się znajduje, celem przystosowania zachowania się robota
-   \item Zdolnośc semantycznej klasyfikacji pojedyńczych obiektów   
+   \item Zdolność semantycznej klasyfikacji miejsca, w którym robot się znajduje
+   \item Zdolność semantycznej klasyfikacji pojedyńczych obiektów   
   \end{itemize}
   
-  Wykorzystanie informacji przestrzennej mogłoby być problematyczne w przypadku semantycznej kategoryzacjii scen. W przypadku, gdy robot nie przebywa w budynku próba rejestracji chmury punktów z otoczenia może zakończyć się częściowym powodzeniem --- jeśli nie będą występowały żadne obiekty w zasięgu np. skanera laserowego, to punkty nie zostaną zarejestrowane. Sytuacja przedstawia się zupełnie inaczej w przypadku kategoryzacji obiektów. Sam fakt wystąpienia problemu kategoryzacji obiektu oznacza, że obiekt ten jest w zasięgu sensorów rejestrujących otoczenie robota, a więc możliwe jest zebranie chmury punktów z tego przedmiotu. 
-
+  W przypadku semantycznej klasyfikacji otoczenia robota można zauważyć, że rejestracja wszystkich elementów otoczenia wykorzystując np. skaner laserowy będzie niemożliwa. Skanery takie mają ograniczony zasięg, a w przypadku przebywania w otwartej przestrzeni większość obiektów może znaleźć się poza zasięgiem skanera. Prowadzi to do utrudnienia bądź uniemożliwienia wykorzystania informacji przestrznnej do rozpoznawania otoczenia robota. W przypadku semanycznej klasyfikacji obiektów sytuacja przedstawia się inaczej --- sam fakt wystąpienia problemu dowodzi, że obiekt znalazł się w zasiegu sensorów. Możliwa jest więc rejestracja chmury punktów opisująca badany przedmiot oraz wykorzystanie informacji przestrzennej w celu klasyfikacji.
+  
 
 \subsection{Cel pracy}
 
-  Celem niniejszej pracy jest napisanie aplikacji służącej do semantycznej kategoryzacji obiektów trójwymiarowych wykorzystującej podejście Bag of Words. Aplikacja powinna działać w czasie rzeczywistym, a jej skuteczność powinna pozwalać na wykorzystanie jej w rzeczywistych robotach mobilnych.
+  Celem niniejszej pracy jest napisanie aplikacji służącej do semantycznej kategoryzacji obiektów trójwymiarowych. Kategoryzacja powinna odbywać się w oparciu o dane RGBD oraz wykorzystywać reprezentację Bag of Words. Aplikacja powinna działać w czasie rzeczywistym, a jej skuteczność powinna pozwalać na wykorzystanie jej w rzeczywistych robotach mobilnych.
 
 \subsection{Zakres pracy}
 
@@ -48,11 +49,14 @@ Abstrakt
   \end{itemize}
   
   Do realizacji projektu wykorzystano biblioteki: \emph{OpenCV, PointCloudLibrary, Boost}. Wszystkie wykorzystywane algorytmy przetwarzania obrazu oraz uczenia maszynowego zostały zaimplementowane przez osoby trzecie, a w większości pochodzą z wymienionych bibliotek.
+  
+  Zakłada się, że zostaną wykorzystane implementacje algorytmów uwzględniające wielowątkowość, w celu przyśpieszenia działania programu. Ponadto możliwe jest wykorzystanie platformy CUDA w celu porównania wydajności i dalszego przyśpieszenia obliczeń.
  
-
 \section{Przegląd literatury}
 
 \section{Proponowane podejście}
+
+	W poniższej pracy wykorzystuje się podejście Bag of Words (BoW) połączone z algorytmami uczenia nadzorowanego. Model BoW ma tę zaletę w stosunku do surowych zdjęć lub chmur punktów, iż zmniejsza tzw. semantic gap - lukę znaczeniową pomiędzy zdjęciem lub niskopoziomowymi cechami charakteryzującymi obraz a wysokopoziomowy koncepcjami, nadającymi zdjęciu znaczenie semantyczne np. zachód słońca, człowiek. 
 
 \section{Opis zastosowanych rozwiązań}
 

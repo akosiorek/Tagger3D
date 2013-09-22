@@ -1,9 +1,11 @@
-\documentclass[a4paper,10pt]{article}
+\documentclass[a4paper,10pt,twocolumn]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage[top=2cm, bottom=2cm, left=3cm, right=2cm]{geometry}
+
 
 %opening
-\title{Rozpoznawanie obiektów trójwymiarowych na podstawie danych RGBD wykorzystując podejście Bag of Words}
+\title{Rozpoznawanie obiektów trójwymiarowych na podstawie danych RGBD}
 \author{Adam Kosiorek}
 \bibliographystyle{abbrv}
 \begin{document}
@@ -17,7 +19,6 @@ Abstrakt
 \end{abstract}
 
 \section{Wstęp}
-\subsection{Motywacja}
 
   Rozwój nowych technologii pozwala na gromadzenie oraz przetwarzanie bardzo dużych ilości danych. Aparaty i kamery cyfrowe przyczyniają się do powstawania milionów gigabajtów informacji każdego dnia. Co więcej, dobrej jakości urządzenia służące do obrazowania trójwymiarowego osiągnęły tak niskie ceny, że można je znaleźć w wielu gospodarstwach domowych. Jednym z nich jest \textit{Microsoft Kinect} -- korzystający z technologii \textit{PrimeSense} --- oparty o światło strukturalne sensor rejestrujący dane RGBD.
   
@@ -28,10 +29,13 @@ Abstrakt
    \item Interfejs człowiek-maszyna powinien pozwalać na swobodną komunikację z robotem.
    \item Posiadanie wiedzy na temat aktualnego położenia oraz dysponowanie mapą otoczenia - problem opisywany w literaturze jako \textit{SLAM --- Simultaneous Localization And Mapping}
    \item Zdolność semantycznej klasyfikacji miejsca, w którym robot się znajduje
-   \item Zdolnośc semantycznej klasyfikacji pojedyńczych obiektów   
+   \item Zdolność semantycznej klasyfikacji pojedyńczych obiektów   
   \end{itemize}
   
-  Wykorzystanie informacji przestrzennej mogłoby być problematyczne w przypadku semantycznej kategoryzacjii scen. W przypadku, gdy robot nie przebywa w budynku próba rejestracji chmury punktów z otoczenia może zakończyć się tylko częściowym powodzeniem --- jeśli nie będą występowały żadne obiekty w zasięgu np. skanera laserowego, to punkty nie zostaną zarejestrowane. Sytuacja przedstawia się zupełnie inaczej w przypadku kategoryzacji obiektów. Sam fakt wystąpienia problemu kategoryzacji obiektu oznacza, że obiekt ten jest w zasięgu sensorów rejestrujących otoczenie robota, a więc możliwe jest zebranie chmury punktów z tego przedmiotu.
+  Trzy ostatnie spośród wymienionych punktów są zupełnie naturalne dla ludzi. Od dnia narodzin stajemy przed zadaniem rozpoznawanie swojego otoczenia, miejsca w którym się znajdujemy i przedmiotów, z którymi mamy do czynienia. Czynności te wydają się nam bardzo łatwe --- od samego początku dysponujemy bardzo dużą ilością danych dotyczących naszego otoczenia, których źródłem są nasze zmysły. Ponadto uczymy się od starszych jak zachowywać się w określonych miejscach, jak obchodzić się z konkretnymi przedmiotami. Maszyny zazwyczaj nie mają tak bogatych danych opisujących geometrię, kolor czy fakturę otaczających przedmiotów, nie mają też wiedzy nt. semantycznego znaczenia tych przedmiotów. Z tego powodu powstaje wiele algorytmów służacych do opisania otaczającego nas świata oraz takich, które uczą się rozpoznawać obiekty.
+  
+  W przypadku semantycznej klasyfikacji otoczenia robota można zauważyć, że rejestracja wszystkich elementów otoczenia wykorzystując np. skaner laserowy będzie niemożliwa. Skanery takie mają ograniczony zasięg, a w przypadku przebywania w otwartej przestrzeni większość obiektów może znaleźć się poza zasięgiem skanera. Prowadzi to do utrudnienia bądź uniemożliwienia wykorzystania informacji przestrznnej do rozpoznawania otoczenia robota. W przypadku semanycznej klasyfikacji obiektów sytuacja przedstawia się inaczej --- sam fakt wystąpienia problemu dowodzi, że obiekt znalazł się w zasiegu sensorów. Możliwa jest więc rejestracja chmury punktów opisująca badany przedmiot oraz wykorzystanie informacji przestrzennej w celu klasyfikacji.
+  
 
 \subsection{Cel pracy}
 
