@@ -2,7 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[top=3cm, bottom=3cm, left=4cm, right=3cm]{geometry}
-
+\usepackage{cite}
 
 %opening
 \title{Rozpoznawanie obiektów trójwymiarowych na podstawie danych RGBD}
@@ -56,42 +56,42 @@ Abstrakt
  
 \section{Bag of Words image representation}
 
-  As portreyed in \cite{tsai2012bag} the Bag of Words or BoW model has originated from the text retrieval domain. The original use enabled a vector-like representation of a text document. One of the most simple cases would be to, given a dictionary, construct a histogram depicting the incidence of words in a particular text document. Such an approach obliterates any grammatical dependencies in order to retain only the statistical information associated with each word. It is believed that the words' frequencies are connceted to the semantic meaning of the document.
+  As portreyed in \cite{tsai2012bag} the Bag of Words or BoW model has originated from the text retrieval domain. In the original domain the model enabled a vector-like representation of a text document. One of the most simple cases would be to, given a dictionary, construct a histogram depicting the incidence of words in a particular document. Such an approach obliterates any grammatical dependencies in order to retain only the statistical information associated with each word. It is believed that the words' frequencies are connceted to the semantic meaning of the document.
   
   The following questions emerge: 
   \begin{itemize}
-    \item How does this apply to computer vision?
+    \item How does this apply to the area of computer vision?
     \item How can one convert an image to a text document? 
   \end{itemize}
   
-  In order to answer the first question one has to consider how computers process data. Digital images are nothing but streams of binary code. A simple conversion to an RGB format makes the data structured and is enough for people to understand their contents. Unforunately, such image representation is extrmelly vulnerable to translation and rotation as well as changing lighting conditions. One way to address these disadvantages would be to compute locations of some characteristic points (keypoints) and describe them somehow. Even then, however, the resulting represenation is low level and incomprehensible for humans. Defining robot's behaviour basing on such data might prove cumbersome, for there are too many details to consider. All of the above is reffered to as a semantic gap. It is defined by Tsai, with respect to the Content Based Image Retrieval or \textit{CBIR}, as \emph{`the gap between the extracted and indexed low-level features by computers and the high-level concepts (or semantics) of user’s queries'}. Suppose a text document can be created from an image. If this is the case, then the document can be converted into a BoW model. Since the latter contains information about the semantic significance of the image an impact of the semantic gap can be reduced.
+  In order to answer the first question one has to consider how computers process data. Digital images are nothing but streams of binary code. A simple conversion to an RGB format makes the data structured and is enough for people to understand pictures' content. Unforunately, such image representation is extrmelly vulnerable to translation and rotation as well as changing lighting conditions. One way to address these disadvantages would be to compute locations of some characteristic points (keypoints) and describe them somehow. Even then, however, the resulting represenation is a low level one and still incomprehensible for humans. Defining robot's behaviour basing on such data might prove cumbersome, for there are too many details to consider. All of the above is reffered to as a semantic gap. It is defined by Tsai, with respect to the Content Based Image Retrieval or \textit{CBIR}, as \emph{``the gap between the extracted and indexed low-level features by computers and the high-level concepts (or semantics) of user’s queries''}. Suppose a text document can be created from an image. If this is the case, then the document can be converted into a BoW model. Since the latter contains information about the semantic significance of the image an impact of the semantic gap can be reduced.
   
   As for the second question, there is a quite well established pipeline that enables creation of text documents from images. The steps of the BoW methodology are as follows:
   \begin{itemize}
    \item Keypoint detection --- keypoints are local interest points or regions. They are usually computed in such a way so as to provide scale and location invariance. Rigid transformation and illumination invariance would be desired but it somewhat harder to achieve
    \item Keypoint description --- each keypoint have to be described in a manner that distinguish the particular keypoint in some way.
-   \item Vector quantization --- clustering algorithms are used to find regions in the high dimensional space of keypoint descriptors. When the clusters are found, each described keypoint can be assigned to a corresponding cluster. Then, an image can be represented by the number of clusters, to which the image's keypoing were assigned. The clusters' numbers are called visual words.
+   \item Vector quantization --- clustering algorithms are used to find regions in the high dimensional space of keypoint descriptors. When the clusters are found, each described keypoint can be assigned to a corresponding cluster. Then, an image can be represented by the number of clusters, to which the image's keypoints were assigned. The clusters' numbers are called visual words.
   \end{itemize}
+  
+\section{BoW in Scene in Computer Vision}
 
+  The Bag of Words image representation has been extensively used in the areas of scene \cite{csurka2004visual,fei2005bayesian, tsai2012bag} and object categorization \cite{zhangcategory} as well as CBIR \cite{li2010investigating,toldo2009bag} yielding state-of-the-art results. Advantages of this model are simplicity, computational efficiency and at least partial invariance to affine transformation, occlusion and lighting conditions. 
   
+  The Bag of Words is a type of intermediate representation. Therefore it is not sufficient to compute a BoW model of an image in order to predict its category. Additional operations are essential if the model is to be used in one of the enumerated fields.
   
- 
+  \subsection{Content Based Image Retrieval}
+  
+    One of the most notorious use-case of \emph{CBIR} is to search a database in order to find an object fulfilling certain conditions. As \cite{li2010investigating} outlines, several !!things!! have to be provided. Firstly, all entries should be indexed in a concise way. Secondly, a 
+
+\section{Image BoW model construction methods}
+
+\subsection{Detection}
+\subsection{Description}
+\subsection{Vector Quantization}
+
+\section{Classifiers}
+
 \section{Literature review}
-  
-  Scene and objet categorization, according to  \cite{ponce2011cv} requires employment of computer vision as well as machine learning algorithms. The authors focus on a pipline incorporating a bag of words image representation followed by a usage of a classification algorithm.
-  
-  
-
-
-\section{Proponowane podejście}
-
-	W poniższej pracy wykorzystuje się podejście Bag of Words (BoW) połączone z algorytmami uczenia nadzorowanego. Model BoW ma tę zaletę w stosunku do surowych zdjęć lub chmur punktów, iż zmniejsza tzw. semantic gap - lukę znaczeniową pomiędzy zdjęciem lub niskopoziomowymi cechami charakteryzującymi obraz a wysokopoziomowy koncepcjami, nadającymi zdjęciu znaczenie semantyczne np. zachód słońca, człowiek. 
-
-\section{Opis zastosowanych rozwiązań}
-
-\section{Eksperymenty}
-
-\section{Podsumowanie}
 
 \bibliography{article}
 
