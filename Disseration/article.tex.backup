@@ -1,11 +1,13 @@
-\documentclass[a4paper,10pt]{article}
+\documentclass[a4paper,12pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[top=3cm, bottom=3cm, left=4cm, right=3cm]{geometry}
+\usepackage[top=3cm, bottom=6cm, left=4cm, right=3cm]{geometry}
 \usepackage{cite}
 
+\linespread{1.5}
+
 %opening
-\title{Rozpoznawanie obiektów trójwymiarowych na podstawie danych RGBD}
+\title{Object Categorization based on RGBD data}
 \author{Adam Kosiorek}
 \bibliographystyle{abbrv}
 \begin{document}
@@ -18,47 +20,12 @@ Abstrakt
 
 \end{abstract}
 
-\section{Wstęp}
+%\include{introduction}
 
-  Rozwój nowych technologii pozwala na gromadzenie oraz przetwarzanie bardzo dużych ilości danych. Aparaty i kamery cyfrowe przyczyniają się do powstawania milionów gigabajtów informacji każdego dnia. Co więcej, dobrej jakości urządzenia służące do obrazowania trójwymiarowego osiągnęły tak niskie ceny, że można je znaleźć w wielu gospodarstwach domowych. Jednym z nich jest \textit{Microsoft Kinect} -- korzystający z technologii \textit{PrimeSense} --- oparty o światło strukturalne sensor rejestrujący dane RGBD.
-  
-  Nowe technologie przyczyniają się też do spadku cen robotów mobilnych. Można sobie wyobrazić, że w niedalekiej przyszłości zrobotyzowani asystenci zawitają w domach. Roboty takie będą musiały spełniać szereg wymagań związanych z wymogami bezpieczeństwa oraz wygodą użytkowania. W szczególności będą musiały być wyposażone w mechanizmy pozwalające na bezpieczną, a zarazem efektywną interakcję z otoczeniem --- w tym z ludźmi. 
-  
-  Zapewnienie poprawnej interakcji z otoczeniem wymaga spełnienia wielu warunków. Między innymi są to: 
-  \begin{itemize}
-   \item Interfejs człowiek-maszyna powinien pozwalać na swobodną komunikację z robotem.
-   \item Posiadanie wiedzy na temat aktualnego położenia oraz dysponowanie mapą otoczenia - problem opisywany w literaturze jako \textit{SLAM --- Simultaneous Localization And Mapping}
-   \item Zdolność semantycznej klasyfikacji miejsca, w którym robot się znajduje
-   \item Zdolność semantycznej klasyfikacji pojedyńczych obiektów   
-  \end{itemize}
-  
-  Trzy ostatnie spośród wymienionych punktów są zupełnie naturalne dla ludzi. Od dnia narodzin stajemy przed zadaniem rozpoznawanie swojego otoczenia, miejsca w którym się znajdujemy i przedmiotów, z którymi mamy do czynienia. Czynności te wydają się nam bardzo łatwe --- od samego początku dysponujemy bardzo dużą ilością danych dotyczących naszego otoczenia, których źródłem są nasze zmysły. Ponadto uczymy się od starszych jak zachowywać się w określonych miejscach, jak obchodzić się z konkretnymi przedmiotami. Maszyny zazwyczaj nie mają tak bogatych danych opisujących geometrię, kolor czy fakturę otaczających przedmiotów, nie mają też wiedzy nt. semantycznego znaczenia tych przedmiotów. Z tego powodu powstaje wiele algorytmów służacych do opisania otaczającego nas świata oraz takich, które uczą się rozpoznawać obiekty.
-  
-  W przypadku semantycznej klasyfikacji otoczenia robota można zauważyć, że rejestracja wszystkich elementów otoczenia wykorzystując np. skaner laserowy będzie niemożliwa. Skanery takie mają ograniczony zasięg, a w przypadku przebywania w otwartej przestrzeni większość obiektów może znaleźć się poza zasięgiem skanera. Prowadzi to do utrudnienia bądź uniemożliwienia wykorzystania informacji przestrznnej do rozpoznawania otoczenia robota. W przypadku semanycznej klasyfikacji obiektów sytuacja przedstawia się inaczej --- sam fakt wystąpienia problemu dowodzi, że obiekt znalazł się w zasiegu sensorów. Możliwa jest więc rejestracja chmury punktów opisująca badany przedmiot oraz wykorzystanie informacji przestrzennej w celu klasyfikacji.
-  
-
-\subsection{Cel pracy}
-
-  Celem niniejszej pracy jest napisanie aplikacji służącej do semantycznej kategoryzacji obiektów trójwymiarowych. Kategoryzacja powinna odbywać się w oparciu o dane RGBD oraz wykorzystywać reprezentację Bag of Words. Aplikacja powinna działać w czasie rzeczywistym, a jej skuteczność powinna pozwalać na wykorzystanie jej w rzeczywistych robotach mobilnych.
-
-\subsection{Zakres pracy}
-
-  W pracy zostały przyjęte następujące założenia projektowe:
-  \begin{itemize}
-   \item System operuje na danych RGBD
-   \item Analizowane obrazy powinny zostać przygotowane w ten sposób, że rozpoznawany obiekt powinien wypełniać ponad połowę powierzchni zdjęcia
-   \item Kategoryzacja obiektów odbywa się z pominięciem segmentacji obrazu.
-  \end{itemize}
-  
-  Do realizacji projektu wykorzystano biblioteki: \emph{OpenCV, PointCloudLibrary, Boost}. Wszystkie wykorzystywane algorytmy przetwarzania obrazu oraz uczenia maszynowego zostały zaimplementowane przez osoby trzecie, a w większości pochodzą z wymienionych bibliotek.
-  
-  Zakłada się, że zostaną wykorzystane implementacje algorytmów uwzględniające wielowątkowość, w celu przyśpieszenia działania programu. Ponadto możliwe jest wykorzystanie platformy CUDA w celu porównania wydajności i dalszego przyśpieszenia obliczeń.
- 
 \section{Bag of Words image representation}
 
-  As portreyed in \cite{tsai2012bag} the Bag of Words or BoW model has originated from the text retrieval domain. In the original domain the model enabled a vector-like representation of a text document. One of the most simple cases would be to, given a dictionary, construct a histogram depicting the incidence of words in a particular document. Such an approach obliterates any grammatical dependencies in order to retain only the statistical information associated with each word. It is believed that the words' frequencies are connceted to the semantic meaning of the document.
+  As portreyed in \cite{tsai2012bag} the Bag of Words or BoW model has originated from the text retrieval domain. Originally the model enabled a vector-like representation of a text document. One of the most simple cases would be to, given a dictionary, construct a histogram depicting the incidence of words in a particular document. Such an approach obliterates any grammatical dependencies in order to retain only the statistical information associated with each word. It is believed that the words' frequencies are connceted to the semantic meaning of the document. The following questions emerge: 
   
-  The following questions emerge: 
   \begin{itemize}
     \item How does this apply to the area of computer vision?
     \item How can one convert an image to a text document? 
@@ -68,12 +35,12 @@ Abstrakt
   
   As for the second question, there is a quite well established pipeline that enables creation of text documents from images. The steps of the BoW methodology are as follows:
   \begin{itemize}
-   \item Keypoint detection --- keypoints are local interest points or regions. They are usually computed in such a way so as to provide scale and location invariance. Rigid transformation and illumination invariance would be desired but it somewhat harder to achieve
+   \item Keypoint detection --- keypoints are local interest points or regions. They are usually computed in such a way so as to provide scale and location invariance. Rigid transformation and illumination invariance would be desired but it is somewhat harder to achieve
    \item Keypoint description --- each keypoint have to be described in a manner that distinguish the particular keypoint in some way.
-   \item Vector quantization --- clustering algorithms are used to find regions in the high dimensional space of keypoint descriptors. When the clusters are found, each described keypoint can be assigned to a corresponding cluster. Then, an image can be represented by the number of clusters, to which the image's keypoints were assigned. The clusters' numbers are called visual words.
+   \item Vector quantization --- clustering algorithms are used to find regions in the high dimensional space of keypoint descriptors. When the clusters are found, each described keypoint can be assigned to a corresponding cluster. Then, an image can be represented by the numbers of clusters, to which the image's keypoints were assigned. The numbers themselves are called \emph{`visual words'}.
   \end{itemize}
   
-\section{BoW in Scene in Computer Vision}
+\section{BoW in Computer Vision}
 
   The Bag of Words image representation has been extensively used in the areas of scene \cite{csurka2004visual,fei2005bayesian, tsai2012bag} and object categorization \cite{zhangcategory} as well as CBIR \cite{li2010investigating,toldo2009bag} yielding state-of-the-art results. Advantages of this model are simplicity, computational efficiency and at least partial invariance to affine transformation, occlusion and lighting conditions. 
   
@@ -81,17 +48,32 @@ Abstrakt
   
   \subsection{Content Based Image Retrieval}
   
-    One of the most notorious use-case of \emph{CBIR} is to search a database in order to find an object fulfilling certain conditions. As \cite{li2010investigating} outlines, several !!things!! have to be provided. Firstly, all entries should be indexed in a concise way. Secondly, a 
+  One of the most notorious use-case of \emph{CBIR} is to search a database in order to find an object fulfilling certain conditions. As \cite{toldo2009bag} outlines, several criteria have to be met for the task to be performed efficiently. Firstly, all entries should be indexed in a concise way. Secondly, some (dis)similarity measure should be provided. Finally, an efficient search algorithm should be available.  
+    
+  There are numerous methods suitable for computation of objetcs' signatures. Many of them can be used in the indexing step. All the methods were divided into three general categories in \cite{toldo2009bag}, specifically: feature based methods, graph based methods and other methods. 
+   
+  Feature based methods can be either global or local. The former takes the form of a single vector or a point in a $d$ dimensional space --- the similarity measure resulting in computing point-wise distance in that space. The latter gives multiple such points for each object, rendering the computation of a similarity measure slightly more complicated. The global features takes forms of the models' volume, their volume or mass distribution. Others might incorporate the global features' distribtution --- one conceivable approach would be to compute global feature's distribution and summarize them into a histogram. These features have the advantage of being easy to compute and straightforward to implement. However, they are insensitive to any local shape variations, thus being ill suited for details comparisions. On the other hand, they might be exploited in the preprocessing of the data with more sophisticated methods being used afterwards. Partial matching is not possible, since the global features do not encode any relations between the parts of the objects.
+   
+  As for the local features, \cite{toldo2009bag} describes only the features that describe neighbourhood of the points being on the boundary of a shape. While that might generally be true, different points might be considered as well. Moreover, the authors state that the local features based methods are inefficien and indexing is rather complex. A Bag of Words based approach, described in \cite{li2010investigating} has no such drawbacks.
+   
+  Even tough BoW is a local features based method, it can be regarded as a feature distribution method. It is based on visual words, clearly being local features. When all the image's visual words are summarized into a histogram a distribution is created. Being similar to a point in a multi-dimensional space, it is similar to a global feature. Consequently, similar methods apply, with the distinction being that the histogram is rather a vector then a point. Thus metrics well-suited to vector comparision, such as a cosine distance, can be used.
+  
+  \subsection{Scene Categorization}
+  
+  One of the first works employing the BoW for the purpouse of scene categorization is \cite{csurka2004visual}. The authors suggested a general framework. What is more, algorthims performing each main pipeline's step were proposed and evaluated as well as a codebook construction method was developed. A \emph{Harris Affine Detector} was used for feature extraction and \emph{SIFT} for the feature descripton. The visual vocabulary has been generated by clustering only a limited number of keypoints from each category. After summarizing each image in the traning set with a histogram of visual words, supervised learning was used to train two classifiers: Na\`ive Bayes and a Support Vector Machine. As expected the Na\`ive Bayes resulted in lower accuracy than SVM (72 vs. 85\% on 7 categories). An analysis on the number of centroids in the clustering step depicts that the greater size of the visual vocabulary migh increase accuracy. 
+  
+  Li \emph{et al} further refined the above approach by examining several keypoint detectors and descriptors. The main contribution of this work is, however, the development of a genuine classification algorithm based on probabilistic graphical models. Accuracy of 76\% on a large 13 category dataset was achieved.
+  
+  \subsection{Object Categorization}
+  
+  
 
-\section{Image BoW model construction methods}
+\section{BoW based image classification}
 
 \subsection{Detection}
 \subsection{Description}
 \subsection{Vector Quantization}
-
-\section{Classifiers}
-
-\section{Literature review}
+\subsection{Classification}
 
 \bibliography{article}
 
