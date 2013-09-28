@@ -69,9 +69,14 @@ Abstrakt
   In many cases object categorization might be addressed as a scene categorization problem. There are following differences: (1) an object should be localized on an image (i.e. its bounding box has to be found) and (2) in object categorization information about the scene type might be used. The second case is symmetric, for in the scene categorization information about the objects present in the scene can be utilized as well. Having said that, it is possible to consider an object categorization problem where images of singled-out objects are provided --- e.g. a single object covers the majority of an image's area. Such an approach was exploited a recent work by Zhang \emph{et al} \cite{zhangcategory}. 
   
 
-\section{BoW based image classification}
+\section{BoW based classification}
+
+	The Bag of Words intermediate image represenation provides a concise way of summarizing images. It is invariant to affaine transformations, partial occlusion and, in some extent, to changing lighting conditions. What is more, it is easy to implement and computationally efficient. The efficiency can be enhanced even further with gpu based implementations as shown in \cite{van2011empowering}. In order to incorporate BoW into an object classification framework one has to feed the resulting histograms into a classification algorithms. Either generative or discriminative methods can be used. Below the main steps of BoW classification processing pipeline will be disscussed.
 
 \subsection{Detection}
+
+	Numerous keypoint detectors have been developed. 
+	
 \subsection{Description}
 \subsection{Vector Quantization}
 \subsection{Classification}
