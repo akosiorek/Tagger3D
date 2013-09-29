@@ -4,7 +4,7 @@
 \usepackage[top=3cm, bottom=6cm, left=4cm, right=3cm]{geometry}
 \usepackage{cite}
 
-\linespread{1.5}
+\linespread{1.15}
 
 %opening
 \title{Object Categorization based on RGBD data}
@@ -75,9 +75,18 @@ Abstrakt
 
 \subsection{Detection}
 
-	Numerous keypoint detectors have been developed. 
+	Characteristic point detection is the first step in any Bag of Words framework. Numerous detection methods have been developed, but choosing the right one for the particular case might prove tricky. A good overview of various mechanisms is available in \cite{tsai2012bag}. The most common detectors make use of a Harris corner detector or image's first or second derivatives. A technique taking advantage of the Harris corner detector is for example a Harris-Laplace detector --- the Harris function is scale adapted and its outcome is a subject to a Laplacian-of-Gaussian operator, which selects relevant points in the scale space. Images' regions' 2\textsuperscript{nd} derviatives --- namely the regions' Hessians --- can be combined with a LoG operator. This combination allows selection of points significant in the two spaces: the scale space and the Hessian's determinant space. The latter entails the speed at which pixel intensities change in the neighbourhood of a point.	
+	
+	A number of more complicated recipes for salient region localization have been developed and implemented. These include include Scale Invariant Feature Transform \cite{sift_keypoint}, SUSAN \cite{susan_keypoint} and Intrinistic Shapes Siganutes \cite{iss_keypoint}. The majority of keypoint detection formulas is being develoepd for the 2d domain. A number of them have been adapted to 3D, however. A comparative evaluation of detection algorithm available in PCL can be find in \cite{pcl_keypoint_comparision}. Another comprehensive study is \cite{3d_keypoint_eval}.
+	
+	All these formulas, called sparse feature detectors, resort to selection of maxima in specific state spaces. An entierly different scheme is to use a dense feature detector. This particular form requires users to specify a uniformly sampled grid from which points are taken. Dense detectors have an advantage of taking points from slow changing regions. A sparse detector might be unable to summarize a slow changing region such as clouds, sky or ocean. Li \emph{et al} showed that the dense detectors outperforms the sparse ones.
+	
+	
 	
 \subsection{Description}
+
+	Localization of a salient point is not enough. If a keypoint is to be affaine transform invariant, it has to be described in more general terms then it's coordinates. Such description, usually coordinates in a multi-dimensional space, is provided by specialized algorithms. 128-dimensional SIFT \cite{sift_features} is a 3D histogram of gradient locations and orientetions. It is the most often extracted and well as the most effective descriptors \cite{tsai2012bag}. Other methods include various color descriptors, binary 512-dimensional GIST \cite{ponce2011cv}. There are techniques designed for 3D exclusively. Among them one can find Persistent Point Features Histogram \cite{pfh_rusu2008} and its faster alternative Fast Point Feature Histogram \cite{fpfh_rusu2009}, both implemented in PCL.
+
 \subsection{Vector Quantization}
 \subsection{Classification}
 
