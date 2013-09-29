@@ -22,6 +22,10 @@ Abstrakt
 
 %\include{introduction}
 
+\section{Introduction}
+
+introduction
+
 \section{Bag of Words image representation}
 
   As portreyed in \cite{tsai2012bag} the Bag of Words or BoW model has originated from the text retrieval domain. Originally the model enabled a vector-like representation of a text document. One of the most simple cases would be to, given a dictionary, construct a histogram depicting the incidence of words in a particular document. Such an approach obliterates any grammatical dependencies in order to retain only the statistical information associated with each word. It is believed that the words' frequencies are connceted to the semantic meaning of the document. The following questions emerge: 
@@ -85,10 +89,25 @@ Abstrakt
 	
 \subsection{Description}
 
-	Localization of a salient point is not enough. If a keypoint is to be affaine transform invariant, it has to be described in more general terms then it's coordinates. Such description, usually coordinates in a multi-dimensional space, is provided by specialized algorithms. 128-dimensional SIFT \cite{sift_features} is a 3D histogram of gradient locations and orientetions. It is the most often extracted and well as the most effective descriptors \cite{tsai2012bag}. Other methods include various color descriptors, binary 512-dimensional GIST \cite{ponce2011cv}. There are techniques designed for 3D exclusively. Among them one can find Persistent Point Features Histogram \cite{pfh_rusu2008} and its faster alternative Fast Point Feature Histogram \cite{fpfh_rusu2009}, both implemented in PCL.
+	Computing localization of a salient point is not enough. If a keypoint is to be affaine transform invariant, it has to be described in more general terms. Such description, usually in a form of coordinates in a multi-dimensional space, is provided by specialized algorithms. 128-dimensional SIFT \cite{sift_features} is a 3D histogram of gradient locations and orientetions. It is the most often extracted as well as one of the most effective descriptors \cite{tsai2012bag}. Other methods include various color descriptors, binary descriptors such as 512-dimensional GIST \cite{ponce2011cv}. There are techniques designed for 3D exclusively. Among them one can find Persistent Point Features Histogram \cite{pfh_rusu2008} and its faster alternative Fast Point Feature Histogram \cite{fpfh_rusu2009}, both implemented in PCL.
 
 \subsection{Vector Quantization}
+
+	The final step of extracting Bag of Words features i vector quantization. Generally clustering with the kMeans algorithm is used \cite{tsai2012bag}. The kMeans algorithm was developed in the 50's and a variety of modifications have been developed since \cite{kmeans_jain2010data}. Some of them are: faster than the original \emph{approximate kmeans}, \emph{hierarchical kmeans}, which automatically chooses the resulting number of clusters and a  \emph{soft kmeans} --- a variation of the algorithm that allows a fuzzy alignment (\textit{i.e.} each point can belong to several clusters with different weights. The soft kMeans is a compromise between kMeans' (relative to GMM) low computational cost and GMM's precision. The number of resulting visual words depends on the number of clusters.
+	
+	In order to improve performance multitude of pre- or postprocessing techniques can be resorted to. A weighting scheme such as Term Frequency (TF) or Term Frequency - Inverse Document Frequency (TF-IDF) can be used. Spatial information might be encoded so as to capture spatial reletions of the extracted features.
+	
+	It has been shown that the vector quantization steps is the computationally most expensive step in any Bag of Words framework. Fortunately, the majority of the cost is associated with the training part of the computation. When all the models are trained the only operation required in case of vector quantization is keypoint -- visual vocabulary matching. Even so, diverse algorithms have been used in order to minimize the impact of clustering on the overall efficiency. The \emph{approximate kMeans} is faster but insufficiently so as to solve the problem. Random Forests algorithm is considerably less expensive and can provide bettern Mean Average Precision (MAP) score.
+	
+	Quite a different approach is using a Gaussian Mixture Model (GMM) algorithm. It is many times more expensive than kMeans, the tradeoff being higher precision. The GMM finds not only clusters' centroids but the gaussian distribiutions of points in each cluster. Therfore, in the keypoint-centroid matching stage a set of probabilities is obtained instead of a simple single-cluster assignment. These probabilities encode likelihoods of the keypoint belonging to each cluster. It is up to the user how to utilize this additional information.
+
 \subsection{Classification}
+
+	Predicting a class associated with an image requires feeding the visual words histograms into a classifiers. A simple example of a classifier would be a K-nearest neighbours algorithms. In this manner every histogram is treated as a point in a multi-dimensional space. In this setting, a class of an image is determined by classes of the nearest neighbours. Manifold of distinct metrics can be used: L1, L2  and others. The number of nearest neighbours (K) has to be determined. More advanced classifiers can be divided into the two main classes --- namely generative models and discriminative models.
+	
+	Construction of a discriminative model requires a supervised learning approach. It can be seen as a learning by example method. The general aim is to compute an approximate mapping between representations of examples (the train set) and their labels and correctly labels a set of examples with unknown labels (the test set) with some level of accuracy. The model computation stage is called \emph{training} of a model. After the model has been trained previously unseen examples can be fed into the classifier. The clasifier calculates some similarity measure between the unlabled input example and all the modeled classes. The resulting label is a label of which class had the highest score in terms of the similarity measure. The previously discussed KNN is an example of a discriminative model. The most widely used discriminative classificator is a Support Vector Machine.
+	
+	The generative models are usually Baysian text-based models. Many of them heavily depends on the Probabilistic Graphical Models concept. 
 
 \bibliography{article}
 

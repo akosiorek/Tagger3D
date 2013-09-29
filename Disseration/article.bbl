@@ -16,6 +16,11 @@ L.~Fei-Fei and P.~Perona.
 S.~Filipe and L.~A. Alexandre.
 \newblock A comparative evaluation of 3d keypoint detectors.
 
+\bibitem{kmeans_jain2010data}
+A.~K. Jain.
+\newblock Data clustering: 50 years beyond k-means.
+\newblock {\em Pattern Recognition Letters}, 31(8):651--666, 2010.
+
 \bibitem{li2010investigating}
 X.~Li and A.~Godil.
 \newblock Investigating the bag-of-words method for 3d shape retrieval.
