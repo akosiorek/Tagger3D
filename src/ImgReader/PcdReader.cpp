@@ -76,4 +76,9 @@ ColorCloud::Ptr PcdReader::readImg() {
 	return readImg( pcdVec[count++] );
 }
 
+int PcdReader::readLabel() {
+
+	return 0;
+}
+
 } /* namespace Tagger3D */

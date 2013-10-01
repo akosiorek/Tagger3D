@@ -37,7 +37,7 @@ protected:
 	const std::string separator = ".";
 	lgr::LoggerPtr logger;
 	std::string directory;
-	const std::string directoryKey = "directory";
+
 
 private:
 	ProcessObject();
@@ -47,6 +47,9 @@ private:
 	T stringToNumber(const std::string &s, T def = T() );
 
 	std::map<std::string, std::string> configMap;
+
+	const std::string mode = "mode";
+	const std::string directoryKey = "directory";
 };
 
 template<typename T>

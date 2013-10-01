@@ -32,8 +32,8 @@ SVMPredictor::SVMPredictor(const std::map<std::string, std::string> &configMap) 
     svmType = getParam<int>( svmTypeKey );
     kernelType = getParam<int>( kernelTypeKey );
     termCrit  = getParam<int>( termCritKey );
-    svmPath = const_cast<char*>(getParam<std::string>( svmPathKey ).c_str() );
-    histogramPath = const_cast<char*>(getParam<std::string>( histogramPathKey ).c_str());
+    svmPath = directory + "/" + getParam<std::string>( svmPathKey );
+    histogramPath = directory + "/" + getParam<std::string>( histogramPathKey );
     storeHistogram = getParam<bool>(storeHistogramKey);
     dictionarySize = getParam<int>( dictionarySizeKey );
     epsilon = getParam<double>( epsilonKey );
@@ -41,7 +41,6 @@ SVMPredictor::SVMPredictor(const std::map<std::string, std::string> &configMap) 
     gamma = getParam<double>( gammaKey );
     C = getParam<double>( CKey );
     degree = getParam<int>( epsilonKey );
-
 
     if (storeHistogram) {//if store, than delete old-file
         if( remove( histogramPath.c_str() ) != 0 ){

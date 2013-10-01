@@ -28,6 +28,9 @@ class Tagger3D: public ProcessObject {
 	 * Tagger3D is an object categorization.
 	 * Provided an RGB-D input it predicts a category of an object.
 	 */
+
+	//	-------------------------------------------------------------------------
+	//	Methods	------------------------------------------------------------------
 public:
 	Tagger3D(const std::map<std::string, std::string> &configMap);
 	virtual ~Tagger3D();
@@ -66,6 +69,19 @@ public:
 private:
 	Tagger3D();
 
+	void saveDescriptors(const std::vector<cv::Mat> &descriptors, const std::string &path);
+	std::vector<cv::Mat> loadDescriptors(const std::string &path);
+
+	std::vector<cv::Mat> getDescriptors(const std::string &path);
+
+	std::vector<cv::Mat> computeDescriptors();
+
+
+	//	-----------------------------------------------------------------------
+	// Fields	----------------------------------------------------------------
+public:
+private:
+	// Pointers	----------------------------------------------------------------
 	std::unique_ptr<ImgReader> imgReader;
 	std::unique_ptr<PointNormal> pointNormal;
 	std::unique_ptr<Detector> detector;
@@ -73,22 +89,35 @@ private:
 	std::unique_ptr<Cluster> cluster;
 	std::unique_ptr<Predictor> predictor;
 
-	enum { TRAIN, TEST, TRAINTEST, PREDICT };
-	enum { RANGEIMG_READER, PCD_READER };
-	enum { SIFT, ISS3D };
-	enum { PFH_DESC, FPFH_DESC };
-	enum { SLDA, SVM };
 
+	//	Parameters	------------------------------------------------------------
+
+
+
+
+	// Constants	----------------------------------------------------------------
 	const std::string loggerName = "Tagger3D";
 	const std::string moduleName = "Tagger3D" + separator;
 
-	// Config keys
-	const std::string mode = moduleName + "mode";
+	// Config keys	---------------------------------------------------------------
 	const std::string readerType = moduleName + "readerType";
 	const std::string detectorType = moduleName + "detectorType";
 	const std::string descType = moduleName + "descType";
 	const std::string predictorType = moduleName + "predictorType";
 	const std::string trainCluster = moduleName + "trainCluster";
+
+	const std::string trainDescriptors = "trainDescriptors";
+	const std::string testDescriptors = "testDescriptors";
+	const std::string saveDescriptorsFlag = moduleName + "saveDescriptors";
+	const std::string loadDescriptorsFlag = moduleName + "loadDescriptors";
+
+	// Enums -------------------------------------------------------------------
+
+	enum { TRAIN, TEST, TRAINTEST, PREDICT };
+	enum { RANGEIMG_READER, PCD_READER };
+	enum { SIFT, ISS3D };
+	enum { PFH_DESC, FPFH_DESC };
+	enum { SLDA, SVM };
 
 
 };

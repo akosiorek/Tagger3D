@@ -180,7 +180,16 @@ ColorVec RangeImgReader::readImgs() {
 
 ColorCloud::Ptr RangeImgReader::readImg() {
 
-	return readImg(colorImgVec.at(count), depthImgVec.at(count));
+	if(count < colorImgVec.size())
+		return readImg(colorImgVec.at(count), depthImgVec.at(count++));
+	return ColorCloud::Ptr(new ColorCloud());
+}
+
+int RangeImgReader::readLabel() {
+
+	if(count - 1 < colorImgVec.size())
+		return atoi(labelVec[count - 1].c_str());
+	return NULL;
 }
 
 } /* namespace Tagger3D */

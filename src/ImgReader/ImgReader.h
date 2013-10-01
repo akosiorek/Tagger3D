@@ -32,6 +32,12 @@ public:
 	 */
 	virtual ColorVec readImgs() = 0;
 
+
+	/**
+	 * Returns a label for a previously read image
+	 */
+	virtual int readLabel() = 0;
+
 	/**
 	 * Reads labels for a batch of images
 	 * @return a vector of labels
@@ -43,7 +49,7 @@ protected:
 	std::vector<std::string> getLineList(const std::string &path);
 	std::string moduleName = "ImgReader" + separator;
 	std::vector<std::string> labelVec;
-	const std::string mode = "Tagger3D.mode";
+
 	enum { TRAIN, TEST };
 
 private:

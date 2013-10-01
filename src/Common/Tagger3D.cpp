@@ -19,6 +19,7 @@
 #include "../Predictor/SVMPredictor.h"
 
 #include <assert.h>
+#include <fstream>
 
 namespace Tagger3D {
 
@@ -73,6 +74,7 @@ Tagger3D::Tagger3D(const std::map<std::string, std::string> &configMap) : Proces
 	assert( descriptor != nullptr );
 	assert( cluster != nullptr );
 	assert( predictor != nullptr );
+
 }
 
 Tagger3D::~Tagger3D() {
@@ -86,45 +88,22 @@ int Tagger3D::trainTest() {
 	return 1;
 }
 void Tagger3D::train() {
-
 	INFO(logger, "Train");
-	std::vector<int> labels;
-	ColorVec colorClouds;
-	NormalVec normalClouds;
-	ScaleVec keypointClouds;
-	std::vector<cv::Mat> descriptors;
+
+	std::vector<int> labels = imgReader->readLabels();
+	std::vector<cv::Mat> descriptors = prepareDescriptors();
 	std::vector<std::vector<int>> wordDescriptors;
 
-	INFO(logger, "Reading images");
 
-	colorClouds = imgReader->readImgs();
-	labels = imgReader->readLabels();
-
-	if(colorClouds.size() != labels.size()) {
-
+	if(descriptors.size() != labels.size()) {
 		std::runtime_error e("Number of point clouds and labels differ: " +
 				std::to_string(colorClouds.size()) + ", " + std::to_string(labels.size()));
 		ERROR(logger, "train: " << e.what());
 		throw e;
 	}
 
-	INFO(logger, "Read " << colorClouds.size() << " point clouds");
-	INFO(logger, "Computing normals");
 
-	for(auto &cloud : colorClouds) {
-
-		normalClouds.emplace_back(pointNormal->computeNormals( cloud ));
-		pointNormal->cleanupInputCloud( cloud );
-	}
-
-	INFO(logger, "Detecting keypoints");
-	keypointClouds = detector->detect( colorClouds );
-
-	INFO(logger, "Describing keypoints");
-	descriptors = descriptor->describe( colorClouds, keypointClouds, normalClouds );
-
-
-
+	//prepareCluster;
 
 	switch( getParam<int>(trainCluster) ) {
 	case 1:
@@ -228,6 +207,131 @@ int Tagger3D::run() {
 	}
 }
 
+const std::string info = ".info";
 
+void Tagger3D::saveDescriptors(const std::vector<cv::Mat>& descriptors,
+		const std::string& path) {
+
+	std::ofstream file(path + info, std::ios::binary);
+	if(!file.is_open()) {
+		std::runtime_error e("Couldn't open the file: " + path + info);
+		ERROR(logger, "saveDescriptors: " << e.what());
+		throw e;
+	}
+
+	size_t images = descriptors.size();
+	size_t dims = descriptors[0].rows;
+	std::vector<size_t> sizes;
+	sizes.reserve(images);
+	for(const auto &descriptor : descriptors)
+		sizes.push_back(descriptor.rows);
+
+	file.write((char*)&images, sizeof(size_t));
+	file.write((char*)&dims, sizeof(size_t));
+	file.write((char*)&sizes[0], images * sizeof(size_t));
+	file.close();
+
+	file.open(path.c_str(), std::ios::binary);
+	if(!file.is_open()) {
+		std::runtime_error e("Couldn't open the file: " + path);
+		ERROR(logger, "saveDescriptors: " << e.what());
+		throw e;
+	}
+
+	for(const auto &image : descriptors) {
+		for(int i = 0; i < image.rows; i++) {
+
+			char* ptr = (char*)image.ptr<float>(i);
+			file.write(ptr, dims * sizeof(float));
+		}
+	}
+	file.close();
+
+}
+
+std::vector<cv::Mat> Tagger3D::loadDescriptors(const std::string& path) {
+
+	std::ifstream file(path + info, std::ios::binary);
+	if(!file.is_open()) {
+		std::runtime_error e("Couldn't open the file: " + path + info);
+		ERROR(logger, "saveDescriptors: " << e.what());
+		throw e;
+	}
+
+	size_t images;
+	size_t dims;
+
+
+	file.read((char*)&images, sizeof(size_t));
+	file.read((char*)&dims, sizeof(size_t));
+
+	std::vector<size_t> sizes;
+	sizes.reserve(images);
+	file.read((char*)&sizes[0], images * sizeof(size_t));
+
+	file.close();
+
+
+	file.open(path.c_str(), std::ios::binary);
+	if(!file.is_open()) {
+		std::runtime_error e("Couldn't open the file: " + path);
+		ERROR(logger, "saveDescriptors: " << e.what());
+		throw e;
+	}
+
+	std::vector<cv::Mat> descriptors;
+	descriptors.reserve(images);
+
+	for(const auto &size : sizes) {
+
+		std::vector<float> data;
+		file.read((char*)&data[0], size * sizeof(float));
+
+		descriptors.push_back(cv::Mat(dims, size, CV_32FC1, &data[0]).clone());
+	}
+
+	return descriptors;
+}
+
+std::vector<cv::Mat> Tagger3D::prepareDescriptorstors(const std::string &path) {
+
+	std::vector<cv::Mat> descriptors;
+
+//	if(getParam<bool>(loadDescriptors))
+//		descriptors = loadDescriptors(directory + "/" + trainDescriptors);
+//	else {
+//		descriptors = descriptor->describe( colorClouds, keypointClouds, normalClouds );
+//		if(getParam<bool>(saveDescriptors))
+//			saveDescriptors(descriptors, directory + "/" + testDescriptors);
+//	}
+
+	return descriptors;
+}
+
+std::vector<cv::Mat> Tagger3D::computeDescriptors() {
+
+	INFO(logger, "computeDescriptors");
+
+	std::vector<cv::Mat> descriptors;
+
+	ColorCloud::Ptr colorCloud;
+	NormalCloud::Ptr normalCloud;
+	ScaleCloud::Ptr keypointCloud;
+	cv::Mat descMat;
+
+	colorCloud = imgReader->readImg();
+	while(!colorCloud->empty()) {
+
+		normalCloud = pointNormal->computeNormals(colorCloud);
+		pointNormal->cleanupInputCloud(colorCloud);
+		keypointCloud = detector->detect(colorCloud);
+		descMat = descriptor->describe(colorCloud, keypointCloud, normalCloud);
+		descriptors.push_back(descMat.clone());
+	}
+
+	return descriptors;
+}
 
 } /* namespace Tagger3D */
+
+

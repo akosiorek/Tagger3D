@@ -23,6 +23,8 @@ public:
 	ColorCloud::Ptr readImg();
 	ColorVec readImgs();
 
+	int readLabel();
+
 protected:
 	void readImg(const std::string &colorPath, const std::string &depthPath, cv::Mat &colorImg, cv::Mat &depthImg);
 	ColorCloud::Ptr readImg(const std::string &colorPath, const std::string &depthPath);

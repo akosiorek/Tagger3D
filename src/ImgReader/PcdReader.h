@@ -28,6 +28,8 @@ public:
 	ColorCloud::Ptr readImg(const std::string &pcdPath);
 	ColorVec readImgs();
 
+	int readLabel();
+
 private:
 	PcdReader();
 	std::unique_ptr<pcl::VoxelGrid<pcl::PointXYZRGB>> voxelGrid;
