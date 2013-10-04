@@ -37,6 +37,7 @@ protected:
 	const std::string separator = ".";
 	lgr::LoggerPtr logger;
 	std::string directory;
+	const std::string mode = "mode";
 
 
 private:
@@ -48,7 +49,7 @@ private:
 
 	std::map<std::string, std::string> configMap;
 
-	const std::string mode = "mode";
+
 	const std::string directoryKey = "directory";
 };
 

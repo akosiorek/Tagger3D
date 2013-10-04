@@ -17,7 +17,7 @@ namespace Tagger3D {
 
 RangeImgReader::RangeImgReader(const std::map<std::string, std::string> &configMap) : ImgReader(configMap) {
 
-	count = 0;
+	count = -1;
 	chunkSize = getParam<int>(chunkSizeKey);
 	resize = getParam<int>( resizeKey );
 	depthScaleFactor = getParam<float>( depthScaleFactorKey );
@@ -180,15 +180,24 @@ ColorVec RangeImgReader::readImgs() {
 
 ColorCloud::Ptr RangeImgReader::readImg() {
 
+	DEBUG(logger, "Img #" << count);
+	DEBUG(logger, "depthImgVec size = " << colorImgVec.size());
+	ColorCloud::Ptr cloud;
+
+	count++;
 	if(count < colorImgVec.size())
-		return readImg(colorImgVec.at(count), depthImgVec.at(count++));
-	return ColorCloud::Ptr(new ColorCloud());
+		cloud = readImg(colorImgVec.at(count), depthImgVec.at(count));
+	else
+		cloud = ColorCloud::Ptr(new ColorCloud());
+
+	return cloud;
 }
 
 int RangeImgReader::readLabel() {
 
-	if(count - 1 < colorImgVec.size())
-		return atoi(labelVec[count - 1].c_str());
+	DEBUG(logger, "readLabel");
+	if(count  < colorImgVec.size())
+		return atoi(labelVec[count].c_str());
 	return NULL;
 }
 

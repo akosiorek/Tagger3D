@@ -38,7 +38,7 @@ std::vector<std::string> ImgReader::getLineList(const std::string &path) {
 
 		std::getline(listFile, line);
 		if( !line.empty() ) {
-			imgList.emplace_back( line );
+			imgList.push_back( line );
 		}
 
 	}

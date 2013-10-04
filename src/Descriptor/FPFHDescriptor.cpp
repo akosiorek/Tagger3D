@@ -45,7 +45,7 @@ cv::Mat FPFHDescriptor::describe(const ColorCloud::Ptr &cloud, const ScaleCloud:
 	descriptor->setSearchSurface( cloud );
 	descriptor->setInputCloud( keyCloudRgb );
 	descriptor->compute( *descriptors );
-	TRACE(logger, "describe fpfh: Finished; desceiptors size = " << descriptors->size());
+	TRACE(logger, "describe fpfh: Finished; descriptors size = " << descriptors->size());
 	return parser->parseFPFH(descriptors);
 }
 

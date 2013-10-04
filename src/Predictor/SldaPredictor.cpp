@@ -48,6 +48,7 @@ void SldaPredictor::createSlda() {
 void SldaPredictor::addImage(const std::vector<int> &vec, const int &label) {
 
 	TRACE(logger, "addImage: adding image with label: " << label);
+
 	sldaCorpus->read_vector( vec, label );
 	imgCount++;
 }

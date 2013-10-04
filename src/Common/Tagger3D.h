@@ -66,15 +66,24 @@ public:
 
 	int trainTest();
 
+
+	//	Separate run options ------------------------------------------------
+	void computeDescriptorsRun();
+	void trainClustRun();
+	void trainPredRun();
+	void testRun();
+
 private:
 	Tagger3D();
 
 	void saveDescriptors(const std::vector<cv::Mat> &descriptors, const std::string &path);
 	std::vector<cv::Mat> loadDescriptors(const std::string &path);
 
-	std::vector<cv::Mat> getDescriptors(const std::string &path);
+	std::vector<cv::Mat> prepareDescriptors(const std::string &path);
 
 	std::vector<cv::Mat> computeDescriptors();
+
+	void prepareCluster(const std::vector<cv::Mat> &descriptors);
 
 
 	//	-----------------------------------------------------------------------
@@ -93,7 +102,8 @@ private:
 	//	Parameters	------------------------------------------------------------
 
 
-
+	std::string trainDescPath;
+	std::string testDescPath;
 
 	// Constants	----------------------------------------------------------------
 	const std::string loggerName = "Tagger3D";

@@ -75,6 +75,9 @@ Tagger3D::Tagger3D(const std::map<std::string, std::string> &configMap) : Proces
 	assert( cluster != nullptr );
 	assert( predictor != nullptr );
 
+	trainDescPath = directory + "/" + trainDescriptors;
+	testDescPath = directory + "/" + testDescriptors;
+
 }
 
 Tagger3D::~Tagger3D() {
@@ -91,36 +94,17 @@ void Tagger3D::train() {
 	INFO(logger, "Train");
 
 	std::vector<int> labels = imgReader->readLabels();
-	std::vector<cv::Mat> descriptors = prepareDescriptors();
+	std::vector<cv::Mat> descriptors = prepareDescriptors(trainDescPath);
 	std::vector<std::vector<int>> wordDescriptors;
-
 
 	if(descriptors.size() != labels.size()) {
 		std::runtime_error e("Number of point clouds and labels differ: " +
-				std::to_string(colorClouds.size()) + ", " + std::to_string(labels.size()));
+				std::to_string(descriptors.size()) + ", " + std::to_string(labels.size()));
 		ERROR(logger, "train: " << e.what());
 		throw e;
 	}
 
-
-	//prepareCluster;
-
-	switch( getParam<int>(trainCluster) ) {
-	case 1:
-		INFO(logger, "Clusterizing");
-		cluster->train(descriptors);
-		cluster->save();
-		break;
-	case 0:
-		INFO(logger, "Loading centroids");
-		cluster->load();
-		break;
-	default:
-		std::runtime_error e("Invalid cluster operation mode");
-		ERROR(logger, e.what());
-		throw e;
-	}
-
+	prepareCluster(descriptors);
 
 
 	INFO(logger, "Generating word descriptions");
@@ -131,49 +115,25 @@ void Tagger3D::train() {
 }
 
 void Tagger3D::test() {
-
 	INFO(logger, "Test");
-	std::vector<int> labels;
-	ColorVec colorClouds;
-	NormalVec normalClouds;
-	ScaleVec keypointClouds;
-	std::vector<cv::Mat> descriptors;
+
+	std::vector<int> labels = imgReader->readLabels();
+	std::vector<cv::Mat> descriptors = prepareDescriptors(testDescPath);
 	std::vector<std::vector<int>> wordDescriptors;
 
-	INFO(logger, "Reading images");
-	colorClouds = imgReader->readImgs();
-	labels = imgReader->readLabels();
-
-	if(colorClouds.size() != labels.size()) {
-
-			std::runtime_error e("Number of point clouds and labels differ: " +
-						std::to_string(colorClouds.size()) + ", " + std::to_string(labels.size()));
-			ERROR(logger, "train: " << e.what());
-			throw e;
-		}
-
-	INFO(logger, "Read " << colorClouds.size() << " point clouds");
-	INFO(logger, "Computing normals");
-	for(auto &cloud : colorClouds) {
-
-		normalClouds.emplace_back(pointNormal->computeNormals( cloud ));
-		pointNormal->cleanupInputCloud( cloud );
+	if(descriptors.size() != labels.size()) {
+		std::runtime_error e("Number of point clouds and labels differ: " +
+				std::to_string(descriptors.size()) + ", " + std::to_string(labels.size()));
+		ERROR(logger, "train: " << e.what());
+		throw e;
 	}
 
-	INFO(logger, "Detecting keypoints");
-	keypointClouds = detector->detect( colorClouds );
+	cluster->load();
 
-	INFO(logger, "Describing keypoints");
-	descriptors = descriptor->describe( colorClouds, keypointClouds, normalClouds );
-
-	if( !cluster->isLoaded() ) {
-
-		cluster->load();
-	}
-
-	INFO(logger, "Generating word description");
+	INFO(logger, "Generating word descriptions");
 	wordDescriptors = cluster->cluster(descriptors);
 
+	//predictor->load();
 	INFO(logger, "Classifying");
 	predictor->predict(wordDescriptors, labels);
 }
@@ -220,7 +180,7 @@ void Tagger3D::saveDescriptors(const std::vector<cv::Mat>& descriptors,
 	}
 
 	size_t images = descriptors.size();
-	size_t dims = descriptors[0].rows;
+	size_t dims = descriptors[0].cols;
 	std::vector<size_t> sizes;
 	sizes.reserve(images);
 	for(const auto &descriptor : descriptors)
@@ -266,7 +226,7 @@ std::vector<cv::Mat> Tagger3D::loadDescriptors(const std::string& path) {
 	file.read((char*)&dims, sizeof(size_t));
 
 	std::vector<size_t> sizes;
-	sizes.reserve(images);
+	sizes.resize(images);
 	file.read((char*)&sizes[0], images * sizeof(size_t));
 
 	file.close();
@@ -281,29 +241,32 @@ std::vector<cv::Mat> Tagger3D::loadDescriptors(const std::string& path) {
 
 	std::vector<cv::Mat> descriptors;
 	descriptors.reserve(images);
-
 	for(const auto &size : sizes) {
 
-		std::vector<float> data;
-		file.read((char*)&data[0], size * sizeof(float));
 
-		descriptors.push_back(cv::Mat(dims, size, CV_32FC1, &data[0]).clone());
+		//data.resize(size);
+		cv::Mat mat(size, dims, CV_32FC1);
+		file.read((char*)mat.data, size * dims * sizeof(float));
+
+		//std::cout << mat << std::endl;
+		//std::cout << mat.cols << std::endl;
+		descriptors.push_back(mat.clone());
 	}
 
 	return descriptors;
 }
 
-std::vector<cv::Mat> Tagger3D::prepareDescriptorstors(const std::string &path) {
+std::vector<cv::Mat> Tagger3D::prepareDescriptors(const std::string &path) {
 
 	std::vector<cv::Mat> descriptors;
 
-//	if(getParam<bool>(loadDescriptors))
-//		descriptors = loadDescriptors(directory + "/" + trainDescriptors);
-//	else {
-//		descriptors = descriptor->describe( colorClouds, keypointClouds, normalClouds );
-//		if(getParam<bool>(saveDescriptors))
-//			saveDescriptors(descriptors, directory + "/" + testDescriptors);
-//	}
+	if(getParam<bool>(loadDescriptorsFlag))
+		descriptors = loadDescriptors(path);
+	else {
+		descriptors = computeDescriptors();
+		if(getParam<bool>(saveDescriptorsFlag))
+			saveDescriptors(descriptors, path);
+	}
 
 	return descriptors;
 }
@@ -318,6 +281,7 @@ std::vector<cv::Mat> Tagger3D::computeDescriptors() {
 	NormalCloud::Ptr normalCloud;
 	ScaleCloud::Ptr keypointCloud;
 	cv::Mat descMat;
+	int counter = 0;
 
 	colorCloud = imgReader->readImg();
 	while(!colorCloud->empty()) {
@@ -327,11 +291,44 @@ std::vector<cv::Mat> Tagger3D::computeDescriptors() {
 		keypointCloud = detector->detect(colorCloud);
 		descMat = descriptor->describe(colorCloud, keypointCloud, normalCloud);
 		descriptors.push_back(descMat.clone());
+		colorCloud = imgReader->readImg();
+		counter++;
 	}
 
 	return descriptors;
 }
 
+void Tagger3D::prepareCluster(const std::vector<cv::Mat> &descriptors) {
+
+	switch( getParam<int>(trainCluster) ) {
+	case 1:
+		INFO(logger, "Clusterizing");
+		cluster->train(descriptors);
+		cluster->save();
+		break;
+	case 0:
+		INFO(logger, "Loading centroids");
+		cluster->load();
+		break;
+	default:
+		std::runtime_error e("Invalid cluster operation mode");
+		ERROR(logger, e.what());
+		throw e;
+	}
+}
+
+
+
+void Tagger3D::computeDescriptorsRun() {
+}
+
+void Tagger3D::trainClustRun() {
+}
+
+void Tagger3D::trainPredRun() {
+}
+
+void Tagger3D::testRun() {
+}
+
 } /* namespace Tagger3D */
-
-

@@ -10,9 +10,6 @@
 
 #include <assert.h>
 
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/ml/ml.hpp>
 
 
 #include <algorithm>
@@ -29,24 +26,15 @@ namespace Tagger3D {
 
 SVMPredictor::SVMPredictor(const std::map<std::string, std::string> &configMap) : Predictor(configMap) {
 
-    svmType = getParam<int>( svmTypeKey );
-    kernelType = getParam<int>( kernelTypeKey );
-    termCrit  = getParam<int>( termCritKey );
     svmPath = directory + "/" + getParam<std::string>( svmPathKey );
     histogramPath = directory + "/" + getParam<std::string>( histogramPathKey );
     storeHistogram = getParam<bool>(storeHistogramKey);
     dictionarySize = getParam<int>( dictionarySizeKey );
-    epsilon = getParam<double>( epsilonKey );
-    maxIter = getParam<int>( maxIterKey );
-    gamma = getParam<double>( gammaKey );
-    C = getParam<double>( CKey );
-    degree = getParam<int>( epsilonKey );
 
-    if (storeHistogram) {//if store, than delete old-file
-        if( remove( histogramPath.c_str() ) != 0 ){
-           ERROR(logger, "Cloudn't delete the old histogram file");
-        }
-        else
+    if (storeHistogram) {
+        if( remove( histogramPath.c_str() ) != 0 )   {
+        	ERROR(logger, "Cloudn't delete an old histogram file");
+        } else
            INFO(logger, "Deleted histogram file");
     }
 
@@ -58,23 +46,22 @@ SVMPredictor::~SVMPredictor() {}
 
 void SVMPredictor::createSVM() {
 
-	params.svm_type    = svmType;
-	params.kernel_type = kernelType;
-	params.term_crit   = cvTermCriteria(termCrit, maxIter, epsilon);
+	params.svm_type    = getParam<int>( svmType );
+	params.kernel_type = getParam<int>( kernelType );
+	params.term_crit   = cvTermCriteria(
+			getParam<int>(termCrit), getParam<int>(maxIter), getParam<double>(epsilon));
 
-	//best parameters from cross-validation
-	params.gamma = gamma;  // for poly/rbf/sigmoid
-	//params.gamma = 3.05176e-05;
-	params.C = C;
-
-	params.degree = degree;
-	//params.class_weights=NULL;
+	params.gamma = getParam<double>( gamma );
+	params.C = getParam<double>( C );
+	params.degree = getParam<int>( degree );
 }
 
 void SVMPredictor::addImage(const std::vector<int> &vec, const int &label) {
 
     TRACE(logger, "addImage: adding image with label: " << label);
     labelsMat.push_back(label);
+
+
     //make histogram
     std::vector<int> histogram (dictionarySize, 0);
     int* histPtr = &histogram[0];
@@ -82,33 +69,33 @@ void SVMPredictor::addImage(const std::vector<int> &vec, const int &label) {
        histPtr[el - 1] += 1;
     Mat parsedVec = Mat(1, dictionarySize, CV_32S, &histogram[0]);
 
-    if(storeHistogram){     //TODO: another function, (maybe: change filename at training/prediction stage)
+    if(storeHistogram) {
         std::ofstream out(histogramPath, std::ofstream::app);
-        std::copy(histogram.begin(),histogram.end(),std::ostream_iterator<int>(out," "));
+        std::copy(histogram.begin(), histogram.end(), std::ostream_iterator<int>(out," "));
         out<<"\n";
         out.close();
     }
 
-    updateMaxValues(parsedVec);
     DataMat.push_back(parsedVec);
 	imgCount++;
 	TRACE(logger, "addImage: Finished");
 }
 
+const cv::Mat SVMPredictor::computeMaxValues(const Mat& mat) const{
 
-void SVMPredictor::updateMaxValues(const Mat& vec){
+	TRACE(logger, "computeMaxValues");
+	cv::Mat maxValues = mat.row(1).clone();
 
-	TRACE(logger, "updateMaxValues");
-	int rows = vec.rows;
-	int cols = vec.cols;
-
+	int rows = mat.rows;
+	int cols = mat.cols;
+	int* vmPtr = maxValues.ptr<int>(0);
 	for(int row = 0; row < rows; ++row) {
-	   int* vmPtr = maxValues.ptr<int>(row);
-	   const int* vecPtr = vec.ptr<int>(row);
+	   const int* matPtr = mat.ptr<int>(row);
 	   for(int col = 0; col < cols; ++col)
-		   if(vecPtr[col] > vmPtr[col])
-			   vmPtr[col] = vecPtr[col];
-   }
+		   if(matPtr[col] > vmPtr[col])
+			   vmPtr[col] = matPtr[col];
+	}
+	return maxValues;
 }
 
 void SVMPredictor::train() {
@@ -119,11 +106,12 @@ void SVMPredictor::train() {
 		throw std::logic_error("No images has been added");
 	}
 
-    normalizeData(DataMat);
+	cv::Mat normValues = computeMaxValues(DataMat);
+    normalizeData(DataMat, normValues);
 
-    // Train the SVM
     SVM.train(DataMat, labelsMat, Mat(), Mat(), params);
     SVM.save(svmPath.c_str());
+    saveNormValues(normValues);
 
     INFO(logger, "SVM model saved: " + svmPath);
 }
@@ -136,7 +124,8 @@ std::vector<int> SVMPredictor::predict() {
 
 		throw std::logic_error("No images has been added");
 	}
-	normalizeData(DataMat);
+
+	normalizeData(DataMat, loadNormValues());
     std::vector<int> predictions;
     predictions.reserve(DataMat.rows);
     SVM.load(svmPath.c_str());
@@ -161,15 +150,44 @@ void SVMPredictor::load() {
 	TRACE(logger, "load: Finished");
 }
 
-void SVMPredictor::normalizeData(cv::Mat &mat) {
+void SVMPredictor::normalizeData(cv::Mat &mat, const cv::Mat &normValues) const {
 
-    mat.convertTo(mat, svmMatType); // float conversion
-    Mat repeatMaxValues;
-    repeat(maxValues, mat.rows, 1, repeatMaxValues );
-    repeatMaxValues.convertTo(repeatMaxValues, svmMatType);
+    mat.convertTo(mat, svmMatType);
+    Mat repeatNormValues = cv::repeat(normValues, mat.rows, 1);
+    repeatNormValues.convertTo(repeatNormValues, svmMatType);
 
     // normalization
-    mat = mat / repeatMaxValues - Mat::ones(mat.size(), svmMatType);
+    mat = mat / repeatNormValues - Mat::ones(mat.size(), svmMatType);
+}
+
+void SVMPredictor::saveNormValues(const cv::Mat &normValues) const {
+
+	std::string path = directory + "/" +normValuesFile;
+	cv::FileStorage fs(path, cv::FileStorage::WRITE);
+	if(!fs.isOpened()) {
+		std::runtime_error e("Couldn't open the filestorage at: " + path);
+		ERROR(logger, "saveNormValues: " << e.what());
+		throw e;
+	}
+
+	fs << key << normValues;
+	fs.release();
+}
+
+const cv::Mat SVMPredictor::loadNormValues() const {
+
+	std::string path = directory + "/" +normValuesFile;
+	cv::FileStorage fs(path, cv::FileStorage::READ);
+	if(!fs.isOpened()) {
+		std::runtime_error e("Couldn't open the filestorage at: " + path);
+		ERROR(logger, "loadNormValues: " << e.what());
+		throw e;
+	}
+
+	cv::Mat normValues;
+	fs[key] >> normValues;
+	fs.release();
+	return normValues;
 }
 
 } /* namespace semantic_tagger */

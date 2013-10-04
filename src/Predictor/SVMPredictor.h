@@ -51,42 +51,39 @@ private:
     Mat maxValues;
     Mat minValues;
 
-    void updateMaxValues(const Mat&);
+    const cv::Mat computeMaxValues(const Mat& mat) const;
 
     CvSVMParams params;
     CvSVM SVM;
 
     // Configuration parameters
-    int svmType;
-    int kernelType;
-    int termCrit;
     std::string svmPath;
     std::string histogramPath;
     bool storeHistogram;
-    double epsilon;
-    int maxIter;
-    double gamma;
-    double C;
-    int degree;
     int dictionarySize;
 
     //	Configuration keys
-    const std::string svmTypeKey = moduleName + "svmType";
-    const std::string kernelTypeKey = moduleName + "kernelType";
-    const std::string termCritKey = moduleName + "termCrit";
+    const std::string svmType = moduleName + "svmType";
+    const std::string kernelType = moduleName + "kernelType";
+    const std::string termCrit = moduleName + "termCrit";
     const std::string svmPathKey = moduleName + "svmPath";
     const std::string dictionarySizeKey = moduleName + "dictionarySize";
     const std::string histogramPathKey = moduleName + "histogramPath";
     const std::string storeHistogramKey = moduleName + "storeHistogram";
-    const std::string epsilonKey = moduleName + "epsilon";
-    const std::string maxIterKey = moduleName + "maxIter";
-    const std::string degreeKey = moduleName + "degree";
-    const std::string gammaKey = moduleName + "gamma";
-    const std::string CKey = moduleName + "C";
+    const std::string epsilon = moduleName + "epsilon";
+    const std::string maxIter = moduleName + "maxIter";
+    const std::string degree = moduleName + "degree";
+    const std::string gamma = moduleName + "gamma";
+    const std::string C = moduleName + "C";
 
     const int svmMatType = CV_32F;
 
-    void normalizeData(cv::Mat &mat);
+    const std::string normValuesFile = "maxValues.xml";
+    const std::string key = "key";
+
+    void normalizeData(cv::Mat &mat, const cv::Mat &normValues) const;
+    void saveNormValues(const cv::Mat &normValues) const;
+    const cv::Mat loadNormValues() const;
 };
 
 } /* namespace semantic_tagger */
