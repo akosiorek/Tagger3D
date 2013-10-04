@@ -84,12 +84,7 @@ Tagger3D::~Tagger3D() {
 	DEBUG(logger, "Destroying Tagger3D");
 }
 
-int Tagger3D::trainTest() {
 
-	train();
-	test();
-	return 1;
-}
 void Tagger3D::train() {
 	INFO(logger, "Train");
 
@@ -153,21 +148,31 @@ int Tagger3D::predict(const std::string& rgbPath,
 
 int Tagger3D::run() {
 
-	int m = getParam<int>( mode );
+	std::string modeStr = getParam<std::string>( mode );
+	int m = -1;
+	if(modeStr == modeTest) m = TEST;
+	else if(modeStr == modeTrain) m = TRAIN;
+	else if(modeStr == modeDesc) m = DESC;
+	else if(modeStr == modeClust) m = CLUST;
+	else if(modeStr == modeTrainPred) m = TRAIN_PRED;
+	else if(modeStr == modeTestPred) m = TEST_PRED;
+	else if(modeStr == modeAll) m = ALL;
+
 	switch(m) {
 
 	case TRAIN: train(); break;
 	case TEST: test(); break;
-	case TRAINTEST: trainTest(); break;
-	case PREDICT: ; break;
+	case DESC: computeDescriptorsRun(); break;
+	case CLUST: trainClustRun(); break;
+	case TRAIN_PRED: trainPredRun(); break;
+	case TEST_PRED: testRun(); break;
+	case ALL: allRun(); break;
 	default:
-		std::runtime_error e("Unrecognized mode = " + mode);
+		std::runtime_error e("Unrecognized mode = " + modeStr);
 		ERROR(logger, "run: " << e.what());
 		throw e;
 	}
 }
-
-const std::string info = ".info";
 
 void Tagger3D::saveDescriptors(const std::vector<cv::Mat>& descriptors,
 		const std::string& path) {
@@ -206,7 +211,6 @@ void Tagger3D::saveDescriptors(const std::vector<cv::Mat>& descriptors,
 		}
 	}
 	file.close();
-
 }
 
 std::vector<cv::Mat> Tagger3D::loadDescriptors(const std::string& path) {
@@ -320,15 +324,58 @@ void Tagger3D::prepareCluster(const std::vector<cv::Mat> &descriptors) {
 
 
 void Tagger3D::computeDescriptorsRun() {
+
+	imgReader->setMode(ImgReader::TRAIN);
+	std::vector<cv::Mat> descriptors = computeDescriptors();
+	saveDescriptors(descriptors, trainDescPath);
+	imgReader->setMode(ImgReader::TEST);
+	descriptors = computeDescriptors();
+	saveDescriptors(descriptors, testDescPath);
 }
 
 void Tagger3D::trainClustRun() {
+
+	std::vector<cv::Mat> descriptors = loadDescriptors(trainDescPath);
+	cluster->train(descriptors);
+	cluster->save();
 }
 
 void Tagger3D::trainPredRun() {
+
+	std::vector<cv::Mat> descriptors = loadDescriptors(trainDescPath);
+	imgReader->setMode(ImgReader::TRAIN);
+	std::vector<int> labels = imgReader->readLabels();
+
+	cluster->load();
+
+	INFO(logger, "Generating word descriptions");
+	std::vector<std::vector<int>> wordDescriptors = cluster->cluster(descriptors);
+
+	INFO(logger, "Training");
+	predictor->train(wordDescriptors, labels);
 }
 
 void Tagger3D::testRun() {
+
+	std::vector<cv::Mat> descriptors = loadDescriptors(testDescPath);
+	imgReader->setMode(ImgReader::TEST);
+	std::vector<int> labels = imgReader->readLabels();
+
+	cluster->load();
+
+	INFO(logger, "Generating word descriptions");
+	std::vector<std::vector<int>> wordDescriptors = cluster->cluster(descriptors);
+
+	INFO(logger, "Classifying")
+	predictor->predict(wordDescriptors, labels);
+}
+
+void Tagger3D::allRun() {
+
+	computeDescriptorsRun();
+	trainClustRun();
+	trainPredRun();
+	testRun();
 }
 
 } /* namespace Tagger3D */

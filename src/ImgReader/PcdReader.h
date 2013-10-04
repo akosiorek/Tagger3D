@@ -30,6 +30,8 @@ public:
 
 	int readLabel();
 
+	virtual void setMode(int mode) {};
+
 private:
 	PcdReader();
 	std::unique_ptr<pcl::VoxelGrid<pcl::PointXYZRGB>> voxelGrid;

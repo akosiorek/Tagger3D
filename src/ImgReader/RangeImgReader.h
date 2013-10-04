@@ -25,6 +25,8 @@ public:
 
 	int readLabel();
 
+	virtual void setMode(int mode);
+
 protected:
 	void readImg(const std::string &colorPath, const std::string &depthPath, cv::Mat &colorImg, cv::Mat &depthImg);
 	ColorCloud::Ptr readImg(const std::string &colorPath, const std::string &depthPath);

@@ -44,13 +44,18 @@ public:
 	 */
 	virtual std::vector<int> readLabels();
 
+	virtual void setMode(int mode) = 0;
+
+	enum { TRAIN, TEST };
 protected:
 	std::string typeToStr(const int &type);
 	std::vector<std::string> getLineList(const std::string &path);
 	std::string moduleName = "ImgReader" + separator;
 	std::vector<std::string> labelVec;
 
-	enum { TRAIN, TEST };
+	int currentMode;
+
+
 
 private:
 	const std::string loggerName = "Main.ImgReader";

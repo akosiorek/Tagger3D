@@ -67,7 +67,7 @@ private:
     const std::string kernelType = moduleName + "kernelType";
     const std::string termCrit = moduleName + "termCrit";
     const std::string svmPathKey = moduleName + "svmPath";
-    const std::string dictionarySizeKey = moduleName + "dictionarySize";
+    const std::string dictionarySizeKey = "dictionarySize";
     const std::string histogramPathKey = moduleName + "histogramPath";
     const std::string storeHistogramKey = moduleName + "storeHistogram";
     const std::string epsilon = moduleName + "epsilon";

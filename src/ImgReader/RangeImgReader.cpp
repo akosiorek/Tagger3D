@@ -22,23 +22,16 @@ RangeImgReader::RangeImgReader(const std::map<std::string, std::string> &configM
 	resize = getParam<int>( resizeKey );
 	depthScaleFactor = getParam<float>( depthScaleFactorKey );
 
-	switch( getParam<int>( mode )) {
-	case TRAIN:
-		colorImgVec = getLineList( getParam<std::string>(trainColorImg) );
-		depthImgVec = getLineList( getParam<std::string>(trainDepthImg) );
-		labelVec = getLineList( getParam<std::string>(trainLabel));
-		break;
-	case TEST:
-		colorImgVec = getLineList( getParam<std::string>(testColorImg) );
-		depthImgVec = getLineList( getParam<std::string>(testDepthImg) );
-		labelVec = getLineList( getParam<std::string>(testLabel));
-		break;
-	default:
-		std::runtime_error e("Invalid mode");
-		ERROR(logger, "ImgReader: " << e.what());
-		throw e;
-	}
-
+	currentMode = -1;
+	std::string stringMode = getParam<std::string>(mode);
+	int tmpMode;
+	bool att = false;
+	if(stringMode == "train") {tmpMode = 0; att = true;}
+	else if(stringMode == "test") {tmpMode = 1; att = true;}
+	if(att)
+		setMode(tmpMode);
+	else
+		setMode(getParam<int>( mode ));
 }
 
 RangeImgReader::~RangeImgReader() {}
@@ -199,6 +192,32 @@ int RangeImgReader::readLabel() {
 	if(count  < colorImgVec.size())
 		return atoi(labelVec[count].c_str());
 	return NULL;
+}
+
+void RangeImgReader::setMode(int mode) {
+
+	if(currentMode != mode) {
+		currentMode = mode;
+		count = -1;
+
+		switch(currentMode) {
+			case TRAIN:
+				colorImgVec = getLineList( getParam<std::string>(trainColorImg) );
+				depthImgVec = getLineList( getParam<std::string>(trainDepthImg) );
+				labelVec = getLineList( getParam<std::string>(trainLabel));
+				break;
+			case TEST:
+				colorImgVec = getLineList( getParam<std::string>(testColorImg) );
+				depthImgVec = getLineList( getParam<std::string>(testDepthImg) );
+				labelVec = getLineList( getParam<std::string>(testLabel));
+				break;
+			default:
+				std::runtime_error e("Invalid mode");
+				ERROR(logger, "ImgReader: " << e.what());
+				throw e;
+			}
+	}
+
 }
 
 } /* namespace Tagger3D */

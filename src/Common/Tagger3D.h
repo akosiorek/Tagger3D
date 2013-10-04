@@ -64,14 +64,13 @@ public:
 	 */
 	int run();
 
-	int trainTest();
-
 
 	//	Separate run options ------------------------------------------------
 	void computeDescriptorsRun();
 	void trainClustRun();
 	void trainPredRun();
 	void testRun();
+	void allRun();
 
 private:
 	Tagger3D();
@@ -108,6 +107,17 @@ private:
 	// Constants	----------------------------------------------------------------
 	const std::string loggerName = "Tagger3D";
 	const std::string moduleName = "Tagger3D" + separator;
+	const std::string info = ".info";
+
+	//	Modes	-------------------------------------------------------------------
+	const std::string
+		modeTrain = "train",
+		modeTest = "test",
+		modeDesc = "desc",
+		modeClust = "clust",
+		modeTrainPred = "trainPred",
+		modeTestPred = "testPred",
+		modeAll = "all";
 
 	// Config keys	---------------------------------------------------------------
 	const std::string readerType = moduleName + "readerType";
@@ -123,7 +133,7 @@ private:
 
 	// Enums -------------------------------------------------------------------
 
-	enum { TRAIN, TEST, TRAINTEST, PREDICT };
+	enum { TRAIN, TEST, DESC, CLUST, TRAIN_PRED, TEST_PRED, ALL };
 	enum { RANGEIMG_READER, PCD_READER };
 	enum { SIFT, ISS3D };
 	enum { PFH_DESC, FPFH_DESC };

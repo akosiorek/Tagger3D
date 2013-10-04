@@ -114,6 +114,8 @@ void SVMPredictor::train() {
     saveNormValues(normValues);
 
     INFO(logger, "SVM model saved: " + svmPath);
+    DataMat.release();
+    labelsMat.release();
 }
 
 
@@ -139,6 +141,8 @@ std::vector<int> SVMPredictor::predict() {
     cv::findNonZero(results, locations);
     std::cout<<"avg: "<<100*float(results.size().height-locations.size().height)/results.size().height<<"%"<<std::endl;
 	TRACE(logger, "predict: Finished");
+    DataMat.release();
+	labelsMat.release();
     return predictions;
 }
 

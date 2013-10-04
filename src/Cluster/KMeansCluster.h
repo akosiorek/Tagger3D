@@ -109,7 +109,7 @@ private:
 	 * in a configuration file as values assigned to the keys below.
 	 * The supported format is one key:value pair per line.
 	 */
-	const std::string clusterCountKey = moduleName + "clusterCount";
+	const std::string clusterCountKey = "dictionarySize";
 	const std::string criteriaEpsKey = moduleName + "criteriaEps";
 	const std::string criteriaItrKey = moduleName + "criteriaItr";
 	const std::string attemptsKey = moduleName + "attempts";
