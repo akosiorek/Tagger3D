@@ -11,27 +11,18 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <pcl/filters/filter.h>
+#include <pcl/visualization/cloud_viewer.h>
 #include <fstream>
 
 namespace Tagger3D {
 
 RangeImgReader::RangeImgReader(const std::map<std::string, std::string> &configMap) : ImgReader(configMap) {
 
+	init();
 	count = -1;
 	chunkSize = getParam<int>(chunkSizeKey);
 	resize = getParam<int>( resizeKey );
 	depthScaleFactor = getParam<float>( depthScaleFactorKey );
-
-	currentMode = -1;
-	std::string stringMode = getParam<std::string>(mode);
-	int tmpMode;
-	bool att = false;
-	if(stringMode == "train") {tmpMode = 0; att = true;}
-	else if(stringMode == "test") {tmpMode = 1; att = true;}
-	if(att)
-		setMode(tmpMode);
-	else
-		setMode(getParam<int>( mode ));
 }
 
 RangeImgReader::~RangeImgReader() {}
@@ -94,6 +85,14 @@ ColorCloud::Ptr RangeImgReader::matToCloud(const cv::Mat &colorImg, const cv::Ma
 	TRACE(logger, "MatToCloud: Finished");
 	std::vector<int> vec;
 	pcl::removeNaNFromPointCloud( *cloud, *cloud, vec );
+
+
+//	pcl::visualization::CloudViewer viewer ("Simple Cloud Viewer");
+//	viewer.showCloud (cloud);
+//	while (!viewer.wasStopped ())
+//	{
+//	}
+
 	return cloud;
 }
 
@@ -191,7 +190,7 @@ int RangeImgReader::readLabel() {
 	DEBUG(logger, "readLabel");
 	if(count  < colorImgVec.size())
 		return atoi(labelVec[count].c_str());
-	return NULL;
+	return -1;
 }
 
 void RangeImgReader::setMode(int mode) {

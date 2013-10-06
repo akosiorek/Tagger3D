@@ -94,22 +94,46 @@ std::map<std::string, std::string> Config::getConfigMap() {
 	/**
 	 * 	Options allowed on a command line and in a config file.
 	 */
-	po::options_description sldaOps("sLDA options");
-	sldaOps.add_options()
+	po::options_description detectorOps("Detector options");
+		detectorOps.add_options()
+			("gamma21", po::value<std::string>(), "")
+			("gamma32", po::value<std::string>(), "")
+			("minNeighbours", po::value<std::string>(), "")
+			("modelResolution", po::value<std::string>(), "")
+			;
+
+	po::options_description normalOps("Normal options");
+		normalOps.add_options()
+			("normalRadius", po::value<std::string>(), "")
+			;
+
+	po::options_description descriptorOps("Descriptor options");
+		descriptorOps.add_options()
+			("radiusSearch", po::value<std::string>(), "")
+			;
+
+	po::options_description clusterOps("Clusterization options");
+		clusterOps.add_options()
+			("dictionarySize", po::value<std::string>(), "Number of clusters")
+			("criteriaEps", po::value<std::string>(), "Required precision")
+			("criteriaItr", po::value<std::string>(), "Maximum number of iterations")
+			("trainCluster", po::value<std::string>(), "train cluster if 1")
+			;
+
+
+	po::options_description predictorOps("Predictor options");
+	predictorOps.add_options()
 		("alpha", po::value<std::string>(), "Alpha value")
 		("numTopics", po::value<std::string>(), "Number of topics")
 		("initMethod", po::value<std::string>(), "An initialization method")
-		("sldaSettings", po::value<std::string>(), "sLDA settings file");
-		("sldaOutputDir", po::value<std::string>(), "A sLDA output directory");
-		("modelPath", po::value<std::string>(), "A path to a *.model file for sLDA");
-		;
-
-	po::options_description clusterOps("Clusterization options");
-	clusterOps.add_options()
-		("clusterCount", po::value<std::string>(), "Number of clusters")
-		("criteriaEps", po::value<std::string>(), "Required precision")
-		("criteriaItr", po::value<std::string>(), "Maximum number of iterations")
-		("trainCluster", po::value<std::string>(), "train cluster if 1");
+		("sldaSettings", po::value<std::string>(), "sLDA settings file")
+		("sldaOutputDir", po::value<std::string>(), "A sLDA output directory")
+		("modelPath", po::value<std::string>(), "A path to a *.model file for sLDA")
+		("epsilon", po::value<std::string>(), "")
+		("maxIter", po::value<std::string>(), "")
+		("degree", po::value<std::string>(), "")
+		("gamma", po::value<std::string>(), "")
+		("C", po::value<std::string>(), "")
 		;
 
 
@@ -119,7 +143,7 @@ std::map<std::string, std::string> Config::getConfigMap() {
 		(directory.c_str(), po::value<std::string>(), "Model directory")
 		(pictureTmp.c_str(), po::value<std::string>(), "Path to a picture")
 		;
-	configOps.add(sldaOps).add(clusterOps);
+	configOps.add(descriptorOps).add(normalOps).add(detectorOps).add(clusterOps).add(predictorOps);
 
 	/**
 	 *	Hidden options. Allowed on a command line and in a config file.

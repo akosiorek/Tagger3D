@@ -22,6 +22,20 @@ ImgReader::~ImgReader() {
 	DEBUG(logger, "Destroying ImgReader");
 }
 
+void ImgReader::init() {
+
+	currentMode = -1;
+	std::string stringMode = getParam<std::string>(mode);
+	int tmpMode;
+	bool att = false;
+	if(stringMode == "train") {tmpMode = TRAIN; att = true;}
+	else if(stringMode == "test") {tmpMode = TEST; att = true;}
+	if(att)
+		setMode(tmpMode);
+	else
+		setMode(getParam<int>( mode ));
+}
+
 std::vector<std::string> ImgReader::getLineList(const std::string &path) {
 
 	TRACE(logger, "getImgList: Starting");

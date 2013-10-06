@@ -30,7 +30,7 @@ public:
 
 	int readLabel();
 
-	virtual void setMode(int mode) {};
+	virtual void setMode(int mode);
 
 private:
 	PcdReader();

@@ -55,6 +55,7 @@ protected:
 
 	int currentMode;
 
+	void init();
 
 
 private:
