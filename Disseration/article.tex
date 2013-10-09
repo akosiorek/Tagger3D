@@ -1,10 +1,14 @@
 \documentclass[a4paper,12pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[top=3cm, bottom=6cm, left=4cm, right=3cm]{geometry}
+\usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
 \usepackage{cite}
 
-\linespread{1.15}
+%\setlength{\parskip}{6pt}%
+\linespread{1.5}
+
+\newcommand{\superscript}[1]{\ensuremath{^{\textrm{#1}}}}
+\newcommand{\subscript}[1]{\ensuremath{_{\textrm{#1}}}}
 
 %opening
 \title{Object Categorization based on RGBD data}
@@ -28,14 +32,14 @@ introduction
 
 \section{Bag of Words image representation}
 
-  As portrayed in \cite{tsai2012bag} the Bag of Words or BoW model has originated from the text retrieval domain. Originally the model enabled a vector-like representation of a text document. One of the most simple cases would be to, given a dictionary, construct a histogram depicting the incidence of words in a particular document. Such an approach obliterates any grammatical dependencies in order to retain only statistical information associated with each word. It is believed that the words' frequencies are connected to the semantic meaning of the document. The following questions emerge: 
+  As portrayed by Tsai in \cite{tsai2012bag} the Bag of Words (BoW) model has originated from the text retrieval domain. The model enables text document represenation in a form of a vector. Suppose we have a corpus of documents. A dictionary over the corpus is a set of words such that every word from the corpus can be matched to exactly one word in the dictionary and every two words in a dictionary are different. Given a dictionary, a histogram of incidence of words can be build. This histogram has the following form: for every entry in the dictionary there isa number of words in the document matching the entry. Such an approach obliterates any grammatical dependencies in order to retain only statistical information associated with words. It is believed that the words' frequencies enconde enough data for further processing. The following questions emerge: 
   
   \begin{itemize}
     \item How does this apply to the area of computer vision?
     \item How can one convert an image to a text document? 
   \end{itemize}
   
-  In order to answer the first question one has to consider how computers process data. Digital images are nothing but streams of binary code. A simple conversion to an RGB format makes the data structured and is enough for people to understand pictures' content. Unfortunately, such image representation is extremely vulnerable to translation and rotation as well as changing lighting conditions. One way to address these disadvantages would be to compute locations of some characteristic points (keypoints) and describe them somehow. Even then, however, the resulting representation is a low level one and still incomprehensible for humans. Defining robot's behaviour basing on such data might prove cumbersome, for there are too many details to consider. All of the above is refereed to as a semantic gap. It is defined by Tsai \cite{tsai2012bag}, with respect to the Content Based Image Retrieval or \textit{CBIR}, as \emph{``the gap between the extracted and indexed low-level features by computers and the high-level concepts (or semantics) of user’s queries''}. Suppose a text document can be created from an image. If this is the case, then the document can be converted into a BoW model. Since the latter contains information about the semantic significance of the image an impact of the semantic gap can be reduced.
+  In order to answer the first question one has to consider what digital images are --- they are nothing but strings of binary code. Translated to i.e. RGB colour space, they can be displayed and understood by humans, but there are no direct methods that would let computers `understand' what does a picture contain. Suppose two images of the same object were taken from different viewing angles. Being easy for a human,  it is impossible for any computer to compare those two pictures (or objects they depict) in any simple manner. This example shows a need for an intermediate representation that would enable image processing. Advanced algorithms for characteristic region detection and description exist (SIFT, SURF, FAST among many others). Even then, however, the resulting representation is a low level one. Consider a scenerio in which a robot is to adjust its behaviour depending on where it currently is (a type of a location, i.e. house, factory, mine). It order to define required adjustments a programmer would have to encode the low level representation of possibly many robot's destination enviornments. It is a variation of a problem described by Tsai \cite{tsai2012bag}, with respect to the Content Based Image Retrieval (\textit{CBIR}), as \emph{``the gap between the extracted and indexed low-level features by computers and the high-level concepts (or semantics) of user’s queries''}. Suppose a text document can be created from an image. In this case, then the document can be converted into a BoW model. Since it preserve semantic information that can be extracted  from it, an impact of the semantic gap can be reduced.
   
   As for the second question, there is a quite well established pipeline that enables creation of text documents from images. The steps of the BoW methodology are as follows:
   \begin{itemize}
