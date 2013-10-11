@@ -2,6 +2,16 @@ This is BibTeX, Version 0.99d (TeX Live 2012/Debian)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: article.aux
 The style file: abbrv.bst
+A level-1 auxiliary file: streszczenie.aux
+A level-1 auxiliary file: abstract.aux
+A level-1 auxiliary file: introduction.aux
+A level-1 auxiliary file: bow.aux
+A level-1 auxiliary file: libs.aux
+A level-1 auxiliary file: datasets.aux
+A level-1 auxiliary file: architecture.aux
+A level-1 auxiliary file: setup.aux
+A level-1 auxiliary file: experiments.aux
+A level-1 auxiliary file: conclusion.aux
 Database file #1: article.bib
 I was expecting a `,' or a `}'---line 138 of file article.bib
  :   
@@ -21,7 +31,7 @@ Warning--empty journal in pcl_keypoint_comparision
 Warning--empty year in pcl_keypoint_comparision
 You've used 17 entries,
             2118 wiz_defined-function locations,
-            597 strings with 6839 characters,
+            607 strings with 6964 characters,
 and the built_in function-call counts, 6517 in all, are:
 = -- 665
 > -- 276

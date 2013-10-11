@@ -31,12 +31,8 @@ SVMPredictor::SVMPredictor(const std::map<std::string, std::string> &configMap) 
     storeHistogram = getParam<bool>(storeHistogramKey);
     dictionarySize = getParam<int>( dictionarySizeKey );
 
-    if (storeHistogram) {
-        if( remove( histogramPath.c_str() ) != 0 )   {
-        	ERROR(logger, "Cloudn't delete an old histogram file");
-        } else
-           INFO(logger, "Deleted histogram file");
-    }
+    if (storeHistogram)
+        remove( histogramPath.c_str());
 
     createSVM();
     maxValues = Mat::zeros(1, dictionarySize, svmMatType);
@@ -59,7 +55,7 @@ void SVMPredictor::createSVM() {
 void SVMPredictor::addImage(const std::vector<int> &vec, const int &label) {
 
     TRACE(logger, "addImage: adding image with label: " << label);
-    labelsMat.push_back(label);
+    labels.push_back(label);
 
 
     //make histogram
@@ -99,7 +95,7 @@ const cv::Mat SVMPredictor::computeMaxValues(const Mat& mat) const{
 }
 
 void SVMPredictor::train() {
-
+	INFO(logger, "Training SVM predictor");
 	TRACE(logger, "SVM train: Starting");
 	if( imgCount == 0 ) {
 
@@ -109,18 +105,18 @@ void SVMPredictor::train() {
 	cv::Mat normValues = computeMaxValues(DataMat);
     normalizeData(DataMat, normValues);
 
-    SVM.train(DataMat, labelsMat, Mat(), Mat(), params);
+    SVM.train(DataMat, cv::Mat(1, labels.size(), CV_32SC1, &labels[0]), Mat(), Mat(), params);
     SVM.save(svmPath.c_str());
     saveNormValues(normValues);
 
     INFO(logger, "SVM model saved: " + svmPath);
     DataMat.release();
-    labelsMat.release();
+    labels.clear();
 }
 
 
 std::vector<int> SVMPredictor::predict() {
-
+	INFO(logger, "Classifying")
 	TRACE(logger, "predict: Starting");
 	if( imgCount == 0 ) {
 
@@ -134,15 +130,10 @@ std::vector<int> SVMPredictor::predict() {
     for(int row = 0; row < DataMat.rows; ++row)
         predictions.push_back(SVM.predict(DataMat.row(row)));
 
-    Mat predictionsMat = Mat(predictions);
-    Mat results = abs(predictionsMat-labelsMat);
-    results.convertTo(results, CV_8UC1);
-    Mat locations;
-    cv::findNonZero(results, locations);
-    std::cout<<"avg: "<<100*float(results.size().height-locations.size().height)/results.size().height<<"%"<<std::endl;
+    confusionMatrix(labels, predictions);
 	TRACE(logger, "predict: Finished");
     DataMat.release();
-	labelsMat.release();
+	labels.clear();
     return predictions;
 }
 
@@ -192,6 +183,37 @@ const cv::Mat SVMPredictor::loadNormValues() const {
 	fs[key] >> normValues;
 	fs.release();
 	return normValues;
+}
+
+cv::Mat SVMPredictor::confusionMatrix(const std::vector<int> &labels, const std::vector<int> &predictions) const {
+
+	int size = labels.size();
+	int classes = labels[size-1] + 1;
+	const int *lPtr = &labels[0];
+	const int *pPtr = &predictions[0];
+	cv::Mat confusionMatrix = cv::Mat::zeros(classes, classes, CV_8UC1);
+	for(int i = 0; i < size; i++) {
+
+		confusionMatrix.at<uchar>(lPtr[i], pPtr[i]) += 1;
+	}
+
+	cv::Mat classCount;
+	cv::reduce(confusionMatrix, classCount, 1, CV_REDUCE_SUM, CV_32SC1);
+	cv::Mat average(1, classes, CV_32FC1);
+	float avg = 0;
+	for(int i = 0 ; i < classes; i++) {
+		average.at<float>(0, i) = float(confusionMatrix.at<uchar>(i, i)) / classCount.at<int>(0, i);
+		avg += confusionMatrix.at<uchar>(i, i);
+	}
+	avg /= size;
+
+
+	std::cout << "Entries per class: " << std::endl << classCount << std::endl;
+	std::cout << "Confusion Matrix:" << std::endl << confusionMatrix << std::endl;
+	std::cout << "Averages: " << std::endl << average << std::endl;
+	std::cout << "Average: " << avg << std::endl;
+
+
 }
 
 } /* namespace semantic_tagger */

@@ -18,101 +18,17 @@
 
 \maketitle
 
-\begin{abstract}
-
-Abstrakt
-
-\end{abstract}
-
-%\include{introduction}
-
-\section{Introduction}
-
-introduction
-
-\section{Bag of Words image representation}
-
-  As portrayed by Tsai in \cite{tsai2012bag} the Bag of Words (BoW) model has originated from the text retrieval domain. The model enables text document represenation in a form of a vector. Suppose we have a corpus of documents. A dictionary over the corpus is a set of words such that every word from the corpus can be matched to exactly one word in the dictionary and every two words in a dictionary are different. Given a dictionary, a histogram of incidence of words can be build. This histogram has the following form: for every entry in the dictionary there isa number of words in the document matching the entry. Such an approach obliterates any grammatical dependencies in order to retain only statistical information associated with words. It is believed that the words' frequencies enconde enough data for further processing. The following questions emerge: 
-  
-  \begin{itemize}
-    \item How does this apply to the area of computer vision?
-    \item How can one convert an image to a text document? 
-  \end{itemize}
-  
-  In order to answer the first question one has to consider what digital images are --- they are nothing but strings of binary code. Translated to i.e. RGB colour space, they can be displayed and understood by humans, but there are no direct methods that would let computers `understand' what does a picture contain. Suppose two images of the same object were taken from different viewing angles. Being easy for a human,  it is impossible for any computer to compare those two pictures (or objects they depict) in any simple manner. This example shows a need for an intermediate representation that would enable image processing. Advanced algorithms for characteristic region detection and description exist (SIFT, SURF, FAST among many others). Even then, however, the resulting representation is a low level one. Consider a scenerio in which a robot is to adjust its behaviour depending on where it currently is (a type of a location, i.e. house, factory, mine). It order to define required adjustments a programmer would have to encode the low level representation of possibly many robot's destination enviornments. It is a variation of a problem described by Tsai \cite{tsai2012bag}, with respect to the Content Based Image Retrieval (\textit{CBIR}), as \emph{``the gap between the extracted and indexed low-level features by computers and the high-level concepts (or semantics) of user’s queries''}. Suppose a text document can be created from an image. In this case, then the document can be converted into a BoW model. Since it preserve semantic information that can be extracted  from it, an impact of the semantic gap can be reduced.
-  
-  As for the second question, there is a quite well established pipeline that enables creation of text documents from images. The steps of the BoW methodology are as follows:
-  \begin{itemize}
-   \item Keypoint detection --- keypoints are local interest points or regions. They are usually computed in such a way so as to provide scale and location invariance. Rigid transformation and illumination invariance would be desired but it is somewhat harder to achieve
-   \item Keypoint description --- each keypoint have to be described in a manner that distinguishes the particular keypoint in some way.
-   \item Vector quantization --- clustering algorithms are used to find regions in the high dimensional space of keypoint descriptors. When clusters are found, each described keypoint can be assigned to a corresponding cluster. Then, an image can be represented by the numbers of clusters, to which the image's keypoints were assigned. The numbers themselves are called \emph{`visual words'}.
-  \end{itemize}
-  
-\section{BoW in Computer Vision}
-
-  The Bag of Words image representation has been extensively used in the areas of scene \cite{csurka2004visual,fei2005bayesian, tsai2012bag} and object categorisation \cite{zhangcategory} as well as CBIR \cite{li2010investigating,toldo2009bag} yielding state-of-the-art results. Advantages of this model are simplicity, computational efficiency and at least partial invariance to affine transformation, occlusion and lighting conditions. 
-  
-  The Bag of Words is a type of intermediate representation. Therefore it is not sufficient to compute a BoW model of an image in order to predict its category. Additional operations are essential if the model is to be used in one of the enumerated fields.
-  
-  \subsection{Content Based Image Retrieval}
-  
-  One of the most notorious use-case of \emph{CBIR} is to search a database in order to find an object fulfilling certain conditions. As \cite{toldo2009bag} outlines, several criteria have to be met for the task to be performed efficiently. Firstly, all entries should be indexed in a concise way. Secondly, some (dis)similarity measure should be provided. Finally, an efficient search algorithm should be available.  
-    
-  There are numerous methods suitable for computation of objects' signatures. Many of them can be used in the indexing step. All the methods were divided into three general categories in \cite{toldo2009bag}, specifically: feature based methods, graph based methods and other methods. 
-   
-  Feature based methods can be either global or local. The former takes the form of a single vector or a point in a $d$ dimensional space --- the similarity measure being a point-wise distance in that space. The latter gives multiple such points for each object, rendering the computation of a similarity measure slightly more complicated. The global features takes forms of the models' volume, their mass or mass distributions. Others might incorporate the global features' distribution --- one conceivable approach would be to compute global features' distributions and summarise them into a histogram. These features have the advantage of being easy to compute and straightforward to implement. However, they are insensitive to any local shape variations, thus being ill-suited for detailed comparisons. On the other hand, they might be exploited in the preprocessing of the data with more sophisticated methods being used afterwards. Partial matching is not possible, since the global features do not encode any relations between parts of the objects.
-   
-  As for the local features, \cite{toldo2009bag} discusses only features describing neighbourhood of the points on boundaries of objects. Any settings that does not match this criteria are neglected. Moreover, the authors state that the local feature based methods are inefficient and indexing is rather complex. A Bag of Words based approach, described in \cite{li2010investigating} has no such drawbacks.
-   
-	Bag of Words techniques can be regarded as feature distributions, even though they are local feature based --- the local features being visual words. When all the image's visual words are summarised into a histogram a distribution is created. Being similar to a point in a multi-dimensional space, it is similar to a global feature. Consequently, similar methods apply, with the distinction being that the histogram is rather a vector then a point. Thus metrics well-suited to vector comparison, such as a cosine distance, can be used.
-  
-  \subsection{Scene Categorisation}
-  
-  One of the first works employing the BoW for the purpose of scene categorisation is \cite{csurka2004visual}. The authors suggested a general framework. What is more, algorithms performing each main pipeline's step were proposed and evaluated as well as a codebook construction method was developed. The \emph{Harris Affine Detector} was used for feature extraction and the \emph{SIFT} for the feature description step. The visual vocabulary has been generated by clustering only a limited number of keypoints from each category. After summarising every image in the training set with a histogram of visual words, supervised learning was used to train two classifiers: Na\`ive Bayes and a Support Vector Machine. As expected the Na\`ive Bayes resulted in a lower accuracy than SVM (72 vs. 85\% on 7 categories). An analysis on the number of centroids in the clustering step depicts that the greater the size of the visual vocabulary the greater the accuracy. 
-  
-  Li \emph{et al} further refined the above approach by examining several keypoint detectors and descriptors. The main contribution of their work is, however, the development of a genuine classification algorithm based on a probabilistic graphical model. Accuracy of 76\% on a large 13 category dataset was achieved.
-  
-  \subsection{Object Categorisation}
-  
-  In many cases object categorisation might be addressed as a scene categorisation problem. There are following differences: (1) an object should be localised on an image (i.e. its bounding box has to be found) and (2) in object categorisation task information about a scene type might be used. The second case is symmetric, for in the scene categorisation problem information about objects present in the scene can be utilised as well. Having said that, it is possible to consider an object categorisation problem where images of singled-out objects are provided --- e.g. a single object covers the majority of an image's area. Such an approach was exploited in a recent work by Zhang \emph{et al} \cite{zhangcategory}. 
-  
-
-\section{BoW based classification}
-
-	The Bag of Words intermediate image representation provides a concise way of summarising images. It is invariant to affine transformations, partial occlusion and, in some extent, to changing lighting conditions. What is more, it is easy to implement and computationally efficient. The efficiency can be enhanced even further with gpu based implementations as shown in \cite{van2011empowering}. In order to incorporate BoW into an object classification framework one has to feed the resulting histograms into a classification algorithms. Either generative or discriminative methods can be used. Below the main steps of BoW classification processing pipeline will be discussed.
-
-\subsection{Detection}
-
-	Characteristic point detection is the first step in any Bag of Words framework. Numerous detection methods have been developed, but choosing the right one for the particular case might prove tricky. A good overview of various mechanisms is available in \cite{tsai2012bag}. The most common detectors make use of a Harris corner detector or image's first or second derivatives. A technique taking advantage of the Harris corner detector is for example a Harris-Laplace detector --- the Harris function is scale adapted and its outcome is a subject to a Laplacian-of-Gaussian operator, which selects relevant points in the scale space. Images' regions' 2\textsuperscript{nd} derivatives --- namely the regions' Hessians --- can be combined with a LoG operator. This combination allows selection of points significant in the two spaces: the scale space and the Hessian's determinant space. The latter entails the speed at which pixel intensities change in the neighbourhood of a point.	
+\include{streszczenie}
+\include{abstract}
+\include{introduction} %aka motivation
+\include{bow}
+\include{libs}
+\include{datasets}
+\include{architecture}
+\include{setup}
+\include{experiments}
+\include{conclusion}
 	
-	A number of more complicated recipes for salient region localisation have been developed and implemented. These include Scale Invariant Feature Transform \cite{sift_keypoint}, SUSAN \cite{susan_keypoint} and Intrinistic Shape Signatures \cite{iss_keypoint}. The majority of keypoint detection formulas is being developed for the 2D domain. A number of them have been adapted to 3D, however. A comparative evaluation of detection algorithms available in PCL can be find in \cite{pcl_keypoint_comparision}. Another comprehensive study is \cite{3d_keypoint_eval}.
-	
-	All these formulas, called sparse feature detectors, resort to selection of maxima in specific state spaces. An entirely different scheme is to use a dense feature detector. This particular form requires users to specify a uniformly sampled grid from which points are taken. Dense detectors have an advantage of taking points from slow changing regions. A sparse detector might be unable to summarise a slow changing region such as clouds, sky or ocean. Li \emph{et al} showed that dense detectors outperforms the sparse ones.
-	
-	
-	
-\subsection{Description}
-
-	Computing localisation of a salient point is not enough. If a keypoint is to be affine transform invariant, it has to be described in more general terms. Such description, usually in a form of coordinates in a multi-dimensional space, is provided by specialised algorithms. 128-dimensional SIFT \cite{sift_features} is a 3D histogram of gradient locations and orientations. It is the most often extracted as well as one of the most effective descriptors \cite{tsai2012bag}. Other methods include various colour descriptors, binary descriptors such as 512-dimensional GIST \cite{ponce2011cv}. There are techniques designed for 3D exclusively. Among them one can find Persistent Point Feature Histogram \cite{pfh_rusu2008} and its faster alternative Fast Point Feature Histogram \cite{fpfh_rusu2009}, both implemented in PCL.
-
-\subsection{Vector Quantization}
-
-	The final step of extracting Bag of Words features is vector quantization. Generally clustering with the kMeans algorithm is used \cite{tsai2012bag}. The kMeans algorithm was developed in the 50's and a variety of modifications have been developed since \cite{kmeans_jain2010data}. Some of them are: faster than the original \emph{approximate kmeans}, \emph{hierarchical kmeans}, which automatically chooses the resulting number of clusters and a  \emph{soft kmeans} --- a variation of the algorithm that allows a fuzzy alignment (\textit{i.e.} each point can belong to several clusters with different weights. The soft kMeans is a compromise between kMeans' (relative to GMM, discussed below) low computational cost and GMM's precision. The number of resulting visual words depends on the number of clusters.
-	
-	In order to improve performance multitude of pre- or postprocessing techniques can be resorted to. A weighting scheme such as Term Frequency (TF) or Term Frequency - Inverse Document Frequency (TF-IDF) can be used. Spatial information might be encoded so as to capture spatial relations of the extracted features.
-	
-	It has been shown that the vector quantization step is the computationally most expensive step in any Bag of Words framework. Fortunately, the majority of the cost is associated with the training part of the computation. When all the models are trained the only operation required in case of vector quantization is keypoint -- visual vocabulary matching. Even so, diverse algorithms have been used in order to minimise the impact of clustering on the overall efficiency. The \emph{approximate kMeans} is faster but insufficiently so as to solve the problem. Random Forests algorithm is considerably less expensive and can provide better Mean Average Precision (MAP) score.
-	
-	Quite a different approach is using a Gaussian Mixture Model (GMM) algorithm. It is many times more expensive than kMeans, the tradeoff being higher precision. The GMM finds not only clusters' centroids but the Gaussian distributions of points in each cluster. Therefore, in the keypoint-centroid matching stage a set of probabilities is obtained instead of a simple single-cluster assignment. These probabilities encode likelihoods of the keypoint belonging to each cluster. It is up to the user how to utilise this additional information.
-
-\subsection{Classification}
-
-	Predicting a class associated with an image requires feeding the visual words histograms into a classifiers. A simple example of a classifier would be a K-nearest neighbours algorithm. In this setting every histogram is treated as a point in a multi-dimensional space. A class of an image is determined by classes of the nearest neighbours. Manifold of distinct metrics can be used: L1, L2  and others. The number of nearest neighbours (K) has to be determined. More advanced classifiers can be divided into the two main classes: generative models and discriminative models.
-	
-	Construction of a discriminative model requires a supervised learning approach. It can be seen as a learning by example method. The general aim is to compute an approximate mapping between representations of examples (the train set). The purpose of this mapping is correct (e.g. with some success rate) prediction of labels for inputs which label is unknown. The model computation stage is called \emph{training} of a model. After the model has been trained previously unseen examples can be fed into the classifier. The classifier calculates some similarity measure between the unlabelled input example and all the modeled classes. The resulting label is a label of which class had the highest score in terms of the similarity measure. The KNN is an example of a discriminative model. The most widely used discriminative classificator is a Support Vector Machine.
-	
-	The generative models are usually Bayesian text-based models. Many of them heavily depends on the Probabilistic Graphical Models concept. They include \emph{Latent Semantic Analysis} with \emph{probabilistic Latent Semantic Analysis}, \emph{Latent Dirichlet Allocation} and others. These models allow discovery of topic distribution in documents. In the image domain an image can be though of as a document and an object category as a topic. Under this conditions an image (and its category) can be modeled as a mixture of topics. Learning consists of finding topics distributions for each specific category. 
-
 \bibliography{article}
 
 \end{document}

@@ -15,8 +15,8 @@ configure_file( ${CMAKE_SOURCE_DIR}/CMakeScripts/CMakeSettings.h.cmake
 # Compiler Flags
 if (UNIX)
 	message( STATUS "Setting GCC flags" )
-	set( CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS} -g -L/usr/local/lib -lgsl -lgslcblas -lm" )
-	#list( APPEND CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS} -g" ) 
+	set( CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS} -g -lm" )
+	#list( APPEND CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS} -g -O3" ) 
 endif()
 message( STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}" )
 

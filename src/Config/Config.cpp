@@ -89,11 +89,19 @@ std::map<std::string, std::string> Config::getConfigMap() {
 	genericOps.add_options()
 			(versionTmp.c_str(), "Print version")
 			(helpTmp.c_str(), "Produce help message")
+			("readerType", po::value<std::string>(), "0 - rangeImg 1 - PCD")
+			("detectorType", po::value<std::string>(), "0 - SIFT 1 - ISS3D")
+			("descType", po::value<std::string>(), "0 - PFH 1 -FPFH")
 			;
 
 	/**
 	 * 	Options allowed on a command line and in a config file.
 	 */
+	po::options_description readerOps("Reader options");
+		readerOps.add_options()
+			("leafSize", po::value<std::string>(), "")
+			;
+
 	po::options_description detectorOps("Detector options");
 		detectorOps.add_options()
 			("gamma21", po::value<std::string>(), "")
@@ -143,7 +151,7 @@ std::map<std::string, std::string> Config::getConfigMap() {
 		(directory.c_str(), po::value<std::string>(), "Model directory")
 		(pictureTmp.c_str(), po::value<std::string>(), "Path to a picture")
 		;
-	configOps.add(descriptorOps).add(normalOps).add(detectorOps).add(clusterOps).add(predictorOps);
+	configOps.add(readerOps).add(descriptorOps).add(normalOps).add(detectorOps).add(clusterOps).add(predictorOps);
 
 	/**
 	 *	Hidden options. Allowed on a command line and in a config file.

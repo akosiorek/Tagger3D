@@ -85,12 +85,14 @@ std::string ImgReader::typeToStr(const int &type) {
 }
 
 std::vector<int> ImgReader::readLabels() {
+	INFO(logger, "Reading labels");
 
 	std::vector<int> labels;
 	for(const auto &str : labelVec) {
 
 		labels.push_back(atoi(str.c_str()));
 	}
+	DEBUG(logger, "Read " << labels.size() << " labels");
 	return labels;
 }
 

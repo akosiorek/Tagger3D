@@ -1,35 +1,3 @@
-\documentclass[a4paper,12pt]{article}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
-\usepackage{cite}
-
-%\setlength{\parskip}{6pt}%
-\linespread{1.5}
-
-\newcommand{\superscript}[1]{\ensuremath{^{\textrm{#1}}}}
-\newcommand{\subscript}[1]{\ensuremath{_{\textrm{#1}}}}
-
-%opening
-\title{Object Categorization based on RGBD data}
-\author{Adam Kosiorek}
-\bibliographystyle{abbrv}
-\begin{document}
-
-\maketitle
-
-\begin{abstract}
-
-Abstrakt
-
-\end{abstract}
-
-%\include{introduction}
-
-\section{Introduction}
-
-introduction
-
 \section{Bag of Words image representation}
 
   As portrayed by Tsai in \cite{tsai2012bag} the Bag of Words (BoW) model has originated from the text retrieval domain. The model enables text document representation in a form of a vector. Suppose we have a corpus of documents. A dictionary over the corpus is a set of words such that every word from the corpus can be matched to exactly one word in the dictionary and every two words in a dictionary are different. Given a dictionary, a histogram of incidence of words can be build. This histogram has the following form: for every entry in the dictionary there is a number of words in the document matching the entry. Such an approach obliterates any grammatical dependencies in order to retain only statistical information associated with words. It is believed that the words' frequencies encode enough data for further processing. The following questions emerge: 
@@ -112,8 +80,3 @@ introduction
 	Construction of a discriminative model requires a supervised learning approach. It can be seen as a learning by example method. The general aim is to compute an approximate mapping between representations of examples (the train set). The purpose of this mapping is correct (e.g. with some success rate) prediction of labels for inputs which label is unknown. The model computation stage is called \emph{training} of a model. After the model has been trained previously unseen examples can be fed into the classifier. The classifier calculates some similarity measure between the unlabelled input example and all the modeled classes. The resulting label is a label of which class had the highest score in terms of the similarity measure. The KNN is an example of a discriminative model. The most widely used discriminative classificator is a Support Vector Machine.
 	
 	The generative models are usually Bayesian text-based models. Many of them heavily depends on the Probabilistic Graphical Models concept. They include \emph{Latent Semantic Analysis} with \emph{probabilistic Latent Semantic Analysis}, \emph{Latent Dirichlet Allocation} and others. These models allow discovery of topic distribution in documents. In the image domain an image can be though of as a document and an object category as a topic. Under this conditions an image (and its category) can be modeled as a mixture of topics. Learning consists of finding topics distributions for each specific category. 
-
-\bibliography{article}
-
-\end{document}
-

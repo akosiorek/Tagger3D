@@ -45,7 +45,7 @@ private:
 	void load();
 
 
-    Mat labelsMat;
+    std::vector<int> labels;
     Mat DataMat;
     //new_val = (old_val-v_min)/(v_max-v_min);
     Mat maxValues;
@@ -84,6 +84,7 @@ private:
     void normalizeData(cv::Mat &mat, const cv::Mat &normValues) const;
     void saveNormValues(const cv::Mat &normValues) const;
     const cv::Mat loadNormValues() const;
+    cv::Mat confusionMatrix(const std::vector<int> &labels, const std::vector<int> &predictions) const;
 };
 
 } /* namespace semantic_tagger */

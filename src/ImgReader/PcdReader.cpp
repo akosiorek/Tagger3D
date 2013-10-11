@@ -71,9 +71,20 @@ ColorVec PcdReader::readImgs() {
 ColorCloud::Ptr PcdReader::readImg() {
 
 	count++;
+	ColorCloud::Ptr ptr;
 	if(count < pcdVec.size())
-		return readImg( pcdVec[count++] );
-	return ColorCloud::Ptr(new ColorCloud());
+		ptr = readImg(pcdVec[count]);
+	else
+		ptr = ColorCloud::Ptr(new ColorCloud());
+
+	if(ptr->empty() && count < pcdVec.size()) {
+
+		std::runtime_error e("Corrupted point cloud #" + count);
+		ERROR(logger, "readImg: " << e.what());
+		throw e;
+	}
+
+	return ptr;
 }
 
 int PcdReader::readLabel() {

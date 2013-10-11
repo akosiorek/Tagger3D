@@ -117,6 +117,7 @@ const std::vector<int> KMeansCluster::cluster(const cv::Mat &descriptors) {
 
 const std::vector<std::vector<int>> KMeansCluster::cluster(const std::vector<cv::Mat> &descriptors) {
 
+	INFO(logger, "Generating word descriptions");
 	std::vector<std::vector<int>> matched;
 	matched.reserve(descriptors.size());
 
