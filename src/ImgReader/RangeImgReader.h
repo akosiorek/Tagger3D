@@ -52,6 +52,11 @@ private:
 
 
 	ColorCloud::Ptr matToCloud(const cv::Mat &colorImg, const cv::Mat &depthImg);
+
+	const float factorX0 =  320.0f * 3.501e-3f;
+	const float factorY0 = 240.0f * 3.501e-3f;
+
+
 };
 
 } /* namespace Tagger3D */

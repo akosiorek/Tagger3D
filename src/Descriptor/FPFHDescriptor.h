@@ -10,7 +10,6 @@
 #define FPFHDESCRIPTOR_H_
 
 #include "Descriptor.h"
-#include "CloudParser/CloudParser.h"
 
 #include <pcl/features/fpfh_omp.h>
 
@@ -34,7 +33,6 @@ private:
 	void createFpfhDescriptor();
 
 	std::unique_ptr<pcl::FPFHEstimationOMP<pcl::PointXYZRGB, pcl::Normal, pcl::FPFHSignature33>> descriptor;
-	std::unique_ptr<CloudParser> parser;
 
 	//	Config parameters
 	float radiusSearch;

@@ -34,11 +34,8 @@ ColorCloud::Ptr PcdReader::readImg(const std::string& pcdPath) {
 	ColorCloud::Ptr cloud(new ColorCloud());
 	pcl::io::loadPCDFile(pcdPath, *cloud);
 
-	if(leaf != 0) {
-
-		voxelGrid->setInputCloud(cloud);
-		voxelGrid->filter(*cloud);
-	}
+//	for(const auto& point : cloud->points)
+//		std::cout << "x: " << point.x << " y: " << point.y << " z: " << point.z << std::endl;
 
 //	pcl::visualization::CloudViewer viewer ("Simple Cloud Viewer");
 //	viewer.showCloud (cloud);
@@ -46,6 +43,19 @@ ColorCloud::Ptr PcdReader::readImg(const std::string& pcdPath) {
 //	{
 //	}
 
+	if(leaf != 0) {
+
+		voxelGrid->setInputCloud(cloud);
+		voxelGrid->filter(*cloud);
+	}
+
+//	for(const auto& point : cloud->points)
+//		std::cout << "x: " << point.x << " y: " << point.y << " z: " << point.z << std::endl;
+
+
+
+
+	//std::terminate();
 	DEBUG(logger, "Cloud size = " << cloud->size());
 	return cloud;
 }

@@ -79,8 +79,7 @@ add_executable ( ${Project}
 	ImgReader/ImgReader.cpp ImgReader/RangeImgReader.cpp ImgReader/PcdReader.cpp
 	PointNormal/PointNormal.cpp PointNormal/NormalEstimator.cpp 
 	Detector/Detector.cpp Detector/SIFTDetector.cpp Detector/SusanDetector.cpp Detector/Iss3dDetector.cpp
-	Descriptor/Descriptor.cpp Descriptor/PFHDescriptor.cpp Descriptor/FPFHDescriptor.cpp
-	Descriptor/CloudParser/CloudParser.cpp 
+	Descriptor/Descriptor.cpp Descriptor/PFHDescriptor.cpp Descriptor/FPFHDescriptor.cpp Descriptor/PFHRGBDescriptor.cpp
 	Cluster/Cluster.cpp Cluster/KMeansCluster.cpp
 	Predictor/Predictor.cpp Predictor/SldaPredictor.cpp Predictor/SVMPredictor.cpp
 	Predictor/svm/svm.cpp Predictor/svm/svm-predict.c Predictor/svm/svm-train.c

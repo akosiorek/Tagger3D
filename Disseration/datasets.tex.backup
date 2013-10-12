@@ -21,6 +21,6 @@
 \begin{figure}[h]
 \centering
 \includegraphics[width=1\textwidth]{figs/tokyo_horizontal}
-\caption{The}
+\caption{Awesome Image}
 \label{fig:tokyo}
 \end{figure}

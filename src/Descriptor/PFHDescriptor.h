@@ -10,7 +10,6 @@
 #define PFHDESCRIPTOR_H_
 
 #include "Descriptor.h"
-#include "CloudParser/CloudParser.h"
 
 #include <pcl/features/pfh.h>
 
@@ -29,7 +28,6 @@ private:
 	void createPfhDescriptor();
 
 	std::unique_ptr<pcl::PFHEstimation<pcl::PointXYZRGB, pcl::Normal, pcl::PFHSignature125>> descriptor;
-	std::unique_ptr<CloudParser> parser;
 
 	//	Config parameters
 	float radiusSearch;

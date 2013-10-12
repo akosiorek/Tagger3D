@@ -202,7 +202,7 @@ cv::Mat SVMPredictor::confusionMatrix(const std::vector<int> &labels, const std:
 	cv::Mat average(1, classes, CV_32FC1);
 	float avg = 0;
 	for(int i = 0 ; i < classes; i++) {
-		average.at<float>(0, i) = float(confusionMatrix.at<uchar>(i, i)) / classCount.at<int>(0, i);
+		average.at<float>(0, i) = float(confusionMatrix.at<uchar>(i, i)) / classCount.at<int>(0, i) * 100;
 		avg += confusionMatrix.at<uchar>(i, i);
 	}
 	avg /= size;
@@ -211,7 +211,7 @@ cv::Mat SVMPredictor::confusionMatrix(const std::vector<int> &labels, const std:
 	std::cout << "Entries per class: " << std::endl << classCount << std::endl;
 	std::cout << "Confusion Matrix:" << std::endl << confusionMatrix << std::endl;
 	std::cout << "Averages: " << std::endl << average << std::endl;
-	std::cout << "Average: " << avg << std::endl;
+	std::cout << "Average: " << avg * 100 << std::endl;
 
 
 }

@@ -136,7 +136,7 @@ private:
 	enum { TRAIN, TEST, DESC, CLUST, TRAIN_PRED, TEST_PRED, ALL };
 	enum { RANGEIMG_READER, PCD_READER };
 	enum { SIFT, ISS3D };
-	enum { PFH_DESC, FPFH_DESC };
+	enum { PFH_DESC, FPFH_DESC, PFHRGB_DESC };
 	enum { SLDA, SVM };
 
 

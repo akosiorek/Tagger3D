@@ -20,6 +20,7 @@ typedef pcl::PointCloud<pcl::PointWithScale> ScaleCloud;
 typedef pcl::PointCloud<pcl::PointXYZRGB> ColorCloud;
 typedef pcl::PointCloud<pcl::PFHSignature125> PfhCloud;
 typedef pcl::PointCloud<pcl::FPFHSignature33> FpfhCloud;
+typedef pcl::PointCloud<pcl::PFHRGBSignature250> PfhRgbCloud;
 typedef pcl::PointCloud<pcl::Normal> NormalCloud;
 
 /**
@@ -29,6 +30,7 @@ typedef std::vector<ScaleCloud::Ptr> ScaleVec;
 typedef std::vector<ColorCloud::Ptr> ColorVec;
 typedef std::vector<PfhCloud::Ptr> PfhVec;
 typedef std::vector<FpfhCloud::Ptr> FpfhVec;
+typedef std::vector<PfhRgbCloud::Ptr> PfhRgbVec;
 typedef std::vector<NormalCloud::Ptr> NormalVec;
 
 #endif /* CLOUDS_H_ */

@@ -29,45 +29,45 @@ Repeated entry---line 167 of file article.bib
 I'm skipping whatever remains of this entry
 Warning--empty journal in pcl_keypoint_comparision
 Warning--empty year in pcl_keypoint_comparision
-You've used 17 entries,
+You've used 20 entries,
             2118 wiz_defined-function locations,
-            607 strings with 6964 characters,
-and the built_in function-call counts, 6517 in all, are:
-= -- 665
-> -- 276
-< -- 11
-+ -- 113
-- -- 92
-* -- 426
-:= -- 1026
-add.period$ -- 57
-call.type$ -- 17
-change.case$ -- 97
+            623 strings with 7449 characters,
+and the built_in function-call counts, 7657 in all, are:
+= -- 773
+> -- 344
+< -- 12
++ -- 141
+- -- 116
+* -- 501
+:= -- 1216
+add.period$ -- 67
+call.type$ -- 20
+change.case$ -- 117
 chr.to.int$ -- 0
-cite$ -- 19
-duplicate$ -- 280
-empty$ -- 513
-format.name$ -- 92
-if$ -- 1422
+cite$ -- 22
+duplicate$ -- 326
+empty$ -- 593
+format.name$ -- 116
+if$ -- 1662
 int.to.chr$ -- 0
-int.to.str$ -- 17
-missing$ -- 17
-newline$ -- 87
-num.names$ -- 34
-pop$ -- 111
+int.to.str$ -- 20
+missing$ -- 21
+newline$ -- 102
+num.names$ -- 40
+pop$ -- 139
 preamble$ -- 1
-purify$ -- 80
+purify$ -- 98
 quote$ -- 0
-skip$ -- 209
+skip$ -- 240
 stack$ -- 0
-substring$ -- 401
-swap$ -- 96
-text.length$ -- 11
+substring$ -- 449
+swap$ -- 108
+text.length$ -- 12
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 68
+type$ -- 78
 warning$ -- 2
-while$ -- 64
-width$ -- 19
-write$ -- 194
+while$ -- 73
+width$ -- 22
+write$ -- 226
 (There were 3 error messages)

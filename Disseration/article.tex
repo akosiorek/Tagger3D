@@ -1,8 +1,12 @@
-\documentclass[a4paper,12pt]{article}
+\documentclass[12pt]{report}
 \usepackage[utf8]{inputenc}
+%\usepackage{polski}
 \usepackage[T1]{fontenc}
-\usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
 \usepackage{cite}
+\usepackage{graphicx}
+%\usepackage[polish]{babel}
+\usepackage{color}
 
 %\setlength{\parskip}{6pt}%
 \linespread{1.5}
@@ -10,24 +14,94 @@
 \newcommand{\superscript}[1]{\ensuremath{^{\textrm{#1}}}}
 \newcommand{\subscript}[1]{\ensuremath{_{\textrm{#1}}}}
 
-%opening
-\title{Object Categorization based on RGBD data}
-\author{Adam Kosiorek}
 \bibliographystyle{abbrv}
 \begin{document}
+\pagestyle{empty}
+\color{white} . \color{black}
+\vspace{0.2cm}
 
-\maketitle
+\begin{center}
+\begin{Huge}Warsaw University of Technology
+\end{Huge}
+\end{center}
+
+\begin{center}
+\begin{LARGE}Faculty of Mechatronics
+
+\vspace{0.5cm}
+Institute of Automation and Robotics
+\vspace{0.5cm}
+\end{LARGE}
+\end{center}
+\begin{center}\includegraphics[width=5cm,angle=0]{figs/logopw}\end{center} 
+
+\vspace{1.0cm}
+
+\begin{center}
+\begin{LARGE}\textbf{Adam Kosiorek}\end{LARGE}
+\end{center}
+
+\vspace{0.5cm}
+
+\begin{center}
+\begin{Huge}\textbf{3D Object Classification based on RGBD images}
+\vspace{0.5cm}
+\end{Huge}
+\end{center}
+
+\vspace{0.5cm}
+
+\begin{center}
+\begin{Large}bachelor thesis written under supervision of\end{Large}
+
+\vspace{0.2cm}
+
+\begin{LARGE}prof. dr. hab. Barbara Siemiątkowska\end{LARGE}
+\end{center}
+
+\vspace{1.8cm}
+
+\begin{center}
+\begin{Large}Warsaw 2014\end{Large}
+\end{center}
+
+
+\pagebreak
+
+\color{white} . \color{black}
+\vspace{0.2cm}
+\vspace{1.5cm}
+\pagebreak
+\pagestyle{plain}
+
+
 
 \include{streszczenie}
 \include{abstract}
+
+\tableofcontents
+
+\chapter{Introduction}
+\addcontentsline{toc}{chapter}{Introduction}
 \include{introduction} %aka motivation
 \include{bow}
 \include{libs}
 \include{datasets}
+
+\chapter{Design}
+\addcontentsline{toc}{chapter}{Design}
 \include{architecture}
 \include{setup}
+
+\chapter{Experiments and results}
+\addcontentsline{toc}{chapter}{Experiments and results}
 \include{experiments}
 \include{conclusion}
+
+\listoffigures
+\listoftables
+
+\cite{OpenCV}
 	
 \bibliography{article}
 

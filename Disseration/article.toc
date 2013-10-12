@@ -1,0 +1,39 @@
+\contentsline {chapter}{\numberline {1}Introduction}{7}
+\contentsline {chapter}{Introduction}{7}
+\contentsline {section}{\numberline {1.1}Bag of Words image representation}{9}
+\contentsline {section}{\numberline {1.2}BoW in Computer Vision}{10}
+\contentsline {subsection}{\numberline {1.2.1}Content Based Image Retrieval}{10}
+\contentsline {subsection}{\numberline {1.2.2}Scene Categorisation}{12}
+\contentsline {subsection}{\numberline {1.2.3}Object Categorisation}{12}
+\contentsline {section}{\numberline {1.3}BoW based classification}{12}
+\contentsline {subsection}{\numberline {1.3.1}Detection}{13}
+\contentsline {subsection}{\numberline {1.3.2}Description}{14}
+\contentsline {subsection}{\numberline {1.3.3}Vector Quantization}{14}
+\contentsline {subsection}{\numberline {1.3.4}Classification}{15}
+\contentsline {section}{\numberline {1.4}Libraries}{17}
+\contentsline {subsection}{\numberline {1.4.1}PointCloud Library}{17}
+\contentsline {subsection}{\numberline {1.4.2}OpenCV}{17}
+\contentsline {subsection}{\numberline {1.4.3}Boost}{17}
+\contentsline {section}{\numberline {1.5}Datasets}{18}
+\contentsline {subsection}{\numberline {1.5.1}B3DO}{18}
+\contentsline {subsection}{\numberline {1.5.2}tokyo}{19}
+\contentsline {chapter}{\numberline {2}Design}{20}
+\contentsline {chapter}{Design}{20}
+\contentsline {section}{\numberline {2.1}Software Functionality and Architecture}{21}
+\contentsline {subsection}{\numberline {2.1.1}Required functionality}{21}
+\contentsline {subsubsection}{Input/Output operations}{21}
+\contentsline {subsubsection}{Configuration}{22}
+\contentsline {subsubsection}{Interchangeability of algorithms}{22}
+\contentsline {subsection}{\numberline {2.1.2}Architecture}{22}
+\contentsline {subsubsection}{Configurability}{23}
+\contentsline {subsubsection}{Strategy Design Pattern}{23}
+\contentsline {section}{\numberline {2.2}Experimental setup}{25}
+\contentsline {chapter}{\numberline {3}Experiments and results}{26}
+\contentsline {chapter}{Experiments and results}{26}
+\contentsline {section}{\numberline {3.1}Experiments}{27}
+\contentsline {subsection}{\numberline {3.1.1}Detectors}{27}
+\contentsline {subsection}{\numberline {3.1.2}Descriptors}{27}
+\contentsline {subsection}{\numberline {3.1.3}Codebook}{27}
+\contentsline {subsection}{\numberline {3.1.4}B3DO}{27}
+\contentsline {subsection}{\numberline {3.1.5}tokyo}{27}
+\contentsline {section}{\numberline {3.2}Conclusion}{28}

@@ -7,7 +7,7 @@
  */
 
 #include "PFHDescriptor.h"
-
+#include "CloudParser/CloudParser.h"
 #include <pcl/search/kdtree.h>
 #include <assert.h>
 
@@ -18,7 +18,6 @@ PFHDescriptor::PFHDescriptor(const std::map<std::string, std::string> &configMap
 	radiusSearch = getParam<float>( radiusSearchKey );
 	createPfhDescriptor();
 	assert(descriptor != nullptr);
-	assert(parser != nullptr);
 }
 
 PFHDescriptor::~PFHDescriptor() {}
@@ -32,7 +31,6 @@ void PFHDescriptor::createPfhDescriptor() {
 	newDescriptor->setRadiusSearch( radiusSearch );
 
 	descriptor = std::move( newDescriptor );
-	parser = std::unique_ptr<CloudParser>( new CloudParser() );
 	TRACE(logger, "createPfhDescriptor: Finished");
 }
 
@@ -47,7 +45,7 @@ cv::Mat PFHDescriptor::describe(const ColorCloud::Ptr &cloud, const ScaleCloud::
 	descriptor->setInputCloud( keyCloudRgb );
 	descriptor->compute( *descriptors );
 	TRACE(logger, "describe: Finished");
-	return parser->parsePFH(descriptors);
+	return CloudParser::parse<PfhCloud>(descriptors);
 }
 
 

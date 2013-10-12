@@ -11,6 +11,7 @@
 
 #include "../../Common/logger.h"
 #include "../../Common/clouds.h"
+#include "PfhTraits.h"
 
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
@@ -26,20 +27,40 @@ public:
 	CloudParser();
 	virtual ~CloudParser();
 
-	cv::Mat parsePFH(const PfhCloud::Ptr &cloud);
-	std::vector<cv::Mat> parsePFH(const PfhVec &clouds);
+	template<typename T>
+	static cv::Mat parse(const typename T::Ptr &cloud);
 
-	cv::Mat parseFPFH(const FpfhCloud::Ptr &cloud);
-	std::vector<cv::Mat> parseFPFH(const FpfhVec &clouds);
+	template<typename T>
+	static std::vector<cv::Mat> parse(const std::vector<typename T::Ptr> &cloud);
 
-private:
-
-	static const int PFH125 = 125;
-	static const int FPFH33 = 33;
-
-	const std::string loggerName = "Main.CloudParser";
-	lgr::LoggerPtr logger = lgr::Logger::getLogger( loggerName );
 };
+
+template<typename T>
+inline cv::Mat CloudParser::parse(const typename T::Ptr& cloud) {
+
+	int size = cloud->size();
+	int matSize = PfhTraits<typename T::PointType>::size();
+	cv::Mat mat( size, matSize, CV_32FC1 );
+	for(int i = 0; i < size; i++) {
+		float* dPtr = mat.ptr<float>(i);
+		float* hPtr = cloud->points[i].histogram;
+		for(int j = 0; j < matSize; j++)
+			dPtr[j] = hPtr[j];
+	}
+	return mat;
+}
+
+template<typename T>
+inline std::vector<cv::Mat> CloudParser::parse(
+		const std::vector<typename T::Ptr>& clouds) {
+
+	std::vector<cv::Mat> vec;
+	for(const auto &cloud : clouds) {
+
+		vec.push_back( parse<T>( cloud ) );
+	}
+	return vec;
+}
 
 } /* namespace Tagger3D */
 #endif /* CLOUDPARSER_H_ */

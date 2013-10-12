@@ -33,6 +33,11 @@ ColorCloud::Ptr RangeImgReader::matToCloud(const cv::Mat &colorImg, const cv::Ma
 	int height = depthImg.rows;
 	int width = depthImg.cols;
 
+	int height2 = height/2;
+	int width2 = width/2;
+	float factorX = factorX0 / width;
+	float factorY = factorY0 / height;
+
 	if( height != colorImg.rows || width != colorImg.cols ) {
 
 		std::runtime_error e("Images have different dimensions");
@@ -47,24 +52,28 @@ ColorCloud::Ptr RangeImgReader::matToCloud(const cv::Mat &colorImg, const cv::Ma
 	cloud->is_dense = false;
 
 	pcl::PointXYZRGB newPoint;
-	for (int i = 0; i < height; i++) {
+	for (int y = 0; y < height; y++) {
 
 		// For the sake of simplicity
 		typedef ushort MatType;
-		const MatType *depthPtr = depthImg.ptr<MatType>(i);
-		const cv::Vec3b *colorPtr = colorImg.ptr<cv::Vec3b>(i);
+		const MatType *depthPtr = depthImg.ptr<MatType>(y);
+		const cv::Vec3b *colorPtr = colorImg.ptr<cv::Vec3b>(y);
 
-		for (int j = 0; j < width; j++) {
-			MatType depth = depthPtr[j];
+		for (int x = 0; x < width; x++) {
+			MatType depth = depthPtr[x];
 //			std::cout << depth << " ";
 
 			if ( depth == depth) {            // if depthValue is not NaN
 
+//				depth /= 10;
 				newPoint.z = MatType(depth * depthScaleFactor);
-				newPoint.x = j;
-				newPoint.y = i;
-
-				cv::Vec3b vec = colorPtr[j];
+				newPoint.x = x;
+				newPoint.y = y;
+//				newPoint.z = depth;
+//				newPoint.x = (x - width2) * factorX * depth;
+//				newPoint.y = (y - height2) * factorY * depth;
+//				std::cout << "x0: " << x << " y0: " << y << " z: " << depth << " x: " << newPoint.x << " y: " << newPoint.y << std::endl;
+				cv::Vec3b vec = colorPtr[x];
 				newPoint.r = vec[2];
 				newPoint.g = vec[1];
 				newPoint.b = vec[0];

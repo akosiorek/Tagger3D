@@ -1,5 +1,10 @@
 \begin{thebibliography}{10}
 
+\bibitem{OpenCV}
+G.~Bradski.
+\newblock {The OpenCV Library}.
+\newblock {\em Dr. Dobb's Journal of Software Tools}, 2000.
+
 \bibitem{csurka2004visual}
 G.~Csurka, C.~Dance, L.~Fan, J.~Willamowski, and C.~Bray.
 \newblock Visual categorization with bags of keypoints.
@@ -16,10 +21,23 @@ L.~Fei-Fei and P.~Perona.
 S.~Filipe and L.~A. Alexandre.
 \newblock A comparative evaluation of 3d keypoint detectors.
 
+\bibitem{gamma1993design}
+E.~Gamma, R.~Helm, R.~Johnson, and J.~Vlissides.
+\newblock {\em Design patterns: Abstraction and reuse of object-oriented
+  design}.
+\newblock Springer, 1993.
+
 \bibitem{kmeans_jain2010data}
 A.~K. Jain.
 \newblock Data clustering: 50 years beyond k-means.
 \newblock {\em Pattern Recognition Letters}, 31(8):651--666, 2010.
+
+\bibitem{B3DO}
+A.~Janoch, S.~Karayev, Y.~Jia, J.~T. Barron, M.~Fritz, K.~Saenko, and
+  T.~Darrell.
+\newblock A category-level 3d object dataset: Putting the kinect to work.
+\newblock In {\em Consumer Depth Cameras for Computer Vision}, pages 141--165.
+  Springer, 2013.
 
 \bibitem{li2010investigating}
 X.~Li and A.~Godil.
