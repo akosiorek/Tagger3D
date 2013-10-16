@@ -1,5 +1,22 @@
 \begin{thebibliography}{10}
 
+\bibitem{log4cxx}
+Apache log4cxx.
+
+\bibitem{Boost}
+Boost c++ libraries.
+
+\bibitem{KinectFusion}
+Microsoft kinect fusion.
+
+\bibitem{pcl_features}
+L.~A. Alexandre.
+\newblock 3d descriptors for object and category recognition: a comparative
+  evaluation.
+\newblock In {\em Workshop on Color-Depth Camera Fusion in Robotics at the
+  IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS),
+  Vilamoura, Portugal}, 2012.
+
 \bibitem{OpenCV}
 G.~Bradski.
 \newblock {The OpenCV Library}.
@@ -39,10 +56,11 @@ A.~Janoch, S.~Karayev, Y.~Jia, J.~T. Barron, M.~Fritz, K.~Saenko, and
 \newblock In {\em Consumer Depth Cameras for Computer Vision}, pages 141--165.
   Springer, 2013.
 
-\bibitem{li2010investigating}
-X.~Li and A.~Godil.
-\newblock Investigating the bag-of-words method for 3d shape retrieval.
-\newblock {\em EURASIP Journal on Advances in Signal Processing}, 2010:5, 2010.
+\bibitem{dataset_washington}
+K.~Lai, L.~Bo, X.~Ren, and D.~Fox.
+\newblock A large-scale hierarchical multi-view rgb-d object dataset.
+\newblock In {\em Robotics and Automation (ICRA), 2011 IEEE International
+  Conference on}, pages 1817--1824. IEEE, 2011.
 
 \bibitem{sift_keypoint}
 D.~G. Lowe.
@@ -67,6 +85,12 @@ R.~B. Rusu, N.~Blodow, and M.~Beetz.
 \newblock In {\em Robotics and Automation, 2009. ICRA'09. IEEE International
   Conference on}, pages 3212--3217. IEEE, 2009.
 
+\bibitem{PCL}
+R.~B. Rusu and S.~Cousins.
+\newblock 3d is here: Point cloud library (pcl).
+\newblock In {\em Robotics and Automation (ICRA), 2011 IEEE International
+  Conference on}, pages 1--4. IEEE, 2011.
+
 \bibitem{pfh_rusu2008}
 R.~B. Rusu, Z.~C. Marton, N.~Blodow, and M.~Beetz.
 \newblock Persistent point feature histograms for 3d point clouds.
@@ -84,6 +108,11 @@ S.~M. Smith and J.~M. Brady.
 \newblock Susan—a new approach to low level image processing.
 \newblock {\em International journal of computer vision}, 23(1):45--78, 1997.
 
+\bibitem{tangelder2008survey}
+J.~W. Tangelder and R.~C. Veltkamp.
+\newblock A survey of content based 3d shape retrieval methods.
+\newblock {\em Multimedia tools and applications}, 39(3):441--471, 2008.
+
 \bibitem{toldo2009bag}
 R.~Toldo, U.~Castellani, and A.~Fusiello.
 \newblock A bag of words approach for 3d object categorization.
@@ -94,11 +123,6 @@ R.~Toldo, U.~Castellani, and A.~Fusiello.
 C.-F. Tsai.
 \newblock Bag-of-words representation in image annotation: A review.
 \newblock {\em ISRN Artificial Intelligence}, 2012, 2012.
-
-\bibitem{van2011empowering}
-K.~E. van~de Sande, T.~Gevers, and C.~G. Snoek.
-\newblock Empowering visual categorization with the gpu.
-\newblock {\em Multimedia, IEEE Transactions on}, 13(1):60--70, 2011.
 
 \bibitem{zhangcategory}
 Q.~Zhang, X.~Song, X.~Shao, R.~Shibasaki, and H.~Zhao.

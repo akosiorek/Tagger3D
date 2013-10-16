@@ -2,72 +2,72 @@ This is BibTeX, Version 0.99d (TeX Live 2012/Debian)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: article.aux
 The style file: abbrv.bst
-A level-1 auxiliary file: streszczenie.aux
+A level-1 auxiliary file: zyciorys.aux
 A level-1 auxiliary file: abstract.aux
 A level-1 auxiliary file: introduction.aux
-A level-1 auxiliary file: bow.aux
-A level-1 auxiliary file: libs.aux
-A level-1 auxiliary file: datasets.aux
 A level-1 auxiliary file: architecture.aux
-A level-1 auxiliary file: setup.aux
 A level-1 auxiliary file: experiments.aux
-A level-1 auxiliary file: conclusion.aux
 Database file #1: article.bib
-I was expecting a `,' or a `}'---line 138 of file article.bib
+I was expecting a `,' or a `}'---line 128 of file article.bib
  :   
  :   url = {http://pointclouds.org/}
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 150 of file article.bib
+I was expecting a `,' or a `}'---line 140 of file article.bib
  :     
  :     url = {http://opencv.org/}
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-Repeated entry---line 167 of file article.bib
- : @inproceedings{fei2005bayesian
- :                               ,
-I'm skipping whatever remains of this entry
+Warning--entry type for "Boost" isn't style-file defined
+--line 143 of file article.bib
+Warning--entry type for "log4cxx" isn't style-file defined
+--line 148 of file article.bib
+Warning--entry type for "KinectFusion" isn't style-file defined
+--line 281 of file article.bib
+Warning--to sort, need author or key in Boost
+Warning--to sort, need author or key in log4cxx
+Warning--to sort, need author or key in KinectFusion
 Warning--empty journal in pcl_keypoint_comparision
 Warning--empty year in pcl_keypoint_comparision
-You've used 20 entries,
+You've used 25 entries,
             2118 wiz_defined-function locations,
-            623 strings with 7449 characters,
-and the built_in function-call counts, 7657 in all, are:
-= -- 773
-> -- 344
-< -- 12
-+ -- 141
-- -- 116
-* -- 501
-:= -- 1216
-add.period$ -- 67
-call.type$ -- 20
-change.case$ -- 117
+            634 strings with 7866 characters,
+and the built_in function-call counts, 9021 in all, are:
+= -- 907
+> -- 372
+< -- 14
++ -- 156
+- -- 124
+* -- 563
+:= -- 1382
+add.period$ -- 78
+call.type$ -- 25
+change.case$ -- 136
 chr.to.int$ -- 0
-cite$ -- 22
-duplicate$ -- 326
-empty$ -- 593
-format.name$ -- 116
-if$ -- 1662
+cite$ -- 30
+duplicate$ -- 394
+empty$ -- 751
+format.name$ -- 124
+if$ -- 1993
 int.to.chr$ -- 0
-int.to.str$ -- 20
-missing$ -- 21
-newline$ -- 102
-num.names$ -- 40
-pop$ -- 139
+int.to.str$ -- 25
+missing$ -- 23
+newline$ -- 121
+num.names$ -- 44
+pop$ -- 185
 preamble$ -- 1
-purify$ -- 98
+purify$ -- 112
 quote$ -- 0
-skip$ -- 240
+skip$ -- 304
 stack$ -- 0
-substring$ -- 449
-swap$ -- 108
-text.length$ -- 12
+substring$ -- 535
+swap$ -- 132
+text.length$ -- 14
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 78
-warning$ -- 2
-while$ -- 73
-width$ -- 22
-write$ -- 226
-(There were 3 error messages)
+type$ -- 98
+warning$ -- 5
+while$ -- 82
+width$ -- 27
+write$ -- 264
+(There were 2 error messages)

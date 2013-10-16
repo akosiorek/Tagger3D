@@ -1,0 +1,22 @@
+\begin{center}
+\begin{LARGE}\textbf{Streszczenie}\end{LARGE}
+\end{center}
+
+\vspace{1.0cm}
+
+	W pracy został 
+
+\vspace{4.0cm}
+\begin{center}
+\begin{LARGE}\textbf{Abstract}\end{LARGE}
+\end{center}
+
+\vspace{1.0cm}
+
+	This paper introduces a Bag of Words semantic object classification framework based on three dimensional point clouds. The framework uses machine learning algorithms and a learning by example approach, thus an arbitrary set of categories can be used. Basic concepts of BoW and its role in computer vision are introduced. Then, a problem of classification is explained and the most popular algorithms are described. A fully configurable and extensible application is designed and implemented in C++ for efficiency. Finally, algorithms for different steps of BoW classification are evaluated and results on two benchmark datasets are discussed.
+	
+
+	
+	
+
+

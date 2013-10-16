@@ -1,3 +1,6 @@
+\chapter{Design}
+\addcontentsline{toc}{chapter}{Design}
+
 \section{Software Functionality and Architecture}
 	The programme resulting from this work is called ``Tagger3D'', for it's purpose is to tag an RGBD image of an object with a category label. The Bag of Words classification pipeline consists of four main parts discussed previously. In order to determine the best combination of algorithms for any given task an extensive research and evaluation has to be performed. In order to simplify the process the software system should be configurable, extensible and easy to maintain. Moreover, if it is to be used in any realistic setting it has to be efficient as well.
 	
@@ -42,4 +45,6 @@
 	
 	The strategy pattern was used for every processing step of the pipeline so as to make it extensible. One might want to enhance this solution by using an abstract factory design pattern, which has not been done in this case. It might make the code easier to maintain and read. However, the project is relatively small and the bulk of an abstract factory is unnecessary.
 	
-	There are five classes that can be treated as algorithms' interfaces in a strategy pattern. They are: ImgReader, PointNormal, Detector, Descriptor, Cluster, Predictor. Each of them contains pure virtual computation methods --- 'read` in case of the ImgReader or 'predict' in case of the Predictor. Additionally, they have some common methods defined --- I/O methods in Cluster or batch processing methods (such that take a vector of elements instead of a single element as input) for the Detector and the Descriptor. Every pure virtual classW have its specializations. For example there is the PFHDescriptor class with a Point Feature Histogram descriptor or a KMeansCluster employing kMeans clustering algorithm. The Controller class chooses specializations of the algorithms at run-time, depending on the configuration parameters.
+	There six five classes that can be treated as algorithms' interfaces in a strategy pattern. They are: ImgReader, PointNormal, Detector, Descriptor, Cluster, Predictor. Each of them contains pure virtual computation methods --- 'read` in case of the ImgReader or 'predict' in case of the Predictor. Additionally, they have some common methods defined --- I/O methods in Cluster or batch processing methods (such that take a vector of elements instead of a single element as input) for the Detector and the Descriptor. Every pure virtual class has its specialisations. For example there is the PFHDescriptor class with a Point Feature Histogram descriptor or a KMeansCluster employing kMeans clustering algorithm. The Tagger3D class chooses specialisations of the algorithms at run-time, depending on the configuration parameters.
+	
+	

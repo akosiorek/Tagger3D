@@ -1,3 +1,16 @@
+%TODO
+%	- run cluster and descriptors tests
+%	- find out what's wrong with sift detector
+%	- run detector tests
+%	- prepare strategy pattern class diagram and describe it
+%	- write conclusions
+%	- describe libraries
+%	- write abstracts
+%	- go through introduction
+%
+%
+%
+
 \documentclass[12pt]{report}
 \usepackage[utf8]{inputenc}
 %\usepackage{polski}
@@ -7,6 +20,8 @@
 \usepackage{graphicx}
 %\usepackage[polish]{babel}
 \usepackage{color}
+\usepackage[font=footnotesize]{caption}
+\usepackage{amsmath}
 
 %\setlength{\parskip}{6pt}%
 \linespread{1.5}
@@ -30,12 +45,12 @@
 
 \vspace{0.5cm}
 Institute of Automation and Robotics
-\vspace{0.5cm}
+\vspace{1.0cm}
 \end{LARGE}
 \end{center}
 \begin{center}\includegraphics[width=5cm,angle=0]{figs/logopw}\end{center} 
 
-\vspace{1.0cm}
+\vspace{0.5cm}
 
 \begin{center}
 \begin{LARGE}\textbf{Adam Kosiorek}\end{LARGE}
@@ -56,7 +71,7 @@ Institute of Automation and Robotics
 
 \vspace{0.2cm}
 
-\begin{LARGE}prof. dr. hab. Barbara Siemiątkowska\end{LARGE}
+\begin{Large}prof. dr. hab. Barbara Siemiątkowska\end{Large}
 \end{center}
 
 \vspace{1.8cm}
@@ -68,40 +83,24 @@ Institute of Automation and Robotics
 
 \pagebreak
 
+\include{zyciorys}
+
+
 \color{white} . \color{black}
 \vspace{0.2cm}
 \vspace{1.5cm}
 \pagebreak
 \pagestyle{plain}
 
-
-
-\include{streszczenie}
 \include{abstract}
 
 \tableofcontents
-
-\chapter{Introduction}
-\addcontentsline{toc}{chapter}{Introduction}
-\include{introduction} %aka motivation
-\include{bow}
-\include{libs}
-\include{datasets}
-
-\chapter{Design}
-\addcontentsline{toc}{chapter}{Design}
+\include{introduction}
 \include{architecture}
-\include{setup}
-
-\chapter{Experiments and results}
-\addcontentsline{toc}{chapter}{Experiments and results}
 \include{experiments}
-\include{conclusion}
 
 \listoffigures
 \listoftables
-
-\cite{OpenCV}
 	
 \bibliography{article}
 
