@@ -12,6 +12,15 @@
 
 	\subsection{Descriptors}
 	Recently a PCL's descriptors evaluation was performed in \cite{pcl_features}. The PFHRGB and SHOTCOLOR scored best. Only a little bit worse were PFH, FPFH, SHOT and USC. In this paper FPFH, PFH and PFHRGB are compared, motivation being that PFH is the original descriptor, FPFH is its approximate and thus faster version, while PFHRGB is an extension which makes use of colour information.
+	
+	\begin{figure}[!ht]
+	\centering	
+	\includegraphics[width=.75\textwidth]{figs/desc_b3do}
+	\caption{Highest accuracy obtained with FPFH, PFH and PFHRGB descriptors on the B3DO dataset}
+	\label{fig:desc_b3do}
+	\end{figure}
+	
+	The figure \ref{fig:desc_b3do} shows highest accuracy obtained with the tested descriptors on the B3DO dataset. FPFH scored the best result, even tough it is an approximate and theoretically the least precise of all evaluated descriptors. On the other hand, the PFHRGB scored better than PFH. It does not surprise, since the colour information is believed to have discriminative value.
 		
 	\subsection{Codebook}
 	KMeans is used in almost every implementation of the Bag of Words image processing pipeline \cite{tsai2012bag, toldo2009bag}. Csurka \emph{et al} showed that the number of visual words or centroids have a significant impact on the final results \cite{csurka2004visual}. Therefore a number of tests were run in order to determine the optimal dictionary size.
