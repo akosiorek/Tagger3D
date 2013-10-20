@@ -23,7 +23,7 @@ class PFHRGBDescriptor: public Descriptor {
 	 *
 	 */
 public:
-	PFHRGBDescriptor(const std::map<std::string, std::string> &configM);
+	PFHRGBDescriptor(const std::map<std::string, std::string> &configMap);
 	virtual ~PFHRGBDescriptor();
 
 	cv::Mat describe(const ColorCloud::Ptr &cloud, const ScaleCloud::Ptr &keyCloud, const NormalCloud::Ptr &normalCloud );
@@ -34,11 +34,8 @@ private:
 	typedef pcl::PFHRGBEstimation<pcl::PointXYZRGB, pcl::Normal, pcl::PFHRGBSignature250> descriptorType;
 	std::unique_ptr<descriptorType> descriptor;
 
-	//	Config parameters
-	float radiusSearch;
-
 	//	Config keys
-	const std::string radiusSearchKey = moduleName + "radiusSearch";
+	const std::string radiusSearch = moduleName + "radiusSearch";
 };
 
 } /* namespace Tagger3D */

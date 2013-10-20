@@ -15,6 +15,7 @@
 #include "../Descriptor/PFHDescriptor.h"
 #include "../Descriptor/FPFHDescriptor.h"
 #include "../Descriptor/PFHRGBDescriptor.h"
+#include "../Descriptor/PFHRGBgpu.h"
 #include "../Cluster/KMeansCluster.h"
 #include "../Predictor/SldaPredictor.h"
 #include "../Predictor/SVMPredictor.h"
@@ -52,7 +53,8 @@ Tagger3D::Tagger3D(const std::map<std::string, std::string> &configMap) : Proces
 	switch( getParam<int>( descType )) {
 	case PFH_DESC: descriptor = std::unique_ptr<Descriptor> (new PFHDescriptor(configMap)); break;
 	case FPFH_DESC: descriptor = std::unique_ptr<Descriptor> (new FPFHDescriptor(configMap)); break;
-	case PFHRGB_DESC: descriptor = std::unique_ptr<Descriptor> (new PFHRGBDescriptor(configMap)); break;
+	//case PFHRGB_DESC: descriptor = std::unique_ptr<Descriptor> (new PFHRGBDescriptor(configMap)); break;
+	case PFHRGB_DESC: descriptor = std::unique_ptr<Descriptor> (new PFHRGBgpu(configMap)); break;
 	default:
 		std::runtime_error e("Invalid descriptor type");
 		ERROR(logger, e.what());

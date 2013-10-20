@@ -12,8 +12,6 @@
 namespace Tagger3D {
 
 PFHRGBDescriptor::PFHRGBDescriptor(const std::map<std::string, std::string> &configMap) : Descriptor(configMap) {
-
-	radiusSearch = getParam<float>( radiusSearchKey );
 	createDescriptor();
 	assert(descriptor != nullptr);
 }
@@ -26,7 +24,7 @@ void PFHRGBDescriptor::createDescriptor() {
 	decltype(descriptor) newDescriptor( new descriptorType() );
 	pcl::search::KdTree<pcl::PointXYZRGB>::Ptr kdTree( new pcl::search::KdTree<pcl::PointXYZRGB>() );
 	newDescriptor->setSearchMethod( kdTree );
-	newDescriptor->setRadiusSearch( radiusSearch );
+	newDescriptor->setRadiusSearch(getParam<float>(radiusSearch));
 
 	descriptor = std::move( newDescriptor );
 	TRACE(logger, "createDescriptor: Finished");

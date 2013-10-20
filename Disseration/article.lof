@@ -2,11 +2,11 @@
 \contentsline {figure}{\numberline {1.1}{\ignorespaces Bag of Words histogram\relax }}{9}
 \contentsline {figure}{\numberline {1.2}{\ignorespaces Bag of Words pipeline. The figure comes from \cite {tsai2012bag}\relax }}{10}
 \contentsline {figure}{\numberline {1.3}{\ignorespaces Classification by a Support Vector Machine. The distance of the separating plane from both datasets is maximal. The figure was originally published in \cite {ponce2011cv}\relax }}{15}
-\contentsline {figure}{\numberline {1.4}{\ignorespaces Berkely 3D Object Dataset. The figure comes from \cite {B3DO}\relax }}{17}
+\contentsline {figure}{\numberline {1.4}{\ignorespaces Berkeley 3D Object Dataset. The figure comes from \cite {B3DO}\relax }}{17}
 \contentsline {figure}{\numberline {1.5}{\ignorespaces The Tokyo dataset: a) basket b) bicycle c) box d) bucket e) cart f) freezer g) notebook h) printer i) scanner j) scene\relax }}{18}
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {2.1}{\ignorespaces Tagger3D class diagram\relax }}{21}
 \contentsline {figure}{\numberline {2.2}{\ignorespaces Strategy pattern\relax }}{22}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Influence of dictionary size on the overall accuracy. B3DO dataset with ISS keypoint detector and FPFH feature descriptor\relax }}{25}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Influence of dictionary size on the overall accuracy. B3DO dataset with ISS keypoint detector and FPFH feature descriptor\relax }}{26}
 \contentsline {figure}{\numberline {3.2}{\ignorespaces B3DO objects. Images are in their original sizes. a) cups b) bottles c) books d) keyboards\relax }}{27}

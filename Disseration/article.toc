@@ -17,7 +17,7 @@
 \contentsline {subsection}{\numberline {1.3.2}OpenCV}{16}
 \contentsline {subsection}{\numberline {1.3.3}Boost}{16}
 \contentsline {section}{\numberline {1.4}Datasets}{16}
-\contentsline {subsection}{\numberline {1.4.1}Berkely 3D Object Dataset}{17}
+\contentsline {subsection}{\numberline {1.4.1}Berkeley 3D Object Dataset}{17}
 \contentsline {subsection}{\numberline {1.4.2}The University of Tokyo Dataset}{18}
 \contentsline {chapter}{\numberline {2}Design}{19}
 \contentsline {chapter}{Design}{19}

@@ -37,7 +37,7 @@ int main(int argc, char** argv) {
 		exit(2);
 
 	t3d::Tagger3D tagger(configMap);
-	//tagger.run();
+	tagger.run();
 }
 
 void configureLogger(int &argc, char** argv, const lgr::LoggerPtr &logger) {

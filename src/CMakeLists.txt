@@ -70,21 +70,19 @@ set( LIBS ${LIBS} ${LOG4CXX_LIBRARIES} )
 message( STATUS "LOG4CXX_INCLUDE_DIRS: ${LOG4CXX_INCLUDE_DIRS}" )
 message( STATUS "LOG4CXX_LIBRARIES: ${LOG4CXX_LIBRARIES}" )  
 
+FILE(GLOB_RECURSE sources *.cpp)
+FILE(GLOB_RECURSE headers *.h)
+SET(dir_list "")
+FOREACH(file_path ${headers})
+	GET_FILENAME_COMPONENT(dir_path ${file_path} PATH)
+	SET(dir_list ${dir_list} ${dir_path})
+ENDFOREACH()
+LIST(REMOVE_DUPLICATES dir_list)
+link_directories(${dir_list})
+ 
  
  # Exec list
-add_executable ( ${Project} 
-	main.cpp 
-	Common/ProcessObject.cpp Common/Tagger3D.cpp
-	Config/Config.cpp  
-	ImgReader/ImgReader.cpp ImgReader/RangeImgReader.cpp ImgReader/PcdReader.cpp
-	PointNormal/PointNormal.cpp PointNormal/NormalEstimator.cpp 
-	Detector/Detector.cpp Detector/SIFTDetector.cpp Detector/SusanDetector.cpp Detector/Iss3dDetector.cpp
-	Descriptor/Descriptor.cpp Descriptor/PFHDescriptor.cpp Descriptor/FPFHDescriptor.cpp Descriptor/PFHRGBDescriptor.cpp
-	Cluster/Cluster.cpp Cluster/KMeansCluster.cpp
-	Predictor/Predictor.cpp Predictor/SldaPredictor.cpp Predictor/SVMPredictor.cpp
-	Predictor/svm/svm.cpp Predictor/svm/svm-predict.c Predictor/svm/svm-train.c
-	Predictor/slda/corpus.cpp Predictor/slda/opt.cpp Predictor/slda/slda.cpp Predictor/slda/utils.cpp
-	)
+add_executable ( ${Project} ${sources})
 	 
 message( STATUS "Libs: ${LIBS}" )	 
 target_link_libraries ( ${Project} ${LIBS} ) 
