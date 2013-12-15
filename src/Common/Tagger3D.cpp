@@ -27,22 +27,13 @@ Tagger3D::Tagger3D(const std::map<std::string, std::string> &configMap) : Proces
 	cluster = f.getCluster();
 	predictor = f.getPredictor();
 
-//	assert( imgReader != nullptr );
-//	assert( pointNormal != nullptr );
-//	assert( detector != nullptr );
-//	assert( descriptor != nullptr );
-//	assert( cluster != nullptr );
-//	assert( predictor != nullptr );
-
 	trainDescPath = directory + "/" + trainDescriptors;
 	testDescPath = directory + "/" + testDescriptors;
-
 }
 
 Tagger3D::~Tagger3D() {
 	DEBUG(logger, "Destroying Tagger3D");
 }
-
 
 void Tagger3D::train() {
 	INFO(logger, "Train");
@@ -102,36 +93,6 @@ int Tagger3D::predict(const std::string& rgbPath,
 	cluster->load();
 	std::vector<int> wordDescriptors = cluster->cluster(descriptors);
 	return predictor->predict(wordDescriptors)[0];
-
-}
-
-int Tagger3D::run() {
-	INFO(logger, "Tagger3D running")
-
-	std::string modeStr = getParam<std::string>( mode );
-	int m = -1;
-	if(modeStr == modeTest) m = TEST;
-	else if(modeStr == modeTrain) m = TRAIN;
-	else if(modeStr == modeDesc) m = DESC;
-	else if(modeStr == modeClust) m = CLUST;
-	else if(modeStr == modeTrainPred) m = TRAIN_PRED;
-	else if(modeStr == modeTestPred) m = TEST_PRED;
-	else if(modeStr == modeAll) m = ALL;
-
-	switch(m) {
-
-	case TRAIN: train(); break;
-	case TEST: test(); break;
-	case DESC: computeDescriptorsRun(); break;
-	case CLUST: trainClustRun(); break;
-	case TRAIN_PRED: trainPredRun(); break;
-	case TEST_PRED: testRun(); break;
-	case ALL: allRun(); break;
-	default:
-		std::runtime_error e("Unrecognized mode = " + modeStr);
-		ERROR(logger, "run: " << e.what());
-		throw e;
-	}
 }
 
 void Tagger3D::saveDescriptors(const std::vector<cv::Mat>& descriptors,
@@ -298,7 +259,7 @@ void Tagger3D::prepareCluster(const std::vector<cv::Mat> &descriptors) {
 
 
 
-void Tagger3D::computeDescriptorsRun() {
+void Tagger3D::descRun() {
 	INFO(logger, "Compute Descriptors Run");
 
 	imgReader->setMode(ImgReader::TRAIN);
@@ -309,14 +270,14 @@ void Tagger3D::computeDescriptorsRun() {
 	saveDescriptors(descriptors, testDescPath);
 }
 
-void Tagger3D::trainClustRun() {
+void Tagger3D::clustRun() {
 
 	std::vector<cv::Mat> descriptors = loadDescriptors(trainDescPath);
 	cluster->train(descriptors);
 	cluster->save();
 }
 
-void Tagger3D::trainPredRun() {
+void Tagger3D::trainRun() {
 	INFO(logger, "Train Predictor Run");
 
 	std::vector<cv::Mat> descriptors = loadDescriptors(trainDescPath);
@@ -331,7 +292,7 @@ void Tagger3D::trainPredRun() {
 	predictor->train(wordDescriptors, labels);
 }
 
-void Tagger3D::testRun() {
+void Tagger3D::predRun() {
 	INFO(logger, "Test Run");
 
 	std::vector<cv::Mat> descriptors = loadDescriptors(testDescPath);
@@ -343,12 +304,28 @@ void Tagger3D::testRun() {
 	predictor->predict(wordDescriptors, labels);
 }
 
-void Tagger3D::allRun() {
+int Tagger3D::run() {
+	INFO(logger, "Tagger3D running");
 
-	computeDescriptorsRun();
-	trainClustRun();
-	trainPredRun();
-	testRun();
+	switch(getRunMode()) {
+
+	case Mode::DESC: descRun(); break;
+	case Mode::CLUST: clustRun(); break;
+	case Mode::TRAIN: trainRun(); break;
+	case Mode::PRED: predRun(); break;
+	}
+}
+
+int Tagger3D::getRunMode() {
+
+	std::string m = getParam<std::string>( mode );
+	auto it = std::find(std::begin(modeStrings), std::end(modeStrings), m);
+	if(it == std::end(modeStrings)) {
+		std::runtime_error e("Invalid mode: " + mode);
+		ERROR(logger, e.what());
+		throw e;
+	}
+	return std::distance(std::begin(modeStrings), it);
 }
 
 } /* namespace Tagger3D */

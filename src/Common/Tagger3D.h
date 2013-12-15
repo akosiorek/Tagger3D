@@ -66,10 +66,10 @@ public:
 
 
 	//	Separate run options ------------------------------------------------
-	void computeDescriptorsRun();
-	void trainClustRun();
-	void trainPredRun();
-	void testRun();
+	void descRun();
+	void clustRun();
+	void trainRun();
+	void predRun();
 	void allRun();
 
 private:
@@ -84,6 +84,8 @@ private:
 
 	void prepareCluster(const std::vector<cv::Mat> &descriptors);
 
+
+	int getRunMode();
 
 	//	-----------------------------------------------------------------------
 	// Fields	----------------------------------------------------------------
@@ -127,8 +129,9 @@ private:
 	const std::string loadDescriptorsFlag = moduleName + "loadDescriptors";
 
 	// Enums -------------------------------------------------------------------
+	enum Mode : unsigned char { DESC, CLUST, TRAIN, PRED };
+	const std::vector<std::string> modeStrings = {"desc", "clust", "train", "pred"};
 
-	enum : unsigned char { TRAIN, TEST, DESC, CLUST, TRAIN_PRED, TEST_PRED, ALL };
 
 };
 
