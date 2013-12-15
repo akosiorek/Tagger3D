@@ -10,12 +10,12 @@
 #define TAGGER3D_H_
 
 #include "ProcessObject.h"
-#include "../ImgReader/ImgReader.h"
-#include "../PointNormal/PointNormal.h"
-#include "../Detector/Detector.h"
-#include "../Descriptor/Descriptor.h"
-#include "../Cluster/Cluster.h"
-#include "../Predictor/Predictor.h"
+#include "ImgReader.h"
+#include "PointNormal.h"
+#include "Detector.h"
+#include "Descriptor.h"
+#include "Cluster.h"
+#include "Predictor.h"
 #include <memory>
 
 namespace Tagger3D {
@@ -100,7 +100,6 @@ private:
 
 	//	Parameters	------------------------------------------------------------
 
-
 	std::string trainDescPath;
 	std::string testDescPath;
 
@@ -120,10 +119,6 @@ private:
 		modeAll = "all";
 
 	// Config keys	---------------------------------------------------------------
-	const std::string readerType = moduleName + "readerType";
-	const std::string detectorType = moduleName + "detectorType";
-	const std::string descType = moduleName + "descType";
-	const std::string predictorType = moduleName + "predictorType";
 	const std::string trainCluster = moduleName + "trainCluster";
 
 	const std::string trainDescriptors = "trainDescriptors";
@@ -133,12 +128,7 @@ private:
 
 	// Enums -------------------------------------------------------------------
 
-	enum { TRAIN, TEST, DESC, CLUST, TRAIN_PRED, TEST_PRED, ALL };
-	enum { RANGEIMG_READER, PCD_READER };
-	enum { SIFT, ISS3D };
-	enum { PFH_DESC, FPFH_DESC, PFHRGB_DESC };
-	enum { SLDA, SVM };
-
+	enum : unsigned char { TRAIN, TEST, DESC, CLUST, TRAIN_PRED, TEST_PRED, ALL };
 
 };
 

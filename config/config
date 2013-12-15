@@ -1,30 +1,15 @@
+directory = ../models/b3do
+dictionarySize = 3000
 
 # mode
-# 0 - Train 
-# 1 - Test
-# 2 - Train and test
-# 3 - Predict
-
-mode = 1
-
-
-directory = ../models/tokyo
-dictionarySize = 1000
-[Tagger3D]
-
-# mode
-# 0 - Train 
-# 1 - Test
-# 2 - Train and test
-# 3 - Predict
-
-mode = 0 
+# desc, clust, train, pred
+mode = desc
 
 # readerType
-# 0 - rangeImg
-# 1 - pcd
+# 0 - tokyo
+# 1 - b3do
 
-readerType = 1
+readerType = 0
 
 # detector type
 # 0 - SIFT
@@ -36,23 +21,12 @@ detectorType = 1
 # 0 - PFH
 # 1 - FPFH
 
-descType = 1 
-
-# cluster mode
-# 0 - use existing model
-# 1 train
-
-trainCluster = 1 
+descType = 2 
 
 # Predictor type
-# 0 - SLDA
-# 1 - SVM
+# 0 - SVM
 
-predictorType = 1 
-
-
-saveDescriptors = 0
-loadDescriptors = 1
+predictorType = 0 
 
 [ImgReader]
 

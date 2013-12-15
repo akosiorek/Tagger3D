@@ -7,18 +7,7 @@
  */
 
 #include "Tagger3D.h"
-#include "../ImgReader/RangeImgReader.h"
-#include "../ImgReader/PcdReader.h"
-#include "../PointNormal/NormalEstimator.h"
-#include "../Detector/SIFTDetector.h"
-#include "../Detector/Iss3dDetector.h"
-#include "../Descriptor/PFHDescriptor.h"
-#include "../Descriptor/FPFHDescriptor.h"
-#include "../Descriptor/PFHRGBDescriptor.h"
-#include "../Descriptor/PFHRGBgpu.h"
-#include "../Cluster/KMeansCluster.h"
-#include "../Predictor/SldaPredictor.h"
-#include "../Predictor/SVMPredictor.h"
+#include "Factory.h"
 
 #include <assert.h>
 #include <fstream>
@@ -30,54 +19,20 @@ Tagger3D::Tagger3D(const std::map<std::string, std::string> &configMap) : Proces
 	logger = lgr::Logger::getLogger(loggerName);
 	DEBUG(logger, "Creating Tagger3D");
 
-	switch( getParam<int>( readerType )) {
-	case RANGEIMG_READER: imgReader = std::unique_ptr<ImgReader>(new RangeImgReader(configMap)); break;
-	case PCD_READER: imgReader = std::unique_ptr<ImgReader>(new PcdReader(configMap)); break;
-	default:
-		std::runtime_error e("Invalid reader type");
-		ERROR(logger, e.what());
-		throw e;
-	}
+	Factory f(configMap);
+	imgReader = f.getReader();
+	pointNormal = f.getPointNormal();
+	detector = f.getDetector();
+	descriptor = f.getDescriptor();
+	cluster = f.getCluster();
+	predictor = f.getPredictor();
 
-	pointNormal = std::unique_ptr<PointNormal> (new NormalEstimator(configMap));
-
-	switch( getParam<int>( detectorType )) {
-	case SIFT: detector = std::unique_ptr<Detector> (new SIFTDetector(configMap)); break;
-	case ISS3D: detector = std::unique_ptr<Detector> (new Iss3dDetector(configMap)); break;
-	default:
-			std::runtime_error e("Invalid detector type");
-			ERROR(logger, e.what());
-			throw e;
-		}
-
-	switch( getParam<int>( descType )) {
-	case PFH_DESC: descriptor = std::unique_ptr<Descriptor> (new PFHDescriptor(configMap)); break;
-	case FPFH_DESC: descriptor = std::unique_ptr<Descriptor> (new FPFHDescriptor(configMap)); break;
-	//case PFHRGB_DESC: descriptor = std::unique_ptr<Descriptor> (new PFHRGBDescriptor(configMap)); break;
-	case PFHRGB_DESC: descriptor = std::unique_ptr<Descriptor> (new PFHRGBgpu(configMap)); break;
-	default:
-		std::runtime_error e("Invalid descriptor type");
-		ERROR(logger, e.what());
-		throw e;
-	}
-
-	cluster = std::unique_ptr<Cluster> (new KMeansCluster(configMap));
-
-	switch( getParam<int>( predictorType )) {
-	case SLDA: predictor = std::unique_ptr<Predictor> (new SldaPredictor(configMap)); break;
-	case SVM: predictor = std::unique_ptr<Predictor> (new SVMPredictor(configMap)); break;
-	default:
-			std::runtime_error e("Invalid predictor type");
-			ERROR(logger, e.what());
-			throw e;
-	}
-
-	assert( imgReader != nullptr );
-	assert( pointNormal != nullptr );
-	assert( detector != nullptr );
-	assert( descriptor != nullptr );
-	assert( cluster != nullptr );
-	assert( predictor != nullptr );
+//	assert( imgReader != nullptr );
+//	assert( pointNormal != nullptr );
+//	assert( detector != nullptr );
+//	assert( descriptor != nullptr );
+//	assert( cluster != nullptr );
+//	assert( predictor != nullptr );
 
 	trainDescPath = directory + "/" + trainDescriptors;
 	testDescPath = directory + "/" + testDescriptors;

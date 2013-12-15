@@ -23,7 +23,7 @@ ProcessObject::ProcessObject(const std::map<std::string, std::string> &_configMa
 
 ProcessObject::~ProcessObject() {}
 
-bool ProcessObject::checkConfig(const std::string &key) {
+bool ProcessObject::checkConfig(const std::string &key) const{
 
 	if( !configMap.count(key) || configMap.find(key)->second.length() == 0) {
 
@@ -31,19 +31,6 @@ bool ProcessObject::checkConfig(const std::string &key) {
 	}
 
 	return true;
-}
-
-bool ProcessObject::checkConfig(const std::vector<std::string*> keys) {
-
-	for(std::string* key : keys) {
-
-		if( !checkConfig( *key) ) {
-
-			return false;
-		}
-
-		return true;
-	}
 }
 
 std::string ProcessObject::getParam(const std::string &key ) {

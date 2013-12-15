@@ -21,6 +21,8 @@
 #include <stdexcept>
 #include <iostream>
 
+#include "Utils.h"
+
 namespace Tagger3D {
 
 class ProcessObject {
@@ -30,7 +32,7 @@ public:
 
 protected:
 	template<typename T>
-	T getParam(const std::string &key);
+	T getParam(const std::string &key) const;
 	std::string getParam(const std::string &key);
 	bool fileExists(const std::string &path);
 
@@ -42,10 +44,9 @@ protected:
 
 private:
 	ProcessObject();
-	bool checkConfig(const std::string &key);
-	bool checkConfig(const std::vector<std::string*> keys);
+	bool checkConfig(const std::string &key) const;
 	template<typename T>
-	T stringToNumber(const std::string &s, T def = T() );
+	T stringToNumber(const std::string &s, T def = T() ) const;
 
 	std::map<std::string, std::string> configMap;
 
@@ -54,7 +55,7 @@ private:
 };
 
 template<typename T>
-T ProcessObject::getParam(const std::string &key) {
+T ProcessObject::getParam(const std::string &key) const {
 
 	if( !checkConfig( key )) {
 
@@ -66,7 +67,7 @@ T ProcessObject::getParam(const std::string &key) {
 }
 
 template<typename T>
-T ProcessObject::stringToNumber(const std::string &s, T def) {
+T ProcessObject::stringToNumber(const std::string &s, T def) const {
 
 	std::stringstream ss(s);
 	T result;

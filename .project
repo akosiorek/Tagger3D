@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>Tagger3D-Debug@build</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.cdt.managedbuilder.core.genmakebuilder</name>
+			<triggers>clean,full,incremental,</triggers>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.cdt.managedbuilder.core.ScannerConfigBuilder</name>
+			<triggers>full,incremental,</triggers>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.cdt.core.ccnature</nature>
+		<nature>org.eclipse.cdt.core.cnature</nature>
+		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
+		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>[Source directory]</name>
+			<type>2</type>
+			<location>/media/D/workspace/Tagger3D/src</location>
+		</link>
+		<link>
+			<name>[Subprojects]</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>[Targets]</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>[Subprojects]/Tagger3D</name>
+			<type>2</type>
+			<location>/media/D/workspace/Tagger3D/src</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/CMake Rules</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Header Files</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Object Files</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Resources</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/Cluster.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/Cluster/Cluster.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/Config.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/Config/Config.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/Descriptor.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/Descriptor/Descriptor.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/Detector.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/Detector/Detector.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/FPFHDescriptor.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/Descriptor/FPFHDescriptor.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/GpuDescriptor.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/Descriptor/GpuDescriptor.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/ImgReader.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/ImgReader/ImgReader.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/Iss3dDetector.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/Detector/Iss3dDetector.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/KMeansCluster.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/Cluster/KMeansCluster.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/NormalEstimator.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/PointNormal/NormalEstimator.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/PFHDescriptor.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/Descriptor/PFHDescriptor.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/PFHRGBDescriptor.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/Descriptor/PFHRGBDescriptor.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/PFHRGBgpu.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/Descriptor/PFHRGBgpu.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/PcdReader.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/ImgReader/PcdReader.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/PointNormal.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/PointNormal/PointNormal.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/Predictor.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/Predictor/Predictor.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/ProcessObject.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/Common/ProcessObject.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/RangeImgReader.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/ImgReader/RangeImgReader.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/SIFTDetector.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/Detector/SIFTDetector.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/SVMPredictor.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/Predictor/SVMPredictor.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/SldaPredictor.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/Predictor/SldaPredictor.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/SusanDetector.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/Detector/SusanDetector.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/Tagger3D.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/Common/Tagger3D.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/corpus.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/Predictor/slda/corpus.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/main.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/main.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/opt.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/Predictor/slda/opt.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/slda.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/Predictor/slda/slda.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/svm.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/Predictor/svm/svm.cpp</location>
+		</link>
+		<link>
+			<name>[Targets]/[exe] Tagger3D/Source Files/utils.cpp</name>
+			<type>1</type>
+			<location>/media/D/workspace/Tagger3D/src/Predictor/slda/utils.cpp</location>
+		</link>
+	</linkedResources>
+</projectDescription>
