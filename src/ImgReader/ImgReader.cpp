@@ -39,13 +39,14 @@ void ImgReader::init() {
 std::vector<std::string> ImgReader::getLineList(const std::string &path) {
 
 	TRACE(logger, "getImgList: Starting");
-	if( !fileExists(path) ) {
+	std::ifstream listFile( path );
+	if( !listFile.good()) {
 
 		std::runtime_error e("Cannot open the following file " + path);
 		ERROR(logger, e.what());
 		throw e;
 	}
-	std::ifstream listFile( path );
+
 	std::string line;
 	std::vector<std::string> imgList;
 	while( !listFile.eof() ) {

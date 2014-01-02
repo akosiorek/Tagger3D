@@ -16,18 +16,17 @@ namespace Tagger3D {
 
 class Detector : public ProcessObject {
 public:
+	Detector() = delete;
 	Detector(const std::map<std::string, std::string> &configMap);
 	virtual ~Detector();
 
-	virtual  ScaleCloud::Ptr detect(const ColorCloud::Ptr &cloud) = 0;
+	virtual ScaleCloud::Ptr detect(const ColorCloud::Ptr &cloud) = 0;
 	virtual ScaleVec detect(const ColorVec &clouds);
 
 protected:
-
 	const std::string moduleName = "detector" + separator;
-private:
 
-	Detector();
+private:
 	const std::string loggerName = "Main.Detector";
 };
 

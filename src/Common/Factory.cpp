@@ -13,6 +13,8 @@
 #include "Detector.h"
 #include "SIFTDetector.h"
 #include "Iss3dDetector.h"
+#include "DenseDetector.h"
+
 #include "PFHDescriptor.h"
 #include "FPFHDescriptor.h"
 #include "PFHRGBDescriptor.h"
@@ -56,6 +58,7 @@ std::unique_ptr<Detector> Factory::getDetector() const {
 	switch( getParam<int>(detectorType)) {
 	case DetectorType::SIFT: detector = std::unique_ptr<Detector> (new SIFTDetector(configMap)); break;
 	case DetectorType::ISS3D: detector = std::unique_ptr<Detector> (new Iss3dDetector(configMap)); break;
+	case DetectorType::DENSE: detector = std::unique_ptr<Detector> (new DenseDetector(configMap)); break;
 	default:
 			std::runtime_error e("Invalid detector type");
 			ERROR(logger, e.what());

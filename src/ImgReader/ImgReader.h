@@ -27,13 +27,6 @@ public:
 	virtual ColorCloud::Ptr readImg() = 0;
 
 	/**
-	 *	Reads a batch of images or reads images continuously;
-	 *	@return	a vector of range images.
-	 */
-	virtual ColorVec readImgs() = 0;
-
-
-	/**
 	 * Returns a label for a previously read image
 	 */
 	virtual int readLabel() = 0;

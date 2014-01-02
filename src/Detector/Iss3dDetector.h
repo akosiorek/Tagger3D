@@ -23,16 +23,19 @@ class Iss3dDetector: public Detector {
 	 *
 	 */
 public:
+	Iss3dDetector() = delete;
 	Iss3dDetector(const std::map<std::string, std::string> &configMap);
-	virtual ~Iss3dDetector();
+	virtual ~Iss3dDetector() = default;
 
 	ScaleCloud::Ptr detect(const ColorCloud::Ptr &cloud);
 
+	typedef pcl::ISSKeypoint3D<pcl::PointXYZRGB, pcl::PointXYZRGB> detectorType;
+	typedef std::unique_ptr<detectorType> detectorPtrType;
+
 private:
-	Iss3dDetector();
 	void createDetector();
 
-	std::unique_ptr<pcl::ISSKeypoint3D<pcl::PointXYZRGB, pcl::PointXYZRGB>> detector;
+	 detectorPtrType detector;
 
 	const std::string
 		gamma21 = moduleName + "gamma21",

@@ -16,26 +16,26 @@ namespace Tagger3D {
 
 NormalEstimator::NormalEstimator(const std::map<std::string, std::string> &configMap) : PointNormal(configMap) {
 
-	normalRadius = getParam<float>( normalRadiusKey );
-	normalEstimator = nullptr;
-	assert( normalEstimator == nullptr );
 	createNormalEstimator();
 	assert( normalEstimator != nullptr );
 }
-
-NormalEstimator::~NormalEstimator() {}
 
 void NormalEstimator::createNormalEstimator() {
 
 	TRACE(logger, "createNormalEstimator: Starting");
 	std::unique_ptr<pcl::NormalEstimationOMP<pcl::PointXYZRGB, pcl::Normal>> estimator(new pcl::NormalEstimationOMP<pcl::PointXYZRGB, pcl::Normal>() );
 	pcl::search::KdTree<pcl::PointXYZRGB>::Ptr kdTree( new pcl::search::KdTree<pcl::PointXYZRGB>() );
-	assert( kdTree != nullptr );
-	assert( normalRadius > 0);
 	estimator->setSearchMethod( kdTree );
-	estimator->setRadiusSearch( normalRadius );
-	//estimator->setKSearch(5);
-	TRACE(logger, "Normal Radius = " << normalRadius );
+
+	float radius = getParam<float>( normalRadius );
+	if(radius > 0)
+		estimator->setRadiusSearch( radius );
+	else {
+		int k = getParam<int>( kNN );
+		assert(k > 0);
+		estimator->setKSearch(k);
+	}
+
 	normalEstimator = std::move( estimator );
 	TRACE(logger, "createNormalEstimator: Finished");
 }

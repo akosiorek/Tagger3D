@@ -20,6 +20,4 @@
 
 namespace lgr = log4cxx;
 
-
-
 #endif /* LOGGER_H_ */

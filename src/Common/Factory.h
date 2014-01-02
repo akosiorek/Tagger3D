@@ -46,7 +46,7 @@ private:
 	const std::string loggerName = "Main.Factory";
 
 	enum Dataset : unsigned char { B3DO, TOKYO };
-	enum DetectorType : unsigned char { SIFT, ISS3D };
+	enum DetectorType : unsigned char { SIFT, ISS3D, DENSE };
 	enum DescriptorType : unsigned char { PFH, FPFH, PFHRGB };
 	enum PredictorType : unsigned char { SVM };
 };

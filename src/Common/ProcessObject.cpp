@@ -43,22 +43,4 @@ std::string ProcessObject::getParam(const std::string &key ) {
 	return configMap.find(key)->second;
 }
 
-bool ProcessObject::fileExists(const std::string &path) {
-
-	try {
-		std::ifstream is(path);
-		if( is.good() ) {
-
-			is.close();
-			return true;
-		}
-		return false;
-	} catch (std::exception &e) {
-
-		return false;
-	}
-}
-
-
-
 } /* namespace Tagger3D */

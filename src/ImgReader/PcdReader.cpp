@@ -24,7 +24,6 @@ PcdReader::PcdReader(const std::map<std::string, std::string> &configMap) : ImgR
 	voxelGrid->setLeafSize(leaf, leaf, leaf);
 
 	count = -1;
-	chunkSize = getParam<int>( chunkSizeKey );
 }
 
 PcdReader::~PcdReader() {}
@@ -58,24 +57,6 @@ ColorCloud::Ptr PcdReader::readImg(const std::string& pcdPath) {
 	//std::terminate();
 	DEBUG(logger, "Cloud size = " << cloud->size());
 	return cloud;
-}
-
-ColorVec PcdReader::readImgs() {
-
-	TRACE(logger, "readImgs: Starting");
-
-	ColorVec clouds;
-	int limit = count + chunkSize;
-	if( limit > pcdVec.size()) {
-
-		limit = pcdVec.size();
-	}
-
-	while( count < limit) {
-		clouds.push_back( readImg() );
-	}
-	TRACE(logger, "readImgs: Finished");
-	return clouds;
 }
 
 ColorCloud::Ptr PcdReader::readImg() {

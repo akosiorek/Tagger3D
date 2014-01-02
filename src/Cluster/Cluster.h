@@ -41,14 +41,8 @@ public:
 	 *	@param	descriptors	A set of descriptors for which a bag of words description is to be found.
 	 *	@return cv::Mat	A vector of visual words.
 	 */
-	virtual const std::vector<int> cluster(const cv::Mat &descriptors) = 0;
-
-	/**
-	 *	An overloaded method for multiple images.
-	 *	@param	descriptors	A vector of cv::Mat, each mat containing descriptors
-	 *	@return 	Each vector contains a vector of words
-	 */
-	virtual const std::vector<std::vector<int>> cluster(const std::vector<cv::Mat> &descriptors) = 0;
+	virtual cv::Mat cluster(const cv::Mat &descriptors) = 0;
+	virtual cv::Mat cluster(const std::vector<cv::Mat> &descriptors);
 
 
 	/**
@@ -58,26 +52,7 @@ public:
 	 *				number of points = number of points in a single image x number of images.
 	 *	@return	bool	true if the training succeded, false otherwise.
 	 */
-	virtual bool train(const std::vector<cv::Mat> &descriptors) = 0;
-
-	/**
-	 *	An overloaded method for a single cv::Mat.
-	 *	@param descriptors	a cv::Mat of descriptors
-	 *	@return	true if training was successful, false otherwise
-	 */
-	virtual bool train(const cv::Mat &descriptors) = 0;
-
-	/**
-	 *	Getter for labels.
-	 *	@return	cv::Mat
-	 */
-	const cv::Mat getLabels() {return labels;};
-
-	/**
-	 *	Getter for centers.
-	 *	@return cv::Mat
-	 */
-	const cv::Mat getCentroids() {return centroids;};
+	virtual void train(const std::vector<cv::Mat> &descriptors) = 0;
 
 	/**
 	 *	The method saves the KMeans (trained model and configuration) to a folder
@@ -86,7 +61,7 @@ public:
 	 * 	Note that there should be only one KMeans per folder stored.
 	 * 	@ return true if save successful, false otherwise
 	 */
-	virtual bool save() = 0;
+	virtual void save() = 0;
 
 
 	/**
@@ -95,14 +70,16 @@ public:
 	 *	Note that there should be only one KMeans per folder.
 	 *	@return	true if load successful, false otherwise
 	 */
-	virtual bool load() = 0;
+	virtual void load() = 0;
 
 	virtual bool isLoaded() = 0;
 
 protected:
 
-	cv::Mat labels;
-	cv::Mat centroids;
+	int clusterCount;
+	int dimCount;
+	const std::string clusterCountKey = "dictionarySize";
+	const std::string dimCountKey = "dimCount";
 
 	const std::string moduleName = "cluster" + separator;
 	bool loaded;

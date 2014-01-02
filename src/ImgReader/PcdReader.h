@@ -26,7 +26,6 @@ public:
 
 	ColorCloud::Ptr readImg();
 	ColorCloud::Ptr readImg(const std::string &pcdPath);
-	ColorVec readImgs();
 
 	int readLabel();
 
@@ -37,9 +36,7 @@ private:
 	std::unique_ptr<pcl::VoxelGrid<pcl::PointXYZRGB>> voxelGrid;
 	float leaf;
 	int count;
-	int chunkSize;
 
-	const std::string chunkSizeKey = moduleName + "chunkSize";
 	const std::string leafSize = moduleName + "leafSize";
 	const std::string trainPcd = moduleName + "trainPcdList";
 	const std::string testPcd = moduleName + "testPcdList";

@@ -22,22 +22,15 @@ Detector::~Detector() {
 }
 
 ScaleVec Detector::detect(const ColorVec &clouds) {
-
 	TRACE(logger, "detect: Starting batch processing");
-	ScaleVec vec;
-	int i = 0;
-	try {
-		for(const auto &cloud : clouds) {
-			i++;
-			vec.emplace_back(detect( cloud ) );
-		}
-	}
-	catch (std::runtime_error &e) {
 
-		std::string tmp = e.what();
-		std::runtime_error newE(tmp + " at image " + std::to_string(i));
-		ERROR(logger, "detect: batch: " << newE.what());
-		throw newE;
+	int size = clouds.size();
+	ScaleVec vec;
+	vec.reserve(size);
+	auto cloudPtr = &clouds[0];
+
+	for(int i = 0; i < size; ++i) {
+		vec.push_back(std::move(detect(cloudPtr[i])));
 	}
 
 	TRACE(logger, "detect: Finished batch processing");

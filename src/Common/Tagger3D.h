@@ -16,22 +16,21 @@
 #include "Descriptor.h"
 #include "Cluster.h"
 #include "Predictor.h"
+#include "IoUtils.h"
 #include <memory>
 
 namespace Tagger3D {
 
-/*
- *
+/**
+ * Tagger3D is an object categorization.
+ * Provided an RGB-D input it predicts a category of an object.
  */
 class Tagger3D: public ProcessObject {
-	/**
-	 * Tagger3D is an object categorization.
-	 * Provided an RGB-D input it predicts a category of an object.
-	 */
 
 	//	-------------------------------------------------------------------------
 	//	Methods	------------------------------------------------------------------
 public:
+	Tagger3D() = delete;
 	Tagger3D(const std::map<std::string, std::string> &configMap);
 	virtual ~Tagger3D();
 
@@ -62,30 +61,18 @@ public:
 	 * @param none
 	 * @return an int number of a category in case the prediction mode was launched
 	 */
-	int run();
-
+	void run();
 
 	//	Separate run options ------------------------------------------------
 	void descRun();
 	void clustRun();
 	void trainRun();
 	void predRun();
-	void allRun();
 
 private:
-	Tagger3D();
-
-	void saveDescriptors(const std::vector<cv::Mat> &descriptors, const std::string &path);
-	std::vector<cv::Mat> loadDescriptors(const std::string &path);
-
-	std::vector<cv::Mat> prepareDescriptors(const std::string &path);
-
 	std::vector<cv::Mat> computeDescriptors();
-
-	void prepareCluster(const std::vector<cv::Mat> &descriptors);
-
-
 	int getRunMode();
+	int getCatNum(const std::vector<float> &vec) const;
 
 	//	-----------------------------------------------------------------------
 	// Fields	----------------------------------------------------------------
@@ -98,41 +85,25 @@ private:
 	std::unique_ptr<Descriptor> descriptor;
 	std::unique_ptr<Cluster> cluster;
 	std::unique_ptr<Predictor> predictor;
-
-
-	//	Parameters	------------------------------------------------------------
-
-	std::string trainDescPath;
-	std::string testDescPath;
+	std::shared_ptr<IoUtils> io;
 
 	// Constants	----------------------------------------------------------------
 	const std::string loggerName = "Tagger3D";
 	const std::string moduleName = "Tagger3D" + separator;
-	const std::string info = ".info";
-
-	//	Modes	-------------------------------------------------------------------
-	const std::string
-		modeTrain = "train",
-		modeTest = "test",
-		modeDesc = "desc",
-		modeClust = "clust",
-		modeTrainPred = "trainPred",
-		modeTestPred = "testPred",
-		modeAll = "all";
 
 	// Config keys	---------------------------------------------------------------
-	const std::string trainCluster = moduleName + "trainCluster";
+	const std::string trainDescName = "trainDescriptors";
+	const std::string testDescName = "testDescriptors";
+	const std::string trainHistogram = "trainHistogram";
+	const std::string testHistogram = "testHistogram";
 
-	const std::string trainDescriptors = "trainDescriptors";
-	const std::string testDescriptors = "testDescriptors";
-	const std::string saveDescriptorsFlag = moduleName + "saveDescriptors";
-	const std::string loadDescriptorsFlag = moduleName + "loadDescriptors";
+	const std::string storeHistogramKey = "storeHistogram";
+
+	//	Modes	-------------------------------------------------------------------
+	const std::vector<std::string> modeStrings = {"desc", "clust", "train", "pred"};
 
 	// Enums -------------------------------------------------------------------
 	enum Mode : unsigned char { DESC, CLUST, TRAIN, PRED };
-	const std::vector<std::string> modeStrings = {"desc", "clust", "train", "pred"};
-
-
 };
 
 } /* namespace Tagger3D */

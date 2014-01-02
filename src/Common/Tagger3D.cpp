@@ -8,9 +8,7 @@
 
 #include "Tagger3D.h"
 #include "Factory.h"
-
-#include <assert.h>
-#include <fstream>
+#include "IoUtils.h"
 
 namespace Tagger3D {
 
@@ -19,6 +17,9 @@ Tagger3D::Tagger3D(const std::map<std::string, std::string> &configMap) : Proces
 	logger = lgr::Logger::getLogger(loggerName);
 	DEBUG(logger, "Creating Tagger3D");
 
+	io = IoUtils::getInstance();
+	io->setPath(directory);
+
 	Factory f(configMap);
 	imgReader = f.getReader();
 	pointNormal = f.getPointNormal();
@@ -26,181 +27,25 @@ Tagger3D::Tagger3D(const std::map<std::string, std::string> &configMap) : Proces
 	descriptor = f.getDescriptor();
 	cluster = f.getCluster();
 	predictor = f.getPredictor();
-
-	trainDescPath = directory + "/" + trainDescriptors;
-	testDescPath = directory + "/" + testDescriptors;
 }
 
 Tagger3D::~Tagger3D() {
 	DEBUG(logger, "Destroying Tagger3D");
 }
 
-void Tagger3D::train() {
-	INFO(logger, "Train");
-
-	std::vector<int> labels = imgReader->readLabels();
-	std::vector<cv::Mat> descriptors = prepareDescriptors(trainDescPath);
-	std::vector<std::vector<int>> wordDescriptors;
-
-	if(descriptors.size() != labels.size()) {
-		std::runtime_error e("Number of point clouds and labels differ: " +
-				std::to_string(descriptors.size()) + ", " + std::to_string(labels.size()));
-		ERROR(logger, "train: " << e.what());
-		throw e;
-	}
-
-	prepareCluster(descriptors);
-
-
-	INFO(logger, "Generating text descriptions");
-	wordDescriptors = cluster->cluster(descriptors);
-
-	INFO(logger, "Training classificator");
-	predictor->train(wordDescriptors, labels);
-}
-
-void Tagger3D::test() {
-	INFO(logger, "Test");
-
-	std::vector<int> labels = imgReader->readLabels();
-	std::vector<cv::Mat> descriptors = prepareDescriptors(testDescPath);
-	std::vector<std::vector<int>> wordDescriptors;
-
-	if(descriptors.size() != labels.size()) {
-		std::runtime_error e("Number of point clouds and labels differ: " +
-				std::to_string(descriptors.size()) + ", " + std::to_string(labels.size()));
-		ERROR(logger, "train: " << e.what());
-		throw e;
-	}
-
-	cluster->load();
-
-	INFO(logger, "Generating word descriptions");
-	wordDescriptors = cluster->cluster(descriptors);
-
-	//predictor->load();
-	INFO(logger, "Classifying");
-	predictor->predict(wordDescriptors, labels);
-}
-
 int Tagger3D::predict(const std::string& rgbPath,
 		const std::string& depthPath) {
+
+	cluster->load();
+	predictor->load();
 
 	ColorCloud::Ptr colorCloud;// = imgReader->readImg(rgbPath, depthPath);
 	NormalCloud::Ptr normalCloud = pointNormal->computeNormals( colorCloud );
 	ScaleCloud::Ptr keypointCloud = detector->detect( colorCloud );
 	cv::Mat descriptors = descriptor->describe( colorCloud, keypointCloud, normalCloud);
-	cluster->load();
-	std::vector<int> wordDescriptors = cluster->cluster(descriptors);
-	return predictor->predict(wordDescriptors)[0];
-}
 
-void Tagger3D::saveDescriptors(const std::vector<cv::Mat>& descriptors,
-		const std::string& path) {
-
-	INFO(logger, "Saving descriptors of " << descriptors.size() << " point clouds");
-	INFO(logger, "Descriptors' dimensionality: " << descriptors[0].cols);
-
-	std::ofstream file(path + info, std::ios::binary);
-	if(!file.is_open()) {
-		std::runtime_error e("Couldn't open the file: " + path + info);
-		ERROR(logger, "saveDescriptors: " << e.what());
-		throw e;
-	}
-
-	size_t images = descriptors.size();
-	size_t dims = descriptors[0].cols;
-	std::vector<size_t> sizes;
-	sizes.reserve(images);
-	for(const auto &descriptor : descriptors)
-		sizes.push_back(descriptor.rows);
-
-	file.write((char*)&images, sizeof(size_t));
-	file.write((char*)&dims, sizeof(size_t));
-	file.write((char*)&sizes[0], images * sizeof(size_t));
-	file.close();
-
-	file.open(path.c_str(), std::ios::binary);
-	if(!file.is_open()) {
-		std::runtime_error e("Couldn't open the file: " + path);
-		ERROR(logger, "saveDescriptors: " << e.what());
-		throw e;
-	}
-
-	for(const auto &image : descriptors) {
-		for(int i = 0; i < image.rows; i++) {
-
-			char* ptr = (char*)image.ptr<float>(i);
-			file.write(ptr, dims * sizeof(float));
-		}
-	}
-	file.close();
-	INFO(logger, "Descriptors have been saved");
-}
-
-std::vector<cv::Mat> Tagger3D::loadDescriptors(const std::string& path) {
-
-	INFO(logger, "Loading descriptors");
-	std::ifstream file(path + info, std::ios::binary);
-	if(!file.is_open()) {
-		std::runtime_error e("Couldn't open the file: " + path + info);
-		ERROR(logger, "saveDescriptors: " << e.what());
-		throw e;
-	}
-
-	size_t images;
-	size_t dims;
-
-
-	file.read((char*)&images, sizeof(size_t));
-	file.read((char*)&dims, sizeof(size_t));
-
-	std::vector<size_t> sizes;
-	sizes.resize(images);
-	file.read((char*)&sizes[0], images * sizeof(size_t));
-
-	file.close();
-
-
-	file.open(path.c_str(), std::ios::binary);
-	if(!file.is_open()) {
-		std::runtime_error e("Couldn't open the file: " + path);
-		ERROR(logger, "saveDescriptors: " << e.what());
-		throw e;
-	}
-
-	std::vector<cv::Mat> descriptors;
-	descriptors.reserve(images);
-	for(const auto &size : sizes) {
-
-
-		//data.resize(size);
-		cv::Mat mat(size, dims, CV_32FC1);
-		file.read((char*)mat.data, size * dims * sizeof(float));
-
-		//std::cout << mat << std::endl;
-		//std::cout << mat.cols << std::endl;
-		descriptors.push_back(mat.clone());
-	}
-
-	INFO(logger, "Loaded descriptors of " << descriptors.size() << " point clouds");
-	INFO(logger, "Descriptors' dimensionality: " << descriptors[0].cols);
-	return descriptors;
-}
-
-std::vector<cv::Mat> Tagger3D::prepareDescriptors(const std::string &path) {
-
-	std::vector<cv::Mat> descriptors;
-
-	if(getParam<bool>(loadDescriptorsFlag))
-		descriptors = loadDescriptors(path);
-	else {
-		descriptors = computeDescriptors();
-		if(getParam<bool>(saveDescriptorsFlag))
-			saveDescriptors(descriptors, path);
-	}
-
-	return descriptors;
+	cv::Mat wordDescriptors = cluster->cluster(descriptors);
+	return getCatNum(predictor->predict(wordDescriptors));
 }
 
 std::vector<cv::Mat> Tagger3D::computeDescriptors() {
@@ -218,17 +63,20 @@ std::vector<cv::Mat> Tagger3D::computeDescriptors() {
 	while(!colorCloud->empty()) {
 
 		normalCloud = pointNormal->computeNormals(colorCloud);
+		TRACE(logger, "points: " << colorCloud->size());
 		pointNormal->cleanupInputCloud(colorCloud);
+		TRACE(logger, "points: " << colorCloud->size());
 		keypointCloud = detector->detect(colorCloud);
-		descMat = descriptor->describe(colorCloud, keypointCloud, normalCloud);
+		TRACE(logger, "Keypoints: " << keypointCloud->size());
 
-		if(descMat.empty() || !descMat.data) {
+		if(keypointCloud->size() == 0) {
 
-			std::runtime_error e("Couldn't find any keypoints in a pointcloud #" + counter);
+			std::runtime_error e("Couldn't find any keypoints in a pointcloud #" + std::to_string(counter));
 			ERROR(logger, "computeDescriptors: " << e.what());
 			throw e;
 		}
 
+		descMat = descriptor->describe(colorCloud, keypointCloud, normalCloud);
 		descriptors.push_back(descMat.clone());
 		colorCloud = imgReader->readImg();
 		counter++;
@@ -237,42 +85,22 @@ std::vector<cv::Mat> Tagger3D::computeDescriptors() {
 	return descriptors;
 }
 
-void Tagger3D::prepareCluster(const std::vector<cv::Mat> &descriptors) {
-	INFO(logger, "Preparing visual vocabulary");
-
-	switch( getParam<int>(trainCluster) ) {
-	case 1:
-		INFO(logger, "Clusterizing");
-		cluster->train(descriptors);
-		cluster->save();
-		break;
-	case 0:
-		INFO(logger, "Loading centroids");
-		cluster->load();
-		break;
-	default:
-		std::runtime_error e("Invalid cluster operation mode");
-		ERROR(logger, e.what());
-		throw e;
-	}
-}
-
-
 
 void Tagger3D::descRun() {
 	INFO(logger, "Compute Descriptors Run");
 
 	imgReader->setMode(ImgReader::TRAIN);
 	std::vector<cv::Mat> descriptors = computeDescriptors();
-	saveDescriptors(descriptors, trainDescPath);
+	io->saveVector<cv::Mat, float>(descriptors, trainDescName);
+
 	imgReader->setMode(ImgReader::TEST);
 	descriptors = computeDescriptors();
-	saveDescriptors(descriptors, testDescPath);
+	io->saveVector<cv::Mat, float>(descriptors, testDescName);
 }
 
 void Tagger3D::clustRun() {
 
-	std::vector<cv::Mat> descriptors = loadDescriptors(trainDescPath);
+	std::vector<cv::Mat> descriptors = io->loadVector<cv::Mat, float>(trainDescName);
 	cluster->train(descriptors);
 	cluster->save();
 }
@@ -280,31 +108,68 @@ void Tagger3D::clustRun() {
 void Tagger3D::trainRun() {
 	INFO(logger, "Train Predictor Run");
 
-	std::vector<cv::Mat> descriptors = loadDescriptors(trainDescPath);
+	bool storeHistogram = getParam<bool>(storeHistogramKey);
+
+	std::vector<cv::Mat> descriptors = io->loadVector<cv::Mat, float>(trainDescName);
 	imgReader->setMode(ImgReader::TRAIN);
 	std::vector<int> labels = imgReader->readLabels();
 	cluster->load();
+	cv::Mat wordDescriptors = cluster->cluster(descriptors);
 
+	if(storeHistogram) {
 
-	std::vector<std::vector<int>> wordDescriptors = cluster->cluster(descriptors);
-
+		io->initTextFile(trainHistogram);
+		for(int i = 0; i < wordDescriptors.rows; ++i) {
+			io->appendToTextFile<int>(labels[i]);
+			io->appendToTextFile<float>(wordDescriptors.row(i));
+		}
+		io->finalizeTextFile();
+	}
 
 	predictor->train(wordDescriptors, labels);
+	predictor->save();
 }
 
 void Tagger3D::predRun() {
 	INFO(logger, "Test Run");
 
-	std::vector<cv::Mat> descriptors = loadDescriptors(testDescPath);
+	bool storeHistogram = getParam<bool>(storeHistogramKey);
+
+	std::vector<cv::Mat> descriptors = io->loadVector<cv::Mat, float>(testDescName);
 	imgReader->setMode(ImgReader::TEST);
 	std::vector<int> labels = imgReader->readLabels();
 
 	cluster->load();
-	std::vector<std::vector<int>> wordDescriptors = cluster->cluster(descriptors);
-	predictor->predict(wordDescriptors, labels);
+	predictor->load();
+
+	cv::Mat wordDescriptors = cluster->cluster(descriptors);
+
+	if(storeHistogram) {
+
+		io->initTextFile(testHistogram);
+		for(int i = 0; i < wordDescriptors.rows; ++i) {
+			io->appendToTextFile<int>(labels[i]);
+			io->appendToTextFile<float>(wordDescriptors.row(i));
+		}
+		io->finalizeTextFile();
+	}
+
+	long correct = 0;
+	for(int i = 0; i < wordDescriptors.rows; ++i) {
+
+		std::vector<float> prediction = predictor->predict(wordDescriptors.row(i));
+		int cat = getCatNum(prediction);
+//			std::cout << cat << "\t";
+//		for(auto p : prediction)
+//			std::cout << p << " ";
+//		std::cout << std::endl;
+		if(cat == labels[i]) correct++;
+	}
+
+	std::cout << "Average: " << float(correct) / labels.size() * 100 << "%" << std::endl;
 }
 
-int Tagger3D::run() {
+void Tagger3D::run() {
 	INFO(logger, "Tagger3D running");
 
 	switch(getRunMode()) {
@@ -326,6 +191,12 @@ int Tagger3D::getRunMode() {
 		throw e;
 	}
 	return std::distance(std::begin(modeStrings), it);
+}
+
+int Tagger3D::getCatNum(const std::vector<float> &vec) const {
+
+	auto it = std::max_element(std::begin(vec), std::end(vec));
+	return std::distance(std::begin(vec), it);
 }
 
 } /* namespace Tagger3D */

@@ -20,9 +20,7 @@ RangeImgReader::RangeImgReader(const std::map<std::string, std::string> &configM
 
 	init();
 	count = -1;
-	chunkSize = getParam<int>(chunkSizeKey);
 	resize = getParam<int>( resizeKey );
-	depthScaleFactor = getParam<float>( depthScaleFactorKey );
 }
 
 RangeImgReader::~RangeImgReader() {}
@@ -44,7 +42,6 @@ ColorCloud::Ptr RangeImgReader::matToCloud(const cv::Mat &colorImg, const cv::Ma
 		ERROR(logger, "MatToCloud: " << e.what() );
 		throw e;
 	}
-//	std::cout << depthImg << std::endl;
 	ColorCloud::Ptr cloud( new ColorCloud() );
 	cloud->height = height;
 	cloud->width = width;
@@ -60,19 +57,14 @@ ColorCloud::Ptr RangeImgReader::matToCloud(const cv::Mat &colorImg, const cv::Ma
 		const cv::Vec3b *colorPtr = colorImg.ptr<cv::Vec3b>(y);
 
 		for (int x = 0; x < width; x++) {
-			MatType depth = depthPtr[x];
-//			std::cout << depth << " ";
+			float depth = depthPtr[x] / 1000.0f;
 
 			if ( depth == depth) {            // if depthValue is not NaN
 
-//				depth /= 10;
-				newPoint.z = MatType(depth * depthScaleFactor);
-				newPoint.x = x;
-				newPoint.y = y;
-//				newPoint.z = depth;
-//				newPoint.x = (x - width2) * factorX * depth;
-//				newPoint.y = (y - height2) * factorY * depth;
-//				std::cout << "x0: " << x << " y0: " << y << " z: " << depth << " x: " << newPoint.x << " y: " << newPoint.y << std::endl;
+				newPoint.z = depth;
+				newPoint.x = (x - width2) * factorX * depth;
+				newPoint.y = (y - height2) * factorY * depth;
+//				std::cout << "x0: " << x << " y0: " << y << " z: " << newPoint.z << " x: " << newPoint.x << " y: " << newPoint.y << std::endl;
 				cv::Vec3b vec = colorPtr[x];
 				newPoint.r = vec[2];
 				newPoint.g = vec[1];
@@ -89,7 +81,6 @@ ColorCloud::Ptr RangeImgReader::matToCloud(const cv::Mat &colorImg, const cv::Ma
 			}
 			cloud->push_back(newPoint);
 		}
-//		std::cout << std::endl;
 	}
 	TRACE(logger, "MatToCloud: Finished");
 	std::vector<int> vec;
@@ -116,8 +107,6 @@ void RangeImgReader::readImg(const std::string &colorPath, const std::string &de
 		ERROR(logger, "readImg: " << e.what() );
 		throw e;
 	}
-//	std::cout << depthImg << std::endl;
-//	TRACE(logger, "depthImgType = " << depthImg.type() << ":" << typeToStr(depthImg.type()));
 
 	colorImg = cv::imread(colorPath);
 	if( !colorImg.data ) {
@@ -126,8 +115,6 @@ void RangeImgReader::readImg(const std::string &colorPath, const std::string &de
 		ERROR(logger, "readImg: " << e.what() );
 		throw e;
 	}
-//	std::cout << colorImg << std::endl;
-//	TRACE(logger, "colorImgType = " << colorImg.type() << ":" << typeToStr(colorImg.type()));
 
 	if( resize > 0) {
 
@@ -135,7 +122,7 @@ void RangeImgReader::readImg(const std::string &colorPath, const std::string &de
 		int height = colorImg.rows;
 		float ratio = float(width)/height;
 
-		if( height >= width && height > resize) {
+		if( height >= width && height > resize ) {
 
 			height = resize;
 			width = height * ratio;
@@ -157,26 +144,6 @@ ColorCloud::Ptr RangeImgReader::readImg(const std::string &colorPath, const std:
 	readImg(colorPath, depthPath, colorImg, depthImg);
 	return matToCloud(colorImg, depthImg);
 
-}
-
-ColorVec RangeImgReader::readImgs() {
-
-	TRACE(logger, "readImgs: Starting");
-
-	ColorVec clouds;
-	int limit = count + chunkSize;
-	if( limit > colorImgVec.size()) {
-
-		limit = colorImgVec.size();
-	}
-	clouds.reserve(limit - count);
-
-	while( count < limit) {
-		clouds.push_back( readImg() );
-		++count;
-	}
-	TRACE(logger, "readImgs: Finished");
-	return clouds;
 }
 
 ColorCloud::Ptr RangeImgReader::readImg() {

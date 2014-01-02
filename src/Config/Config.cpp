@@ -19,6 +19,7 @@
 #include <set>
 #include <exception>
 #include <fstream>
+#include <iostream>
 
 namespace Tagger3D {
 namespace pod = boost::program_options::detail;

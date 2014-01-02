@@ -17,24 +17,22 @@ namespace Tagger3D {
 
 class NormalEstimator: public PointNormal {
 public:
+	NormalEstimator() = delete;
 	NormalEstimator(const std::map<std::string, std::string> &configMap);
-	virtual ~NormalEstimator();
+	virtual ~NormalEstimator() = default;
 
 	NormalCloud::Ptr computeNormals(const ColorCloud::Ptr &cloud);
 	NormalVec computeNormals(const ColorVec &clouds);
 
 
 private:
-	NormalEstimator();
 	void createNormalEstimator();
 
 	std::unique_ptr<pcl::NormalEstimationOMP<pcl::PointXYZRGB, pcl::Normal>> normalEstimator;
 
-	//	Config parameters
-	float normalRadius;
-
 	//	Config keys
-	const std::string normalRadiusKey = moduleName + "normalRadius";
+	const std::string normalRadius = moduleName + "normalRadius";
+	const std::string kNN = moduleName + "kNN";
 };
 
 } /* namespace Tagger3D */

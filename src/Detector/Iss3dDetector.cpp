@@ -13,19 +13,16 @@
 
 namespace Tagger3D {
 
-Iss3dDetector::Iss3dDetector(const std::map<std::string, std::string> &configMap) : Detector(configMap) {
-
+Iss3dDetector::Iss3dDetector(const std::map<std::string, std::string> &configMap)
+	: Detector(configMap) {
 
 	createDetector();
 	assert(detector != nullptr);
-
 }
-
-Iss3dDetector::~Iss3dDetector() {}
 
 void Iss3dDetector::createDetector() {
 
-	std::unique_ptr<pcl::ISSKeypoint3D<pcl::PointXYZRGB, pcl::PointXYZRGB>> temp(new pcl::ISSKeypoint3D<pcl::PointXYZRGB, pcl::PointXYZRGB>);
+	detectorPtrType temp(new pcl::ISSKeypoint3D<pcl::PointXYZRGB, pcl::PointXYZRGB>);
 	pcl::search::KdTree<pcl::PointXYZRGB>::Ptr tree( new pcl::search::KdTree<pcl::PointXYZRGB>() );
 	float resolution = getParam<float>(modelResolution);
 	salientRadius = 6 * resolution;

@@ -23,6 +23,8 @@ namespace Tagger3D {
 class KMeansCluster: public Cluster {
 public:
 
+	KMeansCluster() = delete;
+
 	/**
 	 * Parametric constructor.
 	 * @controller		controller
@@ -33,61 +35,27 @@ public:
 	/**
 	 * Default destructor.
 	 */
-	~KMeansCluster();
+	~KMeansCluster() = default;
 
-	/**
-	 * The method performs clusterization.
-	 * @throws std::logic_error
-	 * @override
-	 */
-	const std::vector<int> cluster(const cv::Mat &descriptors);
 
-	/**
-	 * The method performs clusterization of muliple images.
-	 * @throws std::logic_error
-	 * @override.
-	 */
-	const std::vector<std::vector<int>> cluster(const std::vector<cv::Mat> &descriptors);
-
-	/**
-	 *	The method trains the clasterizator.
-	 *	@throws std::logic_error
-	 *	@override
-	 */
-	bool train(const std::vector<cv::Mat> &descriptors);
-
-	/**
-	 * The method trains the clasterizator;
-	 * @return bool
-	 * @override
-	 */
-	bool train(const cv::Mat &descriptors);
-
-	/**
-	 *	The method saves the KMeans.
-	 *	@throws std::logic_error, std::runtime_error
-	 *	@override
-	 */
-	bool save();
-
-	/**
-	 *	The method loads the KMeans.
-	 *	@throws std::runtime_error
-	 *	@override
-	 */
-	bool load();
-
-	bool isLoaded(){ return loaded; }
+	cv::Mat cluster(const cv::Mat &descriptors) override;
+	void train(const std::vector<cv::Mat> &descriptors) override;
+	void save() override;
+	void load() override;
+	bool isLoaded() override { return loaded; };
 
 private:
 
 	std::unique_ptr<cv::BOWKMeansTrainer> kMeans;
 	cv::Ptr<cv::DescriptorMatcher> descriptorMatcher;
+	cv::Mat centroids;
+	cv::Mat makeHistogram(const std::vector<int> &vec) const;
+	cv::Mat makeHistogram(const std::vector<cv::DMatch> &vec) const;
 
 	/**
 	 * KMeans parameters.
 	 */
-	int clusterCount;
+
 	int criteriaEps;
 	int criteriaItr;
 	int attempts;
@@ -102,24 +70,21 @@ private:
 	 */
 	std::string matcherType;
 	std::string centroidIoName;
-	std::string ioFileFormat;
 
 	/**
 	 * KMeans key values. Configuration parameters' values should be stored
 	 * in a configuration file as values assigned to the keys below.
 	 * The supported format is one key:value pair per line.
 	 */
-	const std::string clusterCountKey = "dictionarySize";
 	const std::string criteriaEpsKey = moduleName + "criteriaEps";
 	const std::string criteriaItrKey = moduleName + "criteriaItr";
 	const std::string attemptsKey = moduleName + "attempts";
 	const std::string flagsKey = moduleName + "flags";
 	const std::string matcherTypeKey = moduleName + "matcherType";
 	const std::string centroidIoNameKey = moduleName + "centroidIoName";
-	const std::string ioFileFormatKey = moduleName + "ioFileFormat";
 
-	bool createKMeans();
-	bool createDescriptorMatcher();
+	void createKMeans();
+	void createDescriptorMatcher();
 };
 
 } /* namespace Tagger3D */

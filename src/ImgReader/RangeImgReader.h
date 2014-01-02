@@ -21,7 +21,6 @@ public:
 	virtual ~RangeImgReader();
 
 	ColorCloud::Ptr readImg();
-	ColorVec readImgs();
 
 	int readLabel();
 
@@ -33,12 +32,8 @@ protected:
 
 private:
 	int count;
-	int chunkSize;
-	float depthScaleFactor;
 	int resize;
 
-	const std::string chunkSizeKey = moduleName + "chunkSize";
-	const std::string depthScaleFactorKey = moduleName + "depthScaleFactor";
 	const std::string resizeKey = moduleName + "resize";
 	const std::string trainColorImg = moduleName + "trainColorImgList";
 	const std::string trainDepthImg = moduleName + "trainDepthImgList";

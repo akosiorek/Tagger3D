@@ -1,7 +1,12 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project( Tagger3D )
 
-# Project details
+set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_CXX_COMPILER_ARG1 -std=c++11)
+set(CMAKE_ECLIPSE_VERSION 4.3)
+
+
+# Project details--
 set( Project ${CMAKE_PROJECT_NAME} )
 
 set( Tagger3D_Version_Major 1 )
@@ -13,32 +18,26 @@ configure_file( ${CMAKE_SOURCE_DIR}/CMakeScripts/CMakeSettings.h.cmake
 		${CMAKE_SOURCE_DIR}/CMakeSettings.h )
 	
 # Compiler Flags
-if (UNIX)
-	message( STATUS "Setting GCC flags" )
-	set( CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS} -g -lm -O3" )
-endif()  
+message( STATUS "Setting GCC flags" )
+set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lm ")#-O3 -march=native -mfpmath=sse -funroll-loops -fopenmp" ) 
 message( STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}" )
 
-# Use some of our own Find* scripts 
+# Use some of our own Find* scripts  
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMakeScripts" )
-message( STATUS "CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}" )   
+message( STATUS "CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}" )    
    
-# PCL   
-find_package( PCL 1.7 REQUIRED )
+# PCL    
+find_package( PCL 1.7 COMPONENTS common features keypoints REQUIRED ) 
 include_directories( ${PCL_INCLUDE_DIRS} )
-link_directories( ${PCL_LIBRARY_DIRS} ) 
+link_directories( ${PCL_LIBRARY_DIRS} )  
 add_definitions( ${PCL_DEFINITIONS} )
-set( LIBS ${LIBS} ${PCL_LIBRARIES} )
-message( STATUS "PCL Include: ${PCL_INCLUDE_DIRS}" )
+set( LIBS ${LIBS} ${PCL_LIBRARIES} ) 
+message( STATUS "PCL Include: ${PCL_INCLUDE_DIRS}" ) 
 message( STATUS "PCL Libraries: ${PCL_LIBRARY_DIRS}" )
-message( STATUS "PCL Libraries: ${PCL_LIBRARIES}" )
+message( STATUS "PCL Libraries: ${PCL_LIBRARIES}" ) 
  
 #	Boost	
-set( Boost_USE_STATIC_LIBS ON )
 set( Boost_USE_MULTITHREADED ON )
-set( Boost_USE_STATIC_RUNETIME OFF )
-set( Boost_NO_SYSTEM_PATH ON )
-set( Boost_NO_BOOST_CMAKE ON )
 find_package( Boost 1.55 COMPONENTS program_options filesystem system REQUIRED )
 include_directories( ${Boost_INCLUDE_DIR} )
 link_directories( ${Boost_LIBRARY_DIRS} )
@@ -48,11 +47,22 @@ message( STATUS "Boost Libraries: ${Boost_LIBRARY_DIRS}" )
 message( STATUS "Boost Libraries: ${Boost_LIBRARIES}" ) 
 
 # OpenCV
-find_package( OpenCV 2.4.6 COMPONENTS core highgui features2d imgproc ml REQUIRED)
+find_package( OpenCV 2.4.6 COMPONENTS core highgui features2d imgproc REQUIRED)
 set( LIBS ${LIBS} ${OpenCV_LIBRARIES} )
 message( STATUS "OpenCV Include: ${OpenCV_INCLUDE_DIRS}" )
 message( STATUS "OpenCV Libraries: ${OpenCV_LIBRARY_DIRS}" )
 message( STATUS "OpenCV Libraries: ${OpenCV_LIBRARIES}" )
+
+#	LIBSVM
+find_package( LIBSVM REQUIRED )
+include_directories( ${LIBSVM_INCLUDE_DIRS})  
+set( LIBS ${LIBS} ${LIBSVM_LIBRARIES} )
+ 
+# vlfeat
+message(STATUS "vlfeat ${CMAKE_SOURCE_DIR}/../lib/include") 
+include_directories("${CMAKE_SOURCE_DIR}/../lib/include")
+set(vlfeat_LIBS "${CMAKE_SOURCE_DIR}/../lib/vlfeat/libvl.so") 
+set(LIBS ${LIBS} ${vlfeat_LIBS})
 
 #	log4cxx
 find_package( log4cxx REQUIRED ) 

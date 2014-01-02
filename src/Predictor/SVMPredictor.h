@@ -2,19 +2,18 @@
  * SVMPredictor.h
  *
  *  Created on: August 22, 2013
- *      Author: Grzegorz Gwardys
+ *      Author: Adam Kosiorek
  * Description: SVM predictor class declaration
  */
 
-#ifndef SVMPREDICTER_H_
-#define SVMPREDICTER_H_
+#ifndef SVMPREDICTOR_H_
+#define SVMPREDICTOR_H_
 
 #include "Predictor.h"
+#include "IoUtils.h"
 
+#include <svm.h>
 #include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/ml/ml.hpp>
-
 
 namespace Tagger3D {
 
@@ -23,69 +22,70 @@ namespace Tagger3D {
  */
 class SVMPredictor: public Predictor {
 public:
+	SVMPredictor() = delete;
 
 	/**
 	 * Parametric constructor
 	 * @param _configMap - a map of configuration parameters
 	 */
-	SVMPredictor(const std::map<std::string, std::string> &_configMap);
+	SVMPredictor(const std::map<std::string, std::string> &_configMap,
+			const std::string &predictorType = "predictor");
 
 	/**
 	 * Default descrutor
 	 */
 	virtual ~SVMPredictor();
 
-	void addImage(const std::vector<int> &vec, const int &label);
-	void train();
-    std::vector<int> predict();
+	virtual void train(cv::Mat &data, const std::vector<int> &labels) override;
+	virtual std::vector<float> predict(const cv::Mat &visualWords) override;
+	virtual void load() override;
+    virtual void save() override;
 
 private:
-	SVMPredictor();
 	void createSVM();
-	void load();
+	void normaliseData(cv::Mat &mat, const cv::Mat &partition);
 
-
-    std::vector<int> labels;
-    Mat DataMat;
-    //new_val = (old_val-v_min)/(v_max-v_min);
-    Mat maxValues;
-    Mat minValues;
-
-    const cv::Mat computeMaxValues(const Mat& mat) const;
-
-    CvSVMParams params;
-    CvSVM SVM;
+    cv::Mat v_max;
+    std::shared_ptr<IoUtils> io;
 
     // Configuration parameters
-    std::string svmPath;
+    std::string model;
     std::string histogramPath;
+    std::string normalizationPath;
     bool storeHistogram;
-    int dictionarySize;
+
 
     //	Configuration keys
-    const std::string svmType = moduleName + "svmType";
-    const std::string kernelType = moduleName + "kernelType";
-    const std::string termCrit = moduleName + "termCrit";
-    const std::string svmPathKey = moduleName + "svmPath";
-    const std::string dictionarySizeKey = "dictionarySize";
-    const std::string histogramPathKey = moduleName + "histogramPath";
-    const std::string storeHistogramKey = moduleName + "storeHistogram";
-    const std::string epsilon = moduleName + "epsilon";
-    const std::string maxIter = moduleName + "maxIter";
-    const std::string degree = moduleName + "degree";
-    const std::string gamma = moduleName + "gamma";
-    const std::string C = moduleName + "C";
+    const std::string svmTypeKey = moduleName + "svmType";
+    const std::string kernelTypeKey = moduleName + "kernelType";
 
-    const int svmMatType = CV_32F;
+    const std::string degreeKey = moduleName + "degree";
+    const std::string gammaKey = moduleName + "gamma";
+    const std::string coef0Key = moduleName + "coef0";
+    const std::string epsKey = moduleName + "eps";
+    const std::string cache_sizeKey = moduleName + "cacheSize";
+    const std::string pKey = moduleName + "p";
+    const std::string shrinkingKey = moduleName + "shrinking";
+    const std::string probabilityKey = moduleName + "probability";
+    const std::string nr_weightKey = moduleName + "nrWeight";
+    const std::string CKey = moduleName + "C";
 
-    const std::string normValuesFile = "maxValues.xml";
-    const std::string key = "key";
+    const std::string modelKey = moduleName + "svmPath";
+    const std::string normalizationPathKey = moduleName + "normalizationPath";
 
-    void normalizeData(cv::Mat &mat, const cv::Mat &normValues) const;
-    void saveNormValues(const cv::Mat &normValues) const;
-    const cv::Mat loadNormValues() const;
-    cv::Mat confusionMatrix(const std::vector<int> &labels, const std::vector<int> &predictions) const;
+    const std::string class_numberKey = moduleName + "classes";
+
+    int class_number;
+    int dims;
+
+
+	bool modelLoaded;
+    int defaultLabel;
+    svm_parameter params;
+    svm_model* svmModel;
+
+    const int REDUCE_TO_ROW = 0;
 };
 
-} /* namespace semantic_tagger */
-#endif /* SVMPREDICTER_H_ */
+} /* namespace Tagger3d */
+#endif /* SVMPREDICTOR_H_ */
