@@ -1,18 +1,28 @@
 \chapter{Introduction}
 \addcontentsline{toc}{chapter}{Introduction}
 
-	
-	Capturing visual information have never been easier. Terabytes of photographs and movies are uploaded on the Web every day, causing unprecedented growth of popular storage services. The traditional means of annotation cease to suffice. Hand-tagging and description have strong cultural dependencies and introduce ambiguity. Without any better solution, databases become increasingly harder to navigate and browse. Matters could have been better if computers understood content they deal with. But even the latest software is far from and cannot be considered intelligent in general terms.
-	
-	Almost everyone of us posses a camera, be it a professional dSLR or a tiny one embedded into one of the ubiquitous smartphones. As human beings we have no difficulty understanding this data, just as we have no difficulty understanding what our eyes see. Unfortunately, the situation of our computers is the very opposite. Storage capacity of modern-day computers is overwhelming.  But even if hard-drives are full of images it is impossible to identify their semantic meaning without the aid of specialised algorithms, however. These algorithms often balance on the verge of image processing and machine learning --- they are a part of an area called computer vision. As Forsyth and Ponce \cite{ponce2011cv} have it: 
+	It has never been easier to capture visual information. Popular storage services grow lighting fast due to terabytes of photographs and movies we upload every day. The growth is so fast that hand-tagging and description, the traditional means of annotation, cease to suffice. They are ambiguous, emotional and rarely optimal. With no better solution at hand, databases are becoming increasingly harder to browse. Another, but quite similar setting occurs in the field of mobile robotics. A mobile robot is there to interact with its enviornment. If so, it would be desirable for the robot to know what kind of an enviornment it is in. The problem can be treated as a scene or object classification problem, one of the most popular computer vision issues in the last decade. As Forsyth and Ponce \cite{ponce2011cv} have it:	
 	
 	\begin{quote} 
 		computer vision is (...) an enterprise that uses statistical methods to disentangle data using models constructed with the aid of geometry, physics, and learning theory.
 	\end{quote} 
 	
-	The area of computer vision is not new. The original applications were industrial inspection or mobile robot navigation. More recent approaches consider problems such as human-machine interfaces, medical diagnostics, or image retrieval.
+	The area of computer vision is not new and have initially dealt with industrial inspection or mobile robot navigation. Recent applications include human-machine interfaces, medical diagnostics and image retrieval.
 	
-	How about semantic classification of scenes or objects? Suppose a mobile robot would know, or understand, what does it have to deal with. Suppose a robot would know that it is about to take, say, a glass of water. How would it affect the robot's behaviour? Could it have any impact on the force of the grip? or the speed and the manner of the planned object movement? Answers for all this questions are yes. Semantic classification is possible, but it requires clever mechanisms of computer vision and powerful computers. It can be seen as a part of a more general classification problem, which machine learning handles quite well. Suitable algorithms include, but are not limited to, artificial neural networks, deep belief networks, logistic regression, support vector machines and approaches based on probabilistic graphical models. One has to bear in mind that none of them can handle the problem directly. That is, it is inconceivable to feed a whole image as is into a classifier --- some degree of preprocessing is required. One such preprocessing technique is translation of image into a feature vector. What should this vector comprise of? A Bag of Words model is one technique that answers this question. This model has been first used for scene classification in 2004 in \cite{csurka2004visual} and maintains its popularity ever since.
+	This paper tackles two issues. Firstly, the Bag of Words approach to image classification is reviewed. It is... .
+	Secondly, a configurable and flexible application for image classification is designed and implemented in C++. There are many algorithms suitable for any bag of words pipeline. In order to choose an optimal solution for a specific problem extensive evaluation of the algorithms have to be performed. The process can be greatly simplified by a programme that would be: (1) easily extensible, that is adding new algorithms wold be painless and (2) configurable, with every parameter (and algorithm) adjustable at runtime.
+	
+       \section{scope and purpose of this work}
+       The goal of this work is to design a flexible and configurable application for point cloud classification. The point cloud should be registered by the Microsoft Kinect. The scope of the work is as follows:
+       \begin{itemize}
+        \item literature review in the area of bag of words image classification
+        \item design of a pipeline for bag of words classification of point clouds
+        \item design of a configurable programme for point cloud classification
+        \item implementation of the programme in C++ using OpenCV and/or PointCloud Library
+        \item evaluation of algorithms for bag of words classification
+        \item evaluation of the programme on two scientific point cloud databases
+       \end{itemize}
+
 	
 	In this paper a technique for semantic object classification based on three dimensional point clouds is presented. The rest of this chapter is organised as follows: Section 1 describes the Bag of Words technique in detail. Construction of an image's model is discussed and the most popular algorithms are summarised. Section 2 provides basic information on the problem of classification, introduces basic concepts and methods of classification. Section 3 names C++ computer vision and general purpose libraries used in this project. Finally in Section 4 two datasets of RGBD images are outlined. The following chapters are titled ``Design'' and ``Experiments and Results''. The former contains description of required functionality of a programme for BoW object classification, its design and implementation details. The latter addresses topics of experimental setup, performed experiments and a summary of results. 
 	
