@@ -13,61 +13,53 @@ I was expecting a `,' or a `}'---line 128 of file article.bib
  :   url = {http://pointclouds.org/}
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 140 of file article.bib
- :     
- :     url = {http://opencv.org/}
-(Error may have been on previous line)
-I'm skipping whatever remains of this entry
-Warning--entry type for "Boost" isn't style-file defined
---line 143 of file article.bib
-Warning--entry type for "log4cxx" isn't style-file defined
---line 148 of file article.bib
 Warning--entry type for "KinectFusion" isn't style-file defined
---line 281 of file article.bib
-Warning--to sort, need author or key in Boost
-Warning--to sort, need author or key in log4cxx
+--line 270 of file article.bib
+Warning--I didn't find a database entry for "Boost"
+Warning--I didn't find a database entry for "OpenCV"
+Warning--I didn't find a database entry for "log4cxx"
 Warning--to sort, need author or key in KinectFusion
 Warning--empty journal in pcl_keypoint_comparision
 Warning--empty year in pcl_keypoint_comparision
-You've used 25 entries,
+You've used 26 entries,
             2118 wiz_defined-function locations,
-            634 strings with 7866 characters,
-and the built_in function-call counts, 9021 in all, are:
-= -- 907
-> -- 372
-< -- 14
-+ -- 156
-- -- 124
-* -- 563
-:= -- 1382
-add.period$ -- 78
-call.type$ -- 25
-change.case$ -- 136
+            651 strings with 8521 characters,
+and the built_in function-call counts, 10032 in all, are:
+= -- 1024
+> -- 420
+< -- 16
++ -- 173
+- -- 140
+* -- 638
+:= -- 1552
+add.period$ -- 88
+call.type$ -- 26
+change.case$ -- 147
 chr.to.int$ -- 0
-cite$ -- 30
-duplicate$ -- 394
-empty$ -- 751
-format.name$ -- 124
-if$ -- 1993
+cite$ -- 29
+duplicate$ -- 435
+empty$ -- 813
+format.name$ -- 140
+if$ -- 2213
 int.to.chr$ -- 0
-int.to.str$ -- 25
-missing$ -- 23
-newline$ -- 121
-num.names$ -- 44
-pop$ -- 185
+int.to.str$ -- 26
+missing$ -- 26
+newline$ -- 131
+num.names$ -- 50
+pop$ -- 187
 preamble$ -- 1
-purify$ -- 112
+purify$ -- 122
 quote$ -- 0
-skip$ -- 304
+skip$ -- 324
 stack$ -- 0
-substring$ -- 535
-swap$ -- 132
-text.length$ -- 14
+substring$ -- 625
+swap$ -- 148
+text.length$ -- 16
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 98
-warning$ -- 5
-while$ -- 82
-width$ -- 27
-write$ -- 264
-(There were 2 error messages)
+type$ -- 102
+warning$ -- 3
+while$ -- 97
+width$ -- 28
+write$ -- 292
+(There was 1 error message)

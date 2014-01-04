@@ -1,42 +1,42 @@
-\contentsline {chapter}{\numberline {1}Introduction}{7}
-\contentsline {chapter}{Introduction}{7}
-\contentsline {section}{\numberline {1.1}scope and purpose of this work}{8}
-\contentsline {section}{\numberline {1.2}Bow of Words}{9}
-\contentsline {subsection}{\numberline {1.2.1}Processing Pipeline}{10}
-\contentsline {subsubsection}{Region Detection}{10}
-\contentsline {subsubsection}{Feature Extraction}{11}
-\contentsline {subsubsection}{Vector Quantization}{11}
-\contentsline {subsection}{\numberline {1.2.2}Applications in Computer Vision}{12}
-\contentsline {subsubsection}{Content Based Image Retrieval}{12}
-\contentsline {subsubsection}{Scene and Object Classification}{13}
-\contentsline {section}{\numberline {1.3}Problem of Classification}{14}
-\contentsline {subsubsection}{Na\`ive Bayes}{14}
-\contentsline {subsubsection}{k-Nearest Neighbours}{15}
-\contentsline {subsubsection}{Support Vector Machine}{15}
-\contentsline {section}{\numberline {1.4}Libraries}{16}
-\contentsline {subsection}{\numberline {1.4.1}PointCloud Library}{16}
-\contentsline {subsection}{\numberline {1.4.2}OpenCV}{16}
-\contentsline {subsection}{\numberline {1.4.3}Boost}{17}
-\contentsline {section}{\numberline {1.5}Datasets}{17}
-\contentsline {subsection}{\numberline {1.5.1}Berkeley 3D Object Dataset}{17}
-\contentsline {subsection}{\numberline {1.5.2}The University of Tokyo Dataset}{18}
-\contentsline {chapter}{\numberline {2}Design}{20}
-\contentsline {chapter}{Design}{20}
-\contentsline {section}{\numberline {2.1}Software Functionality and Architecture}{20}
-\contentsline {subsection}{\numberline {2.1.1}Required functionality}{20}
-\contentsline {subsubsection}{Input/Output operations}{21}
-\contentsline {subsubsection}{Configuration}{21}
-\contentsline {subsubsection}{Interchangeability of algorithms}{21}
-\contentsline {subsection}{\numberline {2.1.2}Architecture}{22}
-\contentsline {subsubsection}{Configurability}{22}
-\contentsline {subsubsection}{Strategy Design Pattern}{22}
-\contentsline {chapter}{\numberline {3}Experiments and Results}{25}
-\contentsline {chapter}{Experiments and results}{25}
-\contentsline {section}{\numberline {3.1}Experimental Setup}{25}
-\contentsline {section}{\numberline {3.2}Experiments}{25}
-\contentsline {subsection}{\numberline {3.2.1}Detectors}{26}
-\contentsline {subsection}{\numberline {3.2.2}Descriptors}{26}
-\contentsline {subsection}{\numberline {3.2.3}Codebook}{26}
-\contentsline {subsection}{\numberline {3.2.4}B3DO}{27}
-\contentsline {subsection}{\numberline {3.2.5}Tokyo}{28}
-\contentsline {section}{\numberline {3.3}Conclusion}{29}
+\contentsline {chapter}{\numberline {1}Introduction}{7}{chapter.1}
+\contentsline {chapter}{Introduction}{7}{chapter.1}
+\contentsline {section}{\numberline {1.1}scope and purpose of this work}{8}{section.1.1}
+\contentsline {section}{\numberline {1.2}Bow of Words}{9}{section.1.2}
+\contentsline {subsection}{\numberline {1.2.1}Processing Pipeline}{10}{subsection.1.2.1}
+\contentsline {subsubsection}{Region Detection}{10}{section*.4}
+\contentsline {subsubsection}{Feature Extraction}{11}{section*.5}
+\contentsline {subsubsection}{Vector Quantization}{11}{section*.6}
+\contentsline {subsection}{\numberline {1.2.2}Applications in Computer Vision}{13}{subsection.1.2.2}
+\contentsline {subsubsection}{Content Based Image Retrieval}{13}{section*.7}
+\contentsline {subsubsection}{Scene and Object Classification}{14}{section*.8}
+\contentsline {section}{\numberline {1.3}Problem of Classification}{15}{section.1.3}
+\contentsline {subsubsection}{Na\`ive Bayes}{15}{section*.9}
+\contentsline {subsubsection}{k-Nearest Neighbours (kNN)}{15}{section*.10}
+\contentsline {subsubsection}{Support Vector Machine (SVM)}{15}{section*.11}
+\contentsline {section}{\numberline {1.4}Libraries}{16}{section.1.4}
+\contentsline {subsection}{\numberline {1.4.1}PointCloud Library}{17}{subsection.1.4.1}
+\contentsline {subsection}{\numberline {1.4.2}OpenCV}{17}{subsection.1.4.2}
+\contentsline {subsection}{\numberline {1.4.3}Boost}{18}{subsection.1.4.3}
+\contentsline {section}{\numberline {1.5}Datasets}{18}{section.1.5}
+\contentsline {subsection}{\numberline {1.5.1}Berkeley 3D Object Dataset}{19}{subsection.1.5.1}
+\contentsline {subsection}{\numberline {1.5.2}The University of Tokyo Dataset}{19}{subsection.1.5.2}
+\contentsline {chapter}{\numberline {2}Design}{21}{chapter.2}
+\contentsline {chapter}{Design}{21}{chapter.2}
+\contentsline {section}{\numberline {2.1}Software Functionality and Architecture}{21}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}Required functionality}{21}{subsection.2.1.1}
+\contentsline {subsubsection}{Input/Output operations}{22}{section*.15}
+\contentsline {subsubsection}{Configuration}{22}{section*.16}
+\contentsline {subsubsection}{Interchangeability of algorithms}{22}{section*.17}
+\contentsline {subsection}{\numberline {2.1.2}Architecture}{23}{subsection.2.1.2}
+\contentsline {subsubsection}{Configurability}{23}{section*.19}
+\contentsline {subsubsection}{Strategy Design Pattern}{23}{section*.20}
+\contentsline {chapter}{\numberline {3}Experiments and Results}{26}{chapter.3}
+\contentsline {chapter}{Experiments and results}{26}{chapter.3}
+\contentsline {section}{\numberline {3.1}Experimental Setup}{26}{section.3.1}
+\contentsline {section}{\numberline {3.2}Experiments}{26}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Detectors}{27}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Descriptors}{27}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}Codebook}{27}{subsection.3.2.3}
+\contentsline {subsection}{\numberline {3.2.4}B3DO}{28}{subsection.3.2.4}
+\contentsline {subsection}{\numberline {3.2.5}Tokyo}{29}{subsection.3.2.5}
+\contentsline {section}{\numberline {3.3}Conclusion}{30}{section.3.3}

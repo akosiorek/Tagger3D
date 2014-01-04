@@ -1,11 +1,5 @@
 \begin{thebibliography}{10}
 
-\bibitem{log4cxx}
-Apache log4cxx.
-
-\bibitem{Boost}
-Boost c++ libraries.
-
 \bibitem{KinectFusion}
 Microsoft kinect fusion.
 
@@ -17,10 +11,12 @@ L.~A. Alexandre.
   IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS),
   Vilamoura, Portugal}, 2012.
 
-\bibitem{OpenCV}
-G.~Bradski.
-\newblock {The OpenCV Library}.
-\newblock {\em Dr. Dobb's Journal of Software Tools}, 2000.
+\bibitem{libsvm}
+C.-C. Chang and C.-J. Lin.
+\newblock {LIBSVM}: A library for support vector machines.
+\newblock {\em ACM Transactions on Intelligent Systems and Technology},
+  2:27:1--27:27, 2011.
+\newblock Software available at \url{http://www.csie.ntu.edu.tw/~cjlin/libsvm}.
 
 \bibitem{csurka2004visual}
 G.~Csurka, C.~Dance, L.~Fan, J.~Willamowski, and C.~Bray.
@@ -62,6 +58,11 @@ K.~Lai, L.~Bo, X.~Ren, and D.~Fox.
 \newblock In {\em Robotics and Automation (ICRA), 2011 IEEE International
   Conference on}, pages 1817--1824. IEEE, 2011.
 
+\bibitem{li2010investigating}
+X.~Li and A.~Godil.
+\newblock Investigating the bag-of-words method for 3d shape retrieval.
+\newblock {\em EURASIP Journal on Advances in Signal Processing}, 2010:5, 2010.
+
 \bibitem{sift_keypoint}
 D.~G. Lowe.
 \newblock Object recognition from local scale-invariant features.
@@ -72,6 +73,17 @@ D.~G. Lowe.
 D.~G. Lowe.
 \newblock Distinctive image features from scale-invariant keypoints.
 \newblock {\em International journal of computer vision}, 60(2):91--110, 2004.
+
+\bibitem{fisher1}
+F.~Perronnin and C.~Dance.
+\newblock Fisher kernels on visual vocabularies for image categorization.
+\newblock In {\em Computer Vision and Pattern Recognition, 2007. CVPR'07. IEEE
+  Conference on}, pages 1--8. IEEE, 2007.
+
+\bibitem{fisher2}
+F.~Perronnin, J.~S{\'a}nchez, and T.~Mensink.
+\newblock Improving the fisher kernel for large-scale image classification.
+\newblock In {\em Computer Vision--ECCV 2010}, pages 143--156. Springer, 2010.
 
 \bibitem{ponce2011cv}
 J.~Ponce, D.~Forsyth, E.-p. Willow, S.~Antipolis-M{\'e}diterran{\'e}e,
