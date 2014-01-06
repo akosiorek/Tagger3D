@@ -103,7 +103,7 @@ private:
 	const std::vector<std::string> modeStrings = {"desc", "clust", "train", "pred"};
 
 	// Enums -------------------------------------------------------------------
-	enum Mode : unsigned char { DESC, CLUST, TRAIN, PRED };
+	enum Mode { DESC, CLUST, TRAIN, PRED };
 };
 
 } /* namespace Tagger3D */

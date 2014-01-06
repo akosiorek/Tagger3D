@@ -1,8 +1,5 @@
 \begin{thebibliography}{10}
 
-\bibitem{KinectFusion}
-Microsoft kinect fusion.
-
 \bibitem{pcl_features}
 L.~A. Alexandre.
 \newblock 3d descriptors for object and category recognition: a comparative

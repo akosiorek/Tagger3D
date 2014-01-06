@@ -45,10 +45,10 @@ private:
 
 	const std::string loggerName = "Main.Factory";
 
-	enum Dataset : unsigned char { B3DO, TOKYO };
-	enum DetectorType : unsigned char { SIFT, ISS3D, DENSE };
-	enum DescriptorType : unsigned char { PFH, FPFH, PFHRGB };
-	enum PredictorType : unsigned char { SVM };
+	enum Dataset { B3DO, TOKYO };
+	enum DetectorType { SIFT, ISS3D, DENSE };
+	enum DescriptorType { PFH, FPFH, PFHRGB };
+	enum PredictorType { SVM };
 };
 
 } // namespace Tagger3D

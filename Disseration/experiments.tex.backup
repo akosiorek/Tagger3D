@@ -2,16 +2,32 @@
 \addcontentsline{toc}{chapter}{Experiments and results}
 
 \section{Experimental Setup}
-	Thanks to the configurability of the programme the majority of experiments were run in a batch processing mode. That is a script in bash was written that allowed running multiple tests in series without any maintenance from the user. In a single series of tests any parameters could be modified or any data processing algorithm could be exchanged. All experiments were run on a notebook with Intel Core i7 quad core 2.2GHz cpu, 8 Gb of RAM and a nVidia M540 GPU.
+	Thanks to the configurability of the programme we were able to run the majority of experiments in a batch processing mode. That is, we wrote a script in bash that allowed running multiple tests in series without any maintenance. In a single series of tests any parameters could be modified or any data processing algorithm could be exchanged. All experiments were run on a notebook with Intel Core i7 quad core 2.2 GHz CPU, 8 GB of RAM and a nVidia M540 GPU.
 
-\section{Experiments}
-	The Bag of Words classification pipeline consists of four previously discussed steps. For there are many different algorithms suitable for each part of the pipeline, an extensive research is required in order to discover the best possible combination in a particular setting. The number of options grows combinatorial with number of candidates for each processing step. Moreover, many algorithms have different parameters that should be adjusted for any given conditions. Evaluation of every possibility is unfeasible due to the lack of time and computational power required. Even if only a single library, PCL, is considered, there are far too many options with 12 keypoint detectors and more than 20 feature description algorithms. 
+\section{Experiments}	
+	As already stated, a BoW pipeline consists of:
+	\begin{inparaenum}[\upshape(1\upshape)]
+	\item keypoint detection
+	\item feature extraction 
+	\item vector quantization and
+	\item classification.
+	\end{inparaenum}
+	The number of possible combinations grows combinatorial with the amount of candidates for each part. We have to bear in mind that each algorithm contains a set of parameters that have to be adjusted for optimal performance. It would require a great deal of time and computational power to conduct exhaustive evaluation. Even if we consider only a single library --- PCL, we would have far too many options with 12 keypoint detectors and more than 20 feature descriptors. A literature review can help perform an early selection of algorithms.	
 	
 	\subsection{Detectors}
 	In a paper \cite{pcl_keypoint_comparision} some keypoint detection algorithms from PCL are evaluated. It is stated that , albeit under slightly different conditions, the SIFT and ISS keypoint detectors achieve the highest performance. Therefore this paper compares only these two modules with respect to their usability in the BoW pipeline. 
 
 	\subsection{Descriptors}
 	Recently a PCL's descriptors evaluation was performed in \cite{pcl_features}. The PFHRGB and SHOTCOLOR scored best. Only a little bit worse were PFH, FPFH, SHOT and USC. In this paper FPFH, PFH and PFHRGB are compared, motivation being that PFH is the original descriptor, FPFH is its approximate and thus faster version, while PFHRGB is an extension which makes use of colour information.
+	
+	\begin{table}[!ht]
+	\centering	
+	\includegraphics[width=.25\textwidth]{figs/desc_b3do}
+	\caption{Highest accuracy obtained with FPFH, PFH and PFHRGB descriptors on the B3DO dataset}
+	\label{tab:desc_b3do}
+	\end{table}
+	
+	The figure \ref{tab:desc_b3do} shows highest accuracy obtained with the tested descriptors on the B3DO dataset. FPFH scored the best result, even tough it is an approximate and theoretically the least precise of all evaluated descriptors. On the other hand, the PFHRGB scored better than PFH. It does not surprise, since the colour information is believed to have discriminative value.
 		
 	\subsection{Codebook}
 	KMeans is used in almost every implementation of the Bag of Words image processing pipeline \cite{tsai2012bag, toldo2009bag}. Csurka \emph{et al} showed that the number of visual words or centroids have a significant impact on the final results \cite{csurka2004visual}. Therefore a number of tests were run in order to determine the optimal dictionary size.

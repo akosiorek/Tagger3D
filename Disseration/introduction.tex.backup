@@ -113,35 +113,40 @@
 	\end{figure}
 	
 	Assume that a set of pairs $\{\{\mathbf{x}_1, y_1\}, \{\mathbf{x}_2, y_2\}, ...\}$ where $x_\mathit{i}$ are features and $y_\mathit{i} \in \{-1, 1\}$ are labels is given. Further assume that points with different labels are two linearly-separable datasets as shown in the figure \ref{fig:svm}, where dots and circles are points with different labels. Then, parameters \textbf{\textit{w}} and  \textit{b} exist such that	
-	\begin{equation}
-	                        y_\mathit{i}\left(\mathbf{w}*\mathbf{x}_\mathit{i} + b\right) > 0                                                                                                                                                                                                                                                                                                                                                                                                                       
-	                                                                                                                                                                                                                                                                                                                                                                                                                                               \end{equation}
+	\begin{equation}	                        y_\mathit{i}\left(\mathbf{w}*\mathbf{x}_\mathit{i} + b\right) > 0
+	\end{equation}
 	for every $\mathbf{x}_\mathit{i}$ or a data point. This equation specifies constraints on a plane (or a hyperplane in general) that separates different classes. A Support Vector Machine finds the parameters \textbf{\textit{w}} and  \textit{b} so as to maximise the distance of the plane from members of both classes. We can combine several SVM classifiers in a 1-versus-all or an all-versus-all scheme.
 	
 \section{Libraries}
 
-	We use the following third party libraries in this work: one of the biggest general purpose libraries --- Boost\footnote{\url{http://www.boost.org/}}, OpenCV\footnote{\url{http://opencv.org/}}, a general computer vision library, PointCloud Library\footnote{\url{http://pointclouds.org/}} \cite{PCL}, a library for point cloud processing. Easy to use and intuitive logging is provided by Apache log4cxx\footnote{\url{}}
-
-	One of the advantages of object oriented programming is that it is easier to reuse once created code. There exists a variety of third party libraries for the C++ programming language. One of the biggest and the most widely used are the general purpose Boost libraries \cite{Boost}. In the fields of computer vision there are, among others, OpenCV \cite{OpenCV} and PointCloud Library \cite{PCL}. Easy to use and intuitive logging is provided by the Apache log4cxx \cite{log4cxx}.
-	
-	\subsection{PointCloud Library}
-	Being nothing but a large scale open source project, it is a great processing tool for 2D images and 3D point clouds. Often abbreviated as PCL, it contains numerous state-of-the-art algorithms for feature detection, surface reconstruction, segmentation and many other subareas of computer vision. It is well documented and easy to use. Recently a machine learning library containing algorithms such as Support Vector Machine has been added. Some algorithms are multi-threaded thanks to the OpenMP library. A GPU module boosts some algorithms. Unfortunately the PCL is relatively new and its stability could be better. Currently available 1.7.0 version is going to be replaced by soon-to-be-announced 2.0 version with incompatible API.
-	
-	Every feature detector and descriptor used in this project comes from the PCL.
-	
-	\subsection{OpenCV}
-	Considerably more mature, the OpenCV library is yet another great image processing library. A multitude of methods implemented in both C (OpenCV 1.x) and C++ (OpenCV 2.x) allows for production of fully functional image processing or computer vision application with this single library. There are many machine learning mechanisms as well. Among them one can find kMeans, Gaussian Mixture Model, Na\`ive Bayes or a Support Vector Machine. Some of the more demanding in terms of computational power are parallelized with Threading Building Blocks (TBB). A module exploiting powers of the nVidia's CUDA technology exists in order to enhance computation even more.
-	
-	In this paper OpenCV is used for input/output operations, image preprocessing. KMeans and SVM implementations are used as well.
+	We use the following third party C++ libraries:
+	\begin{itemize}
+	 \item Boost\footnote{\url{http://www.boost.org/}} --- of the biggest general purpose libraries
+	 \item OpenCV\footnote{\url{http://opencv.org/}} --- a general computer vision library
+	 \item PointCloud Library\footnote{\url{http://pointclouds.org/}} \cite{PCL} --- a library for point cloud processing
+	 \item libsvm\footnote{\url{http://www.csie.ntu.edu.tw/~cjlin/libsvm/}} \cite{libsvm} --- a renown and very efficient SVM classifier implementation
+	 \item Apache log4cxx\footnote{\url{http://logging.apache.org/log4cxx/}} --- Easy to use and intuitive logger
+	\end{itemize}
 	
 	\subsection{Boost}
-	Boost is a general purpose library. It contains more than 50 separate libraries, 12 of which were incorporated into the new C++11 standard. One of the most popular are libraries for smart pointers, multi-threading or meta-programming. Tagger3D uses only the functionality provided by the Boost.program\_options library. It enables convenient parsing of configuration files and command line arguments.
-		
+	Boost is a general purpose library available under the Boost Software License\footnote{\url{http://www.boost.org/LICENSE_1_0.txt}}. It is free for both commercial and non-commercial use. Boost comprises of more than 50 separate libraries. 12 of the most popular libraries have been incorporated into the new C++11 standard. Because of that, Boost may become redundant in many applications. The original library had contained conveniences such as smart pointers, multi-threading utilities and meta-programming tools. We excessively use smart pointers and meta-programming utilities; but the only package from the trimmed down Boost used in this project is the Boost.program\_options library. It enables convenient parsing of configuration files and command line arguments.
+	
+	\subsection{OpenCV}
+	OpenCV is a general computer vision library available under the BSD License\footnote{\url{http://opensource.org/licenses/BSD-3-Clause}}. It is free for commercial and non-commercial use. It was designed for computational efficiency and real-time applications. OpenCV takes advantage of the underlying hardware employs hardware-specific optimisation e.g. SSE4. Some algorithms are written in nVidia CUDA and can use GPU for faster execution. Others use Threading Building Blocks (TBB, Intel's multithreading library) to enable concurrency. OpenCV is available for the most popular desktop and mobile platforms. It is written in optimised C and C++ and provides two interfaces: the original OpenCV 1.x C interface and a newer OpenCV 2.x C++ interface. This single library allows production of fully functional computer vision programmes. Many machine learning routines are available, too. Among them are: kMeans, Gaussian Mixture Model, Na\`ive Bayes, SVM, Random Forests and Boosting. We use OpenCV for input/output operations, image processing and vector quantization.
+	
+	\subsection{PointCloud Library}
+	PointCloud Library (PCL) is a computer vision library suitable for point clouds processing, manipulation and visualisation. It is released under the BSD license and is free for both commercial and non-commercial use. PCL contains numerous state-of-the-art algorithms for feature detection, surface reconstruction, segmentation to name just a few areas. It is well documented and easy to use. Recently, a machine learning module containing SVM, kMeans and other algorithms. Some routines are multi-threaded thanks to the OpenMP library. A GPU module makes use of CUDA to lessen computation time. Unfortunately, the PCL is relatively new and its stability could be better. Currently available 1.7.1 version is going to be replaced by a soon-to-be-announced 2.0 version with incompatible API. In this project we try to build an application for point cloud applications. We extensively use PCL for operations like downsampling, keypoint detection, feature extraction.
+	
+	\subsection{libsvm}
+	\rednote{describe}
+	\subsection{Apache log4cxx}
+	\rednote{describe}
+	
 \section{Datasets}
 
-	Multiple RGBD datasets were created. The purpose of authors of the vast majority of them were to provide a benchmark for tasks of tracking or instance-level object recognition. Others have small number of categories or very few examples in every category. Unfortunately, the most are not fit for the object classification problem.
-	The RGB-D object dataset from the University of Washington \cite{dataset_washington} would be perfect, if not for the fact that it consists of video sequences. A technology like Kinect Fusion \cite{KinectFusion} makes it relatively easy to build a detailed 3D model (a point cloud or a mesh) from such data. The only problem is in the computational cost of this method and actions required to gather such data --- in a real setting a mobile robot would have to circle an object. Two datasets are used are for the purpose of this paper. The first one is the Berkeley 3D Object dataset \cite{B3DO} and the second one is a dataset compiled by Zhang \emph{et al} at the University of Tokyo \cite{zhangcategory}. The datasets are going to be abbreviated as B3DO and Tokyo datasets respectively
-
+	Machine Learning algorithms provide a way of learning a function that maps input to the desired output. Classification algorithms require supervised training and labelled data. If we wanted to compare any algorithms we would have to do so on a common dataset. That is why multiple scientific datasets have been created: ImageNet\footnote{\url{http://www.image-net.org/}}, PascalVoc\footnote{\url{http://pascallin.ecs.soton.ac.uk/challenges/VOC/}}, LabelMe\footnote{\url{http://labelme.csail.mit.edu/Release3.0/browserTools/php/dataset.php}} and SUN\footnote{\url{http://groups.csail.mit.edu/vision/SUN/}} among others. Unfortunately, they contain RGB and grayscale images without any depth information. Therefore they cannot be used in this paper. On the other hand, the vast majority of RGBD datasets are focused on tracking or instance-level recognition. Others have very few categories or insufficient number of examples per category. We managed to find only two datasets suited to our needs. They are: the Berkeley 3D Object (B3DO) dataset \cite{B3DO} and a dataset compiled by Zhang \emph{et al} at the University of Tokyo\cite{zhangcategory}. The latter will be abbreviated Tokyo dataset from now on. 
+	
+	An interesting dataset is provided by the University of Washington \cite{dataset_washington}. It consists of video sequences that capture objects' round views in RGBD. Kinect Fusion technology could be used to prepare excellent point clouds from the videos \cite{KinectFusion}. We have decided against it, for a huge computational cost associated with this way of point cloud construction. Furthermore, in a real setting a mobile robot would have to circle an object in order to gather enough data.
 
 	\subsection{Berkeley 3D Object Dataset}
 	\begin{figure}[!ht]
@@ -151,9 +156,7 @@
 	\label{fig:b3do}
 	\end{figure}
 	
-	The Berkeley 3D Object dataset was specifically designed for the purpose of object classification. It consists of cluttered images in indoor environment. There are around 50 classes with more than 20 examples in each of them. RGBD data is provided as pairs of images. There are 8 bit RGB jpeg pictures and 16 bit png files containing depth data in millimetres. Images are densely labelled --- for every pair of images there is an xml with annotations. Every annotation is comprised of a category label, bounding box coordinates and object's orientation.
-
-	Before the B3DO database could be used it had to be preprocessed. Neither image segmentation nor object detection are addressed in this paper. Because of that the objects had to be extracted from the cluttered images.
+	The Berkeley 3D Object dataset was specifically designed for the purpose of object classification. It consists of cluttered images in indoor environment. There are around 50 classes with more than 20 examples in each of them. RGBD data are provided as pairs of colour images (8 bit RGB jpeg files) and depth maps (16 bit png files). Images are densely labelled --- for every pair of images there is an xml file with annotations. Each annotation states a category of an object as well as it's bounding box location. We do not address image segmentation nor object detection. Therefore, we had to extract objects from the images before we could use the dataset.
 
 	\subsection{The University of Tokyo Dataset}	
 	\begin{figure}[!ht]
@@ -163,6 +166,7 @@
 	\label{fig:tokyo}
 	\end{figure}
 	
-	The dataset compiled at the University of Tokyo is comprised of high quality images of objects in different settings. Factors such as viewpoint, object orientation, object's texture and environments are changing on different images. The aim of the authors of this dataset was slightly different - it was object detection and classification in casual images. There are 10 classes with varying amounts of per class examples. The database is available as two sets of files: 8 bit RGB jpeg files and csv files containing euclidean coordinates of every pixel in the corresponding colour image.
+	The dataset compiled at the University of Tokyo is comprised of high quality images of objects in different settings, with changing viewpoint, object orientation and texture. The data set presented as colour images (8 bit RGB jpeg files) and depth maps (csv files with XYZ coordinates of each pixel)
+	The aim of the authors of this dataset was slightly different - it was object detection and classification in casual images. There are 10 classes with varying amounts of per class examples. The database is available as two sets of files: 8 bit RGB jpeg files and csv files containing euclidean coordinates of every pixel in the corresponding colour image.
 
 

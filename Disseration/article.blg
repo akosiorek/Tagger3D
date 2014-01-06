@@ -2,6 +2,7 @@ This is BibTeX, Version 0.99d (TeX Live 2012/Debian)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: article.aux
 The style file: abbrv.bst
+A level-1 auxiliary file: titlepage.aux
 A level-1 auxiliary file: zyciorys.aux
 A level-1 auxiliary file: abstract.aux
 A level-1 auxiliary file: introduction.aux
@@ -13,53 +14,47 @@ I was expecting a `,' or a `}'---line 128 of file article.bib
  :   url = {http://pointclouds.org/}
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-Warning--entry type for "KinectFusion" isn't style-file defined
---line 270 of file article.bib
-Warning--I didn't find a database entry for "Boost"
-Warning--I didn't find a database entry for "OpenCV"
-Warning--I didn't find a database entry for "log4cxx"
-Warning--to sort, need author or key in KinectFusion
 Warning--empty journal in pcl_keypoint_comparision
 Warning--empty year in pcl_keypoint_comparision
-You've used 26 entries,
+You've used 25 entries,
             2118 wiz_defined-function locations,
-            651 strings with 8521 characters,
-and the built_in function-call counts, 10032 in all, are:
-= -- 1024
-> -- 420
+            644 strings with 8458 characters,
+and the built_in function-call counts, 9884 in all, are:
+= -- 1012
+> -- 419
 < -- 16
-+ -- 173
++ -- 172
 - -- 140
-* -- 638
-:= -- 1552
-add.period$ -- 88
-call.type$ -- 26
-change.case$ -- 147
+* -- 633
+:= -- 1538
+add.period$ -- 87
+call.type$ -- 25
+change.case$ -- 144
 chr.to.int$ -- 0
-cite$ -- 29
-duplicate$ -- 435
-empty$ -- 813
+cite$ -- 27
+duplicate$ -- 428
+empty$ -- 790
 format.name$ -- 140
-if$ -- 2213
+if$ -- 2176
 int.to.chr$ -- 0
-int.to.str$ -- 26
+int.to.str$ -- 25
 missing$ -- 26
-newline$ -- 131
+newline$ -- 128
 num.names$ -- 50
-pop$ -- 187
+pop$ -- 179
 preamble$ -- 1
-purify$ -- 122
+purify$ -- 120
 quote$ -- 0
-skip$ -- 324
+skip$ -- 314
 stack$ -- 0
-substring$ -- 625
-swap$ -- 148
+substring$ -- 620
+swap$ -- 147
 text.length$ -- 16
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 102
-warning$ -- 3
+type$ -- 98
+warning$ -- 2
 while$ -- 97
-width$ -- 28
-write$ -- 292
+width$ -- 27
+write$ -- 287
 (There was 1 error message)

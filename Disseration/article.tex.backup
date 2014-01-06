@@ -1,20 +1,48 @@
-\documentclass[12pt]{report}
+%TODO
+%	- run cluster and descriptors tests
+%	- find out what's wrong with sift detector
+%	- run detector tests
+%	- prepare strategy pattern class diagram and describe it
+%	- write conclusions
+%	- describe libraries
+%	- write abstracts
+%	- go through introduction
+%
+%
+%
+
+\documentclass[12pt, draft]{report}
 \usepackage[utf8]{inputenc}
-%\usepackage{polski}
 \usepackage[T1]{fontenc}
 \usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
 \usepackage{cite}
 \usepackage{graphicx}
 \usepackage{color}
+\usepackage[font=footnotesize]{caption}
+\usepackage{amsmath}
+\usepackage{hyperref}
 
-%\setlength{\parskip}{6pt}%
 \linespread{1.5}
 
 \newcommand{\superscript}[1]{\ensuremath{^{\textrm{#1}}}}
 \newcommand{\subscript}[1]{\ensuremath{_{\textrm{#1}}}}
+\newcommand\rednote[1]{\textcolor{red}{#1}}
+
+\makeatletter
+% Redefine the \chapter* header macro to remove vertical space
+\def\@makeschapterhead#1{%
+  %\vspace*{50\p@}% Remove the vertical space
+  {\parindent \z@ \raggedright
+    \normalfont
+    \interlinepenalty\@M
+    \Huge \bfseries  #1\par\nobreak
+    \vskip 20\p@
+  }}
+\makeatother
 
 \bibliographystyle{abbrv}
 \begin{document}
+
 \pagestyle{empty}
 \color{white} . \color{black}
 \vspace{0.2cm}
@@ -25,15 +53,16 @@
 \end{center}
 
 \begin{center}
-\begin{LARGE}Faculty Mechatronics
+\begin{LARGE}Faculty of Mechatronics
 
 \vspace{0.5cm}
 Institute of Automation and Robotics
+\vspace{1.0cm}
 \end{LARGE}
 \end{center}
-\begin{center}\includegraphics[width=5cm,angle=0]{ujlogo.pdf}\end{center} 
+\begin{center}\includegraphics[width=5cm,angle=0]{figs/logopw}\end{center} 
 
-\vspace{1.0cm}
+\vspace{0.5cm}
 
 \begin{center}
 \begin{LARGE}\textbf{Adam Kosiorek}\end{LARGE}
@@ -54,7 +83,7 @@ Institute of Automation and Robotics
 
 \vspace{0.2cm}
 
-\begin{LARGE}prof. dr. hab. Barbara Siemiątkowska\end{LARGE}
+\begin{Large}prof. dr. hab. Barbara Siemiątkowska\end{Large}
 \end{center}
 
 \vspace{1.8cm}
@@ -66,33 +95,19 @@ Institute of Automation and Robotics
 
 \pagebreak
 
-\color{white} . \color{black}
-\vspace{0.2cm}
-\vspace{1.5cm}
-\pagebreak
+\include{zyciorys}
+
+
+%\color{white} . \color{black}
+%\pagebreak
 \pagestyle{plain}
 
-
-
-\include{streszczenie}
 \include{abstract}
 
-\chapter{Introduction}
-\addcontentsline{toc}{chapter}{Introduction}
-\include{introduction} %aka motivation
-\include{bow}
-\include{libs}
-\include{datasets}
-
-\chapter{Design}
-\addcontentsline{toc}{chapter}{Design}
+\tableofcontents
+\include{introduction}
 \include{architecture}
-\include{setup}
-
-\chapter{Experiments and results}
-\addcontentsline{{toc}{chapter}{Experiments and results}
 \include{experiments}
-\include{conclusios}
 
 \listoffigures
 \listoftables
