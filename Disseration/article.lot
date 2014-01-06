@@ -1,6 +1,0 @@
-\addvspace {10\p@ }
-\addvspace {10\p@ }
-\addvspace {10\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces Highest accuracy obtained with FPFH, PFH and PFHRGB descriptors on the B3DO dataset\relax }}{27}{table.caption.22}
-\contentsline {table}{\numberline {3.2}{\ignorespaces Results on the B3DO dataset with ISS keypoint detector, FPFH features and a dictionary of 1500 words. \textbf {Overall accuracy is 65.22\%}\relax }}{29}{table.caption.24}
-\contentsline {table}{\numberline {3.3}{\ignorespaces Tokyo confusion matrix with ISS keypoint detector, PFH features and a dictionary of 3000 words\relax }}{30}{table.caption.26}
