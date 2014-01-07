@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-folder = "tokyo"
+folder = "b3do"
 
 test = "/home/adam/workspace/Tagger3D/models/" + folder + "/easy/testHistogram"
 train = "/home/adam/workspace/Tagger3D/models/" + folder + "/easy/trainHistogram"

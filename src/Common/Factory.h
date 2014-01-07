@@ -47,7 +47,7 @@ private:
 
 	enum Dataset { B3DO, TOKYO };
 	enum DetectorType { SIFT, ISS3D, DENSE };
-	enum DescriptorType { PFH, FPFH, PFHRGB };
+	enum DescriptorType { PFH, FPFH, PFHRGB, SHOT, SHOTCOLOR };
 	enum PredictorType { SVM };
 };
 

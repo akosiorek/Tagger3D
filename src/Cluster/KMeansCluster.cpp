@@ -88,17 +88,6 @@ cv::Mat KMeansCluster::cluster(const cv::Mat &descriptors) {
 	descriptorMatcher->match(descriptors, centroids, matches);
 	TRACE(logger,"cluster: Finished");
 	return makeHistogram(matches);
-
-//	long matchesSize = matches.size();
-//	std::vector<int> visualWords(matchesSize);
-//	int* vPtr = &visualWords[0];
-//	auto *mPtr = &matches[0];
-//
-//	for(int i = 0; i < matchesSize; i++)
-//		vPtr[ matches[i].queryIdx ] = mPtr[i].trainIdx + 1;
-//
-//	TRACE(logger,"cluster: Finished - visualWords size = " << visualWords.size() );
-//	return makeHistogram(visualWords);
 }
 
 void KMeansCluster::train(const std::vector<cv::Mat> &descriptors) {

@@ -31,4 +31,4 @@ Predictor::~Predictor() {
 	TRACE(logger, "Destroying Predictor");
 }
 
-} /* namespace semantic_tagger */
+} /* namespace Tagger3D */

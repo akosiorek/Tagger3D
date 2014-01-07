@@ -42,15 +42,15 @@ void SVMPredictor::createSVM() {
 
     params.svm_type = getParam<int>( svmTypeKey );
     params.kernel_type  = getParam<int>( kernelTypeKey );
-//    params.degree = NULL;//getParam<int>( degreeKey );
+    params.degree = NULL;//getParam<int>( degreeKey );
     params.gamma = getParam<double>( gammaKey );
-//    params.coef0 = NULL;//getParam<int>( coef0Key );
-    params.eps = getParam<int>( epsKey );
+    params.coef0 = NULL;//getParam<int>( coef0Key );
+    params.eps = getParam<double>( epsKey );
     params.cache_size = getParam<int>( cache_sizeKey );
 //    params.p = NULL;//getParam<double>( pKey );
     params.shrinking = getParam<int>( shrinkingKey );
     params.probability = getParam<int> (probabilityKey);
-//    params.nr_weight = NULL;//getParam<int> (nr_weightKey);
+    params.nr_weight = getParam<int> (nr_weightKey);
     params.C = getParam<double>( CKey );
     params.weight_label = NULL;
     params.weight = NULL;
@@ -73,8 +73,6 @@ void SVMPredictor::train( cv::Mat &data, const std::vector<int> &labels) {
 	//	Compute maximal values
 	cv::reduce(data, v_max, REDUCE_TO_ROW, CV_REDUCE_MAX);
     normaliseData(data, v_max);
-
-    std::cout << v_max << std::endl;
 
     svm_problem prob;
     prob.l =  rows;
@@ -133,14 +131,6 @@ std::vector<float> SVMPredictor::predict(const cv::Mat &histogram) {
 	svmVec[counter].index = -1;
 	svm_predict_probability(svmModel, svmVec, &predictions[0]);
 
-	for(auto p : predictions)
-		std::cout << p << " ";
-	std::cout << std::endl;
-
-	std::vector<float> vec(predictions.begin(), predictions.end());
-	std::cout << vec[0] << std::endl;
-
-	return vec;
 	return std::vector<float>(predictions.begin(), predictions.end());
 }
 

@@ -23,13 +23,14 @@ class PFHRGBDescriptor: public Descriptor {
 	 *
 	 */
 public:
+	PFHRGBDescriptor() = delete;
 	PFHRGBDescriptor(const std::map<std::string, std::string> &configMap);
-	virtual ~PFHRGBDescriptor();
+	virtual ~PFHRGBDescriptor() = default;
 
 	cv::Mat describe(const ColorCloud::Ptr &cloud, const ScaleCloud::Ptr &keyCloud, const NormalCloud::Ptr &normalCloud );
 
 private:
-	PFHRGBDescriptor();
+
 	void createDescriptor();
 	typedef pcl::PFHRGBEstimation<pcl::PointXYZRGB, pcl::Normal, pcl::PFHRGBSignature250> descriptorType;
 	std::unique_ptr<descriptorType> descriptor;

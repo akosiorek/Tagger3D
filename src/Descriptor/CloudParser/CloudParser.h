@@ -50,6 +50,36 @@ inline cv::Mat CloudParser::parse(const typename T::Ptr& cloud) {
 	return mat;
 }
 
+template<>
+inline cv::Mat CloudParser::parse<pcl::PointCloud<pcl::SHOT352>>(const pcl::PointCloud<pcl::SHOT352>::Ptr& cloud) {
+
+	int size = cloud->size();
+	static int matSize = 352;
+	cv::Mat mat( size, matSize, CV_32FC1 );
+	for(int i = 0; i < size; i++) {
+		float* dPtr = mat.ptr<float>(i);
+		float* hPtr = cloud->points[i].descriptor;
+		for(int j = 0; j < matSize; j++)
+			dPtr[j] = hPtr[j];
+	}
+	return mat;
+}
+
+template<>
+inline cv::Mat CloudParser::parse<pcl::PointCloud<pcl::SHOT1344>>(const pcl::PointCloud<pcl::SHOT1344>::Ptr& cloud) {
+
+	int size = cloud->size();
+	static int matSize = 1344;
+	cv::Mat mat( size, matSize, CV_32FC1 );
+	for(int i = 0; i < size; i++) {
+		float* dPtr = mat.ptr<float>(i);
+		float* hPtr = cloud->points[i].descriptor;
+		for(int j = 0; j < matSize; j++)
+			dPtr[j] = hPtr[j];
+	}
+	return mat;
+}
+
 template<typename T>
 inline std::vector<cv::Mat> CloudParser::parse(
 		const std::vector<typename T::Ptr>& clouds) {

@@ -18,6 +18,9 @@
 #include "PFHDescriptor.h"
 #include "FPFHDescriptor.h"
 #include "PFHRGBDescriptor.h"
+#include "ShotDescriptor.h"
+#include "ShotColorDescriptor.h"
+
 #include "KMeansCluster.h"
 #include "SVMPredictor.h"
 
@@ -74,6 +77,8 @@ std::unique_ptr<Descriptor> Factory::getDescriptor() const {
 	case DescriptorType::FPFH: descriptor = std::unique_ptr<Descriptor> (new FPFHDescriptor(configMap)); break;
 	case DescriptorType::PFHRGB: descriptor = std::unique_ptr<Descriptor> (new PFHRGBDescriptor(configMap)); break;
 //	case DescriptorType::PFHRGB: descriptor = std::unique_ptr<Descriptor> (new PFHRGBgpu(configMap)); break;
+	case DescriptorType::SHOT: descriptor = std::unique_ptr<Descriptor> (new ShotDescriptor(configMap)); break;
+	case DescriptorType::SHOTCOLOR: descriptor = std::unique_ptr<Descriptor> (new ShotColorDescriptor(configMap)); break;
 	default:
 		std::runtime_error e("Invalid descriptor type");
 		ERROR(logger, e.what());

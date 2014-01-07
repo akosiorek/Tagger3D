@@ -16,8 +16,6 @@ PFHRGBDescriptor::PFHRGBDescriptor(const std::map<std::string, std::string> &con
 	assert(descriptor != nullptr);
 }
 
-PFHRGBDescriptor::~PFHRGBDescriptor() {}
-
 void PFHRGBDescriptor::createDescriptor() {
 
 	TRACE(logger, "createDescriptor: Starting");

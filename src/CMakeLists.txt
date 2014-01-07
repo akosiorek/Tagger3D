@@ -27,12 +27,12 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMakeScripts" )
 message( STATUS "CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}" )    
    
 # PCL    
-find_package( PCL 1.7 COMPONENTS common features keypoints REQUIRED ) 
+find_package( PCL 1.7 COMPONENTS common features keypoints REQUIRED )  
 include_directories( ${PCL_INCLUDE_DIRS} )
 link_directories( ${PCL_LIBRARY_DIRS} )  
-add_definitions( ${PCL_DEFINITIONS} )
+add_definitions( ${PCL_DEFINITIONS} ) 
 set( LIBS ${LIBS} ${PCL_LIBRARIES} ) 
-message( STATUS "PCL Include: ${PCL_INCLUDE_DIRS}" ) 
+message( STATUS "PCL Include: ${PCL_INCLUDE_DIRS}" )  
 message( STATUS "PCL Libraries: ${PCL_LIBRARY_DIRS}" )
 message( STATUS "PCL Libraries: ${PCL_LIBRARIES}" ) 
  
