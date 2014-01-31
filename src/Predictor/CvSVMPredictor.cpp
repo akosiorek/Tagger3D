@@ -42,6 +42,8 @@ void CvSVMPredictor::createSVM() {
 	params.gamma = getParam<double>( gamma );
 	params.C = getParam<double>( C );
 	params.degree = getParam<int>( degree );
+
+	std::cout <<params.C << " " << params.gamma<< std::endl;
 }
 
 void CvSVMPredictor::train(cv::Mat& data, const std::vector<int>& labels) {
@@ -57,7 +59,7 @@ void CvSVMPredictor::train(cv::Mat& data, const std::vector<int>& labels) {
     normaliseData(data);
 
     INFO(logger, "Training SVM.")
-    SVM.train(data, cv::Mat(1, labels.size(), CV_32SC1, const_cast<int*>(&labels[0])), cv::Mat(), cv::Mat(), params);
+    SVM.train_auto(data, cv::Mat(1, labels.size(), CV_32SC1, const_cast<int*>(&labels[0])), cv::Mat(), cv::Mat(), params);
 
     TRACE(logger, "SVM train: Finished");
 }
