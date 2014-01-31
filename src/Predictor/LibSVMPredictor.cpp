@@ -1,12 +1,12 @@
 /*
- * SVMPredictor.cpp
+ * LibSVMPredictor.cpp
  *
  *  Created on: Aug 22, 2013
  *      Author: Adam Kosiorek
  * Description: svm predictor implementation
  */
 
-#include "SVMPredictor.h"
+#include "LibSVMPredictor.h"
 
 #include <algorithm>
 #include <vector>
@@ -19,26 +19,23 @@
 
 namespace Tagger3D {
 
-SVMPredictor::SVMPredictor(const std::map<std::string, std::string> &_configMap,
+LibSVMPredictor::LibSVMPredictor(const std::map<std::string, std::string> &_configMap,
 		const std::string &predictorType)
 
 	: Predictor(_configMap, predictorType),
 	svmModel(nullptr) {
 
-	model = IoUtils::getInstance()->getPath() + "/" + getParam<std::string>(modelKey);
-	normalizationPath = getParam<std::string>(normalizationPathKey);
-	class_number = getParam<int>(class_numberKey);
-	io = IoUtils::getInstance();
+	model = io->getPath() + "/" + getParam<std::string>(modelKey);
 	createSVM();
 }
 
-SVMPredictor::~SVMPredictor() {
+LibSVMPredictor::~LibSVMPredictor() {
 
 	svm_free_and_destroy_model(&svmModel);
 	svm_destroy_param(&params);
 }
 
-void SVMPredictor::createSVM() {
+void LibSVMPredictor::createSVM() {
 
     params.svm_type = getParam<int>( svmTypeKey );
     params.kernel_type  = getParam<int>( kernelTypeKey );
@@ -57,7 +54,7 @@ void SVMPredictor::createSVM() {
 
 }
 
-void SVMPredictor::train( cv::Mat &data, const std::vector<int> &labels) {
+void LibSVMPredictor::train( cv::Mat &data, const std::vector<int> &labels) {
 	INFO(logger, "Training SVM");
     TRACE(logger, "SVM train: Starting");
 
@@ -70,9 +67,8 @@ void SVMPredictor::train( cv::Mat &data, const std::vector<int> &labels) {
 	int rows = data.rows;
 	int cols = data.cols;
 
-	//	Compute maximal values
-	cv::reduce(data, v_max, REDUCE_TO_ROW, CV_REDUCE_MAX);
-    normaliseData(data, v_max);
+	computeMaxValues(data);
+    normaliseData(data);
 
     svm_problem prob;
     prob.l =  rows;
@@ -112,10 +108,11 @@ void SVMPredictor::train( cv::Mat &data, const std::vector<int> &labels) {
     TRACE(logger, "SVM train: Finished");
 }
 
-std::vector<float> SVMPredictor::predict(const cv::Mat &histogram) {
+std::vector<float> LibSVMPredictor::predict(const cv::Mat &histogram) {
 
+	assert(histogram.rows == 1);
 	cv::Mat visualWords = histogram.clone();
-	normaliseData(visualWords, v_max);
+	normaliseData(visualWords);
 
 	std::vector<double> predictions(class_number);
 	svm_node *svmVec = (struct svm_node *)malloc((dims + 1) * sizeof(struct svm_node));
@@ -134,7 +131,7 @@ std::vector<float> SVMPredictor::predict(const cv::Mat &histogram) {
 	return std::vector<float>(predictions.begin(), predictions.end());
 }
 
-void SVMPredictor::load() {
+void LibSVMPredictor::load() {
 	INFO(logger, "Loading SVM");
 	TRACE(logger, "load: Starting");
 	if((svmModel = svm_load_model(model.c_str())) == 0) {
@@ -143,22 +140,17 @@ void SVMPredictor::load() {
 		throw e;
 	}
 
-	v_max = io->loadCv<cv::Mat>(normalizationPath);
-	dims = v_max.cols;
+	loadVMax();
 	TRACE(logger, "load: Finished");
 }
 
-void SVMPredictor::save() {
+void LibSVMPredictor::save() {
 	TRACE(logger, "save: Starting")
 	svm_save_model(model.c_str(), svmModel);
-	io->saveCv(v_max, normalizationPath);
+
+	saveVMax();
 	INFO(logger, "SVM model saved: " + model);
 	TRACE(logger, "save: Finished")
-}
-
-void SVMPredictor::normaliseData(cv::Mat &mat, const cv::Mat &partition) {
-
-	mat = (mat / repeat(partition,  mat.rows, 1)) * 2 - 1;
 }
 
 } /* namespace Tagger3D */

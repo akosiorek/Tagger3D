@@ -48,7 +48,7 @@ private:
 	enum Dataset { B3DO, TOKYO };
 	enum DetectorType { SIFT, ISS3D, DENSE };
 	enum DescriptorType { PFH, FPFH, PFHRGB, SHOT, SHOTCOLOR };
-	enum PredictorType { SVM };
+	enum PredictorType { SVM_LIB, SVM_CV };
 };
 
 } // namespace Tagger3D

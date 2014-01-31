@@ -47,7 +47,7 @@ message( STATUS "Boost Libraries: ${Boost_LIBRARY_DIRS}" )
 message( STATUS "Boost Libraries: ${Boost_LIBRARIES}" ) 
 
 # OpenCV
-find_package( OpenCV 2.4.6 COMPONENTS core highgui features2d imgproc REQUIRED)
+find_package( OpenCV 2.4.6 COMPONENTS core highgui features2d imgproc ml REQUIRED)
 set( LIBS ${LIBS} ${OpenCV_LIBRARIES} )
 message( STATUS "OpenCV Include: ${OpenCV_INCLUDE_DIRS}" )
 message( STATUS "OpenCV Libraries: ${OpenCV_LIBRARY_DIRS}" )
