@@ -10,11 +10,13 @@
 #define PREDICTOR_H_
 
 #include "ProcessObject.h"
+#include "IoUtils.h"
 
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/highgui/highgui.hpp"
 
 #include <vector>
+#include <memory>
 
 namespace Tagger3D {
 
@@ -24,6 +26,7 @@ namespace Tagger3D {
 class Predictor : public ProcessObject {
 public:
 
+	Predictor() = delete;
 	/**
 	 * Parametric constructor
 	 * @param _configMap	a key-value map of configuration parameters
@@ -54,18 +57,36 @@ public:
 
 protected:
 
+	virtual void createSVM() = 0;
+	virtual void normaliseData(cv::Mat &mat);
+	virtual const cv::Mat computeMaxValues(const cv::Mat& mat) const;
+	cv::Mat confusionMatrix(const std::vector<int> &labels, const std::vector<int> &predictions) const;
+	void saveVMax();
+	void loadVMax();
+
 	/**
 	 * Name of the module in a config map
 	 */
 	const std::string moduleName;
+    std::shared_ptr<IoUtils> io;
+
+    int class_number;
+    int dims;
+    std::string normalizationPath;
 
 private:
-	Predictor();
 
 	/**
 	 * Name of the logger
 	 */
 	const std::string loggerName = "Main.Predictor";
+	const std::string class_numberKey = moduleName + "classes";
+	const std::string normalizationPathKey = moduleName + "normalizationPath";
+
+
+
+	 const int REDUCE_TO_ROW = 0;
+	 cv::Mat v_max;
 };
 
 } /* namespace Tagger3D */
