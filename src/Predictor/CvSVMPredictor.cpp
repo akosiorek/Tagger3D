@@ -26,9 +26,6 @@ CvSVMPredictor::CvSVMPredictor(const std::map<std::string, std::string> &_config
 	: Predictor(_configMap, predictorType) {
 
     svmPath = directory + "/" + getParam<std::string>( svmPathKey );
-    histogramPath = directory + "/" + getParam<std::string>( histogramPathKey );
-    storeHistogram = getParam<bool>(storeHistogramKey);
-    dictionarySize = getParam<int>( dictionarySizeKey );
     createSVM();
 }
 

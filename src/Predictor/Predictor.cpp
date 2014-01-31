@@ -42,9 +42,10 @@ void Predictor::normaliseData(cv::Mat &mat) {
 	mat = (mat / repeat(v_max,  mat.rows, 1)) * 2 - 1;
 }
 
-const cv::Mat Predictor::computeMaxValues(const cv::Mat& mat) const {
-
+const cv::Mat Predictor::computeMaxValues(const cv::Mat& mat) {
+//	v_max = cv::Mat(1, mat.cols, CV_32SC1);
 	cv::reduce(mat, v_max, REDUCE_TO_ROW, CV_REDUCE_MAX);
+	TRACE(logger, "v_max size = " << v_max.size());
 	return v_max;
 }
 

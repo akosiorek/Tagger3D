@@ -93,6 +93,9 @@ std::map<std::string, std::string> Config::getConfigMap() {
 			("readerType", po::value<std::string>(), "0 - rangeImg 1 - PCD")
 			("detectorType", po::value<std::string>(), "0 - SIFT 1 - ISS3D")
 			("descType", po::value<std::string>(), "0 - PFH 1 -FPFH")
+			("predictorType", po::value<std::string>(), "")
+			("dimCount", po::value<std::string>(), "")
+			("dictionarySize", po::value<std::string>(), "")
 			("resize", po::value<std::string>(), "resize")
 			;
 

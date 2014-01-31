@@ -59,7 +59,7 @@ protected:
 
 	virtual void createSVM() = 0;
 	virtual void normaliseData(cv::Mat &mat);
-	virtual const cv::Mat computeMaxValues(const cv::Mat& mat) const;
+	virtual const cv::Mat computeMaxValues(const cv::Mat& mat) ;
 	cv::Mat confusionMatrix(const std::vector<int> &labels, const std::vector<int> &predictions) const;
 	void saveVMax();
 	void loadVMax();

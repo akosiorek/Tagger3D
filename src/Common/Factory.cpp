@@ -18,8 +18,8 @@
 #include "PFHDescriptor.h"
 #include "FPFHDescriptor.h"
 #include "PFHRGBDescriptor.h"
-//#include "ShotDescriptor.h"
-//#include "ShotColorDescriptor.h"
+#include "ShotDescriptor.h"
+#include "ShotColorDescriptor.h"
 
 #include "KMeansCluster.h"
 #include "LibSVMPredictor.h"
@@ -78,8 +78,8 @@ std::unique_ptr<Descriptor> Factory::getDescriptor() const {
 	case DescriptorType::FPFH: descriptor = std::unique_ptr<Descriptor> (new FPFHDescriptor(configMap)); break;
 	case DescriptorType::PFHRGB: descriptor = std::unique_ptr<Descriptor> (new PFHRGBDescriptor(configMap)); break;
 //	case DescriptorType::PFHRGB: descriptor = std::unique_ptr<Descriptor> (new PFHRGBgpu(configMap)); break;
-//	case DescriptorType::SHOT: descriptor = std::unique_ptr<Descriptor> (new ShotDescriptor(configMap)); break;
-//	case DescriptorType::SHOTCOLOR: descriptor = std::unique_ptr<Descriptor> (new ShotColorDescriptor(configMap)); break;
+	case DescriptorType::SHOT: descriptor = std::unique_ptr<Descriptor> (new ShotDescriptor(configMap)); break;
+	case DescriptorType::SHOTCOLOR: descriptor = std::unique_ptr<Descriptor> (new ShotColorDescriptor(configMap)); break;
 	default:
 		std::runtime_error e("Invalid descriptor type");
 		ERROR(logger, e.what());
@@ -95,10 +95,16 @@ std::unique_ptr<Cluster> Factory::getCluster() const {
 
 std::unique_ptr<Predictor> Factory::getPredictor() const {
 
+	std::unique_ptr<Predictor> predictor;
 	switch( getParam<int>( predictorType )) {
-	case PredictorType::SVM_LIB: std::unique_ptr<Predictor> (new LibSVMPredictor(configMap)); break;
-	case PredictorType::SVM_CV: std::unique_ptr<Predictor> (new CvSVMPredictor(configMap)); break;
+	case PredictorType::SVM_LIB: predictor = std::unique_ptr<Predictor> (new LibSVMPredictor(configMap)); break;
+	case PredictorType::SVM_CV: predictor = std::unique_ptr<Predictor> (new CvSVMPredictor(configMap)); break;
+	default:
+			std::runtime_error e("Invalid predictor type");
+			ERROR(logger, e.what());
+			throw e;
 	}
+	return predictor;
 }
 
 } //namespace Tagger3D

@@ -44,7 +44,7 @@ link_directories( ${Boost_LIBRARY_DIRS} )
 set( LIBS ${LIBS} ${Boost_LIBRARIES} )
 message( STATUS "Boost Include: ${Boost_INCLUDE_DIR}" )
 message( STATUS "Boost Libraries: ${Boost_LIBRARY_DIRS}" )
-message( STATUS "Boost Libraries: ${Boost_LIBRARIES}" ) 
+message( STATUS "Boost Libraries: ${Boost_LIBRARIES}" )  
 
 # OpenCV
 find_package( OpenCV 2.4.6 COMPONENTS core highgui features2d imgproc ml REQUIRED)
