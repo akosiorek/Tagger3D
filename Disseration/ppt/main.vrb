@@ -1,0 +1,24 @@
+\frametitle {Bag of Words - Wprowadzenie}
+  \begin{columns}
+
+   \begin{column}{7cm}
+    \includegraphics[scale=0.3]{../figs/bow_example-eps-converted-to}
+   \end{column}
+
+    \begin{column}{4cm}
+    sds
+   \end{column}
+
+  \end{columns}
+
+
+  \begin{itemize}
+   \item Częstośc występowania słów
+   \item Usunięcie gramatyki, kolejności słów
+   \item Histogram jako forma pośrednia
+   \item Wymaga utworzenia słownika
+   \item Reprezentacja rzadka w przypadku dużego słownika
+   \item Używany m. in. do znajdowania rozkładu tematów w obrazie
+  \end{itemize}
+
+

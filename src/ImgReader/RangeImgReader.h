@@ -51,6 +51,15 @@ private:
 	const float factorX0 =  320.0f * 3.501e-3f;
 	const float factorY0 = 240.0f * 3.501e-3f;
 
+	const float depthWidth = 320.0f;
+	const float depthHeight = 240.0f;
+	const float depthWidthHalf = depthWidth / 2.0f;
+	const float depthHeightHalf = depthHeight / 2.0f;
+	const float depthHFOV = 57.0f;
+	const float depthVFOV = 43.0f;
+	const float depthH = tan ( (depthHFOV / 2.0f) * ( M_PI / 180.0f ) );
+	const float depthV = tan ( (depthVFOV / 2.0f) * ( M_PI / 180.0f ) );
+
 
 };
 

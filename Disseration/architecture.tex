@@ -1,5 +1,5 @@
-\chapter{Design}
-\addcontentsline{toc}{chapter}{Design}
+\chapter{Design and Implementation}
+%\addcontentsline{toc}{chapter}{Design}
 
 \section{Software Functionality and Architecture}
 	
@@ -71,13 +71,11 @@
 	C++ is one of the most efficient languages on the market. It is perfect for Object Oriented Programming (OOP) --- a paradigm that makes writing modular, flexible and extensible software easier. The excellent meta-programming tools provided by the language help to minimise the length of the hand-written code. Among OOP's best practices is to use design patterns - a set of well-known, documented and tested methods of solving certain architectural problems. Using design patterns leads to cleaner code which is easier to maintain and reuse. 
 	
 	\subsubsection{Configurability}
-	The programme is configurable through a text file of a standard *.ini format. It should be formatted as follows:
-	\begin{tabular}{c}
-	 param1 = 2
-	 param2 = aha
-	 [section]
-	 param3 = no
-	\end{tabular}
+	The programme is configurable through a text file of a standard *.ini format. It should be formatted as follows:\\ \ \\
+	 param1 = 2\\
+	 param2 = aha\\
+	 {[section]}\\
+	 param3 = no\\
 	
 	On top of the file there is a global section. Parameters can be accessed by their names. We can define sections but putting a section's name in brackets. the param3 can be accessed as ``section.param3''. An object ``Config'' was created for the purpose of configuration file parsing. It uses the Boost.program\_options module. Returned associative array of (parameter, value) pairs contains all parameters from a configuration file. We use a convention that if any object has to be configured by the configuration map it has to accept this map in it's constructor.
 	
@@ -96,4 +94,41 @@
 	
 	Six parts of the pipeline are a subject of strategy pattern. The interfaces representing them are: ImgReader, PointNormal, Detector, Descriptor, Cluster, Predictor. Each of them contains pure virtual computation methods --- 'read` in case of the ImgReader or 'predict' in case of the Predictor. Additionally, they have some common methods defined --- I/O methods in Cluster or batch processing methods (such that take a vector of elements instead of a single element as an input) for the Detector and the Descriptor. Every pure virtual class have its specialisations. For instance there is the PFHDescriptor class with a Point Feature Histogram descriptor or a KMeansCluster employing kMeans clustering algorithm. The Factory class chooses specialisations of the algorithms at run-time, depending on the configuration parameters.
 	
+\section{Implementation}
+
+	The complete program consists of more than 5600 lines of code in C++ and additional several hundreds of code in data preprocessing scripts.
 	
+	\subsection{Data preprocessing scripts}
+		\begin{description}
+			\item[imgListPrep.py] A script in python we have written for the purpose of listing hundreds of images (colour images and depth maps) and their corresponding labels in text files. These files are later used for batch processing such as training, but also for further data preprocessing.
+			\item[b3doPrep] A short C++ programme used for object extraction from the B3DO dataset. It uses TinyXML, a lightweight C++ library for XML processing. It reads lists of files(depth maps, colour images and image annotations stored in the XML format) and iterates over them. Each iteration consists of loading an image, extracting labels and locations of bounding boxes from the XML, extracting the regions of interests and saving them at a new location.
+			\item[divImgsByCats.py] Another short python script. Used mainly for splitting all the extracted objects into separate folders, one for every category.
+			\item[pcdPrep] One more short C++ application. It was created for the reason of handling the Tokyo dataset. The dataset comes in a rather difficult-to-manage form. This application processes the raw files and saves them as point clouds in a PointCloud Library's PCD format.	 
+			\item[grid.py and easy.py] These python scripts are an integral part of the libsvm library. Usually distributed as executables with the library, they help to perform corssvalidation and avoid overfitting. We have modified both scripts significantly in order to tune their performance on the very specific hardware describe in the Experiments section.
+		\end{description}
+		
+		While the data prepared by pcdPrep is readily available for usage by the main programme the case with the B3DO dataset is quite different. The colour images and depth maps still have to be converted to point clouds because any further processing can be undertaken. That is because if the application were to work on-line with a Microsoft Kinect plugged in, it would have to handle the raw data from Kinect, which comes in a form of two images.
+
+	\subsection{Conversion of colour images and depth maps into point clouds}
+	
+		The colour data and the depth data come from different cameras. The colour data come from 640 x 320 RGB camera, while the depth data come from active 320 x 240 infrared sensor. Only after registration the depth data is interpolated to match the colour data in resolution. Even after that operation, however, individual points from both images does not match exactly. That might introduce noise into the point cloud. We have not solved this issue and so that would be an area for further improvement. It did, however, focused our attention on another problem. If the two images do not fit perfectly it might be the case that one of the cameras have registered some points that had been invisible for the other one. Precisely, if there are any points in the colour image that the depth camera have not captured their depth would be meaningless. The Kinect's firmware does, in fact, address this issue. The depth value of every such point is set to NaN or Not a Number values. Before proceeding to the next stage we filter out all points, whose depth value has been set to NaN;
+		
+		Another problem is that only the Z coordinate is given explicitly in the depth map. The XY coordinates have to be inferred from the Z coordinate and the point's location relative to the sensor. We assumed that the sensor's position should correspond to the middle of the image or the the pixel at (320, 240). The Kinect specification says that the horizontal and vertical fields of view are respectively $57^{\circ}$ and $43^{\circ}$. We can compute the coordinates as: \\
+		
+		\begin{centering}
+			$factorH = tg (\frac{57}{2}) * \frac{\pi}{180}$\\
+			$factorV = tg (\frac{43}{2}) * \frac{\pi}{180}$\\
+			$X = depth * factorH * (pixelX / 320)$\\
+			$Y = depth * factorV * (pixelX / 240)$\\
+			$Z = depth$\\
+		\end{centering}
+		
+	\subsection{Input/Output Objects}
+	
+		As stated in the input/output section above, the application is very data dependent. Therefore, some objects for input/output operations were designed and implemented. The whole public API is delivered by the IoUtils class. It's methods allow reading and writing of text files, binary files of different formats, vectors of elements, vectors of vectors of elements and OpenCV's Mat objects. Elements that can be worked with are all C/C++ primitive types, all user defined types with defined std::string toString() method and OpenCV's Mat objects. In order to enhance performance, the IoUtils statically uses an object of type VectorIO for any vector input/output operation. The VectorIO is a template class parametrized by a type that is to be read into or written from a vector to a file on a hard drive. The VectorIO class uses a default implementation for all C/C++ primitive type and has template specialisations for the following types: std::vector, std::string, cv::Mat, any user defined object with a public std::string toString() method. Moreover, both IoUtils and VectorIO uses custom type trait classes that provide file extensions, size of types in bytes or processing algorithms for different data types.
+		
+		
+
+
+
+

@@ -1,0 +1,4 @@
+\beamer@endinputifotherversion {3.10pt}
+\select@language {polish}
+\beamer@sectionintoc {1}{Za\IeC {\l }o\IeC {\.z}enia i zakres pracy}{3}{0}{1}
+\beamer@sectionintoc {2}{Podej\IeC {\'s}cie Bag of Words}{5}{0}{2}

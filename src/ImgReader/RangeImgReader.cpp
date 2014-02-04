@@ -31,11 +31,6 @@ ColorCloud::Ptr RangeImgReader::matToCloud(const cv::Mat &colorImg, const cv::Ma
 	int height = depthImg.rows;
 	int width = depthImg.cols;
 
-	int height2 = height/2;
-	int width2 = width/2;
-	float factorX = factorX0 / width;
-	float factorY = factorY0 / height;
-
 	if( height != colorImg.rows || width != colorImg.cols ) {
 
 		std::runtime_error e("Images have different dimensions");
@@ -62,9 +57,8 @@ ColorCloud::Ptr RangeImgReader::matToCloud(const cv::Mat &colorImg, const cv::Ma
 			if ( depth == depth) {            // if depthValue is not NaN
 
 				newPoint.z = depth;
-				newPoint.x = (x - width2) * factorX * depth;
-				newPoint.y = (y - height2) * factorY * depth;
-//				std::cout << "x0: " << x << " y0: " << y << " z: " << newPoint.z << " x: " << newPoint.x << " y: " << newPoint.y << std::endl;
+				newPoint.x = depth * depthH * (x / depthWidthHalf);
+				newPoint.y = depth * depthV * (y / depthHeightHalf);
 				cv::Vec3b vec = colorPtr[x];
 				newPoint.r = vec[2];
 				newPoint.g = vec[1];
