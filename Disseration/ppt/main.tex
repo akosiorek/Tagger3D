@@ -44,25 +44,31 @@
 
 \section{Założenia i zakres pracy} 
 
-\begin{frame}
-  \setcounter{framenumber}{1}
-  \frametitle{Założenia}
+\begin{frame}{Założenia}
+  %\setcounter{framenumber}{1}
    
-   Założeniem pracy jest zbadanie zagadnienia klasyfikacji obiektów 3D na podstawie zdjęć RGBD. Zdjęcia powinny byc zrobione kamerą Microsoft Kinect oraz być reprezentowane w formie chmur punktów. Ponadto zakłada się: \ \\
+   Założeniem pracy jest zbadanie zagadnienia klasyfikacji metodą Bag of Words obiektów 3D na podstawie zdjęć RGBD. Zdjęcia powinny byc reprezentowane w formie chmur punktów. Ponadto zakłada się, że: \ \\
   \begin{itemize}
-   \item Zaprojektowanie algorytmu rozpoznawania obrazów podejściem Bag of Words
-   \item 
+   \item Analizowane dane pochodzą z kamery RGBD Microsoft Kinect
+   \item Implementacja algorytmu w języku C++ z wykorzystaniem bibliotek OpenCV i/lub PointCloud Library
+   \item Testy aplikacji na ogólnie dostępnej, naukowej bazie danych
   \end{itemize}
 
 \end{frame}
 
 \begin{frame}{Zakres pracy}
+  \begin{enumerate}
+    \item Przegląd istniejących rozwiązań dotyczących klasyfikacji obiektów na podstawie chmur punktów
+    \item Opracowanie algorytmu klasyfikacji obiektów na podstawie chmur punktów
+    \item Implementacja algorytmu w języku C++ 
+    \item Przeprowadzenie testów szybkości oraz skuteczności klasyfikacji 
+    \item Opracowanie wniosków końcowych
+  \end{enumerate}
 \end{frame}
 
 
 \section{Podejście Bag of Words}
-\begin{frame}
-  \frametitle{Bag of Words - Wprowadzenie}
+\begin{frame} {Bag of Words - Wprowadzenie}
   \begin{figure}
     \includegraphics[scale=0.3]{../figs/bow_example-eps-converted-to}
   \end{figure}
@@ -79,9 +85,7 @@
 
 \end{frame}
 
-\begin{frame}
-	\frametitle{Bag of Words w obrazach}
-	
+\begin{frame}{Bag of Words w obrazach}	
 	\begin{columns}
 	
 	 \begin{column}{6cm}
@@ -104,7 +108,7 @@
 
 	 \item Opisanie otoczenia wykrytych punktów
 	 \begin{itemize}
-	  \item opis jednoznaczny, zazwyczaj poprzez histogram gradientów
+ 	  \item opis jednoznaczny, zazwyczaj poprzez przestrzenny histogram gradientów
 	 \end{itemize}
 	 \item Budowanie słownika i kwantyzacja
 	 \begin{itemize}
@@ -114,31 +118,242 @@
 	 \begin{itemize}
 	  \item klasyfikator uczący się - Support Vector Machine, Modele graficzne, Boosting
 	 \end{itemize}
-	\end{enumerate}
+	\end{enumerate}	
+\end{frame}{}
 
+\section{Projekt Aplikacji}
 
+\begin{frame}{Projekt Aplikacji}
+	 \begin{columns}
+	
+	 \begin{column}{6cm}
+	  \begin{figure}
+	    \includegraphics[width=1.0\textwidth]{../figs/class}	   
+	  \end{figure}
+	  \centering \footnotesize Architektura
+	 \end{column}
+	 
+	 \begin{column}{6cm}
+	  \begin{figure}
+	  \includegraphics[width=0.5\textwidth]{../figs/strategy}	
+	  \end{figure}
+	  \centering \footnotesize Strategia
+	 \end{column}
+	 
+	\end{columns}
+	
+  \begin{columns}
+
+    \begin{column}{6cm}
+    \begin{itemize}
+    \item Główny obiekt \textit{Tagger3D} zarządza całą aplikacją
+    \item Fabryka odpowiedzialna za tworzenie innych obiektów, konfigurowana w czasie działania programu
+    \item Każdy etap procesu BoW ma wydzielony interfejs - wzorzec projektowy Strategia
+      \begin{itemize}
+	\item Detector, Descriptor itd.
+      \end{itemize}
+    \end{itemize}
+
+    \end{column}
+
+    \begin{column}{6cm}
+    \begin{itemize}
+     \item Strategia umożliwia wymianę algorytmów w czasie działania programu, w sposób niewidzialny dla aplikacji
+     \item Konfiguracja w pliku tekstowym
+     \item Obiekt IoUtils oparty o szablony obsługuje operacje wejścia/wyjścia
+    \end{itemize}
+
+    \end{column}
+
+    \end{columns}
+\end{frame}
+
+\section{Bazy danych}
+
+\begin{frame}{Berkely 3D Object Dataset}
+
+	\begin{columns}
+	
+	 \begin{column}{6cm}
+	 \begin{figure}[!ht]
+	    \includegraphics[width=0.65\textwidth]{../figs/b3do_objects}
+	  \footnotesize \caption{Obiekty z B3DO. Zdjęcia w oryginalnej jakości. a) kubek b) butelka c) książka d) klawiatura}
+	  \label{fig:b3do_objects}
+	  \end{figure}
+	 \end{column}
+	 
+	  \begin{column}{6cm}	  
+	  \begin{itemize}
+	   \item 78 kategorii obiektów
+	   \item Wiele obiektów na jednym zdjęciu
+	   \item Niska jakość zdjęć, wiele zdjęć niedoświetlonych, zaszumionych
+	   \item Obiekty przysłonięte
+	   \item Kolorowe zdjęcia i mapy głębi; Adnoacje w XML
+	   \item Skrypty w Pythonie i C++ do ekstrakcji pojedynczych obiektów i podziału na kategorie.
+	   \item Od 1 do 299 instancji w jednej kategorii
+	   \item Losowy wybór 8 kategorii tak, żeby było~>~50 instancji w każdej kategorii
+	  \end{itemize}
+
+	  
+	 \end{column}
+	\end{columns}	
+\end{frame}
+
+\begin{frame}{University of Tokyo Dataset}
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.6\textwidth]{../figs/tokyo_horizontal}
+	\footnotesize \caption{The Tokyo dataset: a) kosz b) rower c) pudełko d) wiadro e) wózek f) lodówka g) notebook h) drukarka i) skaner j) scena}
+	\label{fig:tokyo}
+	\end{figure}
+	
+		\begin{columns}
+		\begin{column}{6cm}
+			\begin{itemize}
+			\item 10 kategorii
+			\item 1 obiekt (oznaczony) na zdjęciu	
+			\item Mogą być obiekty nieoznaczone, których nie należy brać pod uwagę
+			\item Zdjęcia dobrej jakości, dobrze naświetlone
+			\item Wszystkie zdjęcia w kategorii to instancje jednego obiektu
+			\end{itemize}
+		\end{column}
+		\begin{column}{7cm}     
+			\begin{itemize}
+			%\setcounter{enumi}{3}
+			\item Skomplikowane sceny
+			\item Małe różnice pomiędzy klasami obiektów
+			  \begin{itemize}
+			  \item skaner i drukarka
+			  \item koszyk i wiadro
+			  \end{itemize}
+			  \item Dane w formie kolorowe: zdjęcie + plik .csv z absolutnymi współrzędnymi wszystkich pixeli
+			  \item Skrypty Python i C++ - przeksztąłcenie do chmury punktów w formacie PCD
+			\end{itemize}
+		\end{column}
+	\end{columns}
+
+\end{frame}
+
+\section{Wyniki i podsumowanie}
+
+\begin{frame}{Porównanie algorytmów}
+
+	\begin{columns}
+	
+	\begin{column}{5cm}
+	\begin{table}[!ht]	
+	\includegraphics[scale=0.08]{../figs/desc_b3do} \\ 
+	\centering
+	\footnotesize Porównanie algorytmów. \\
+	\vspace{1cm}
+	\includegraphics[scale=0.2]{../figs/clustering_centroids_b3do} \\ 
+	\centering
+	\footnotesize Wpływ rozmiaru słownika na skuteczność klasyfikacji.
+	\end{table}
+	
+	 \end{column}
+	 
+	  \begin{column}{7cm}	  
+	  \begin{itemize}
+	   \item Wstępna selekcja algorytmów na podstawie przeglądu literatury
+	   \item Rodzina deskryptorów PFH uzyskuje najlepsze wyniki w dopasowywaniu chmur punktów:
+	    \begin{description}
+	      \item[PFH] Algorytm bazowy, 125 wymiarów
+	      \item[FPFH] Algorytm przybliżony, 33 wymiary
+	      \item[PFHRGB] Algorytm uwzględnia kolor, 250 wymiarów
+	    \end{description}
+	   \item Detektory: 
+	       \begin{description}
+	      \item[SIFT] Najlepszy algorytm 2D
+	      \item[ISS] Najlepsze wyniki w dopasowywaniu chmur punktów
+	      \item[US] Najprostszy, równomierna siatka punktów
+	    \end{description}
+	   \item Optymalny rozmiar słownika
+	  \end{itemize}
+
+	  
+	 \end{column}
+	\end{columns}
 	
 \end{frame}
 
-
-\begin{frame}
-	\frametitle{}
+\begin{frame}{Wyniki B3DO}
+		\begin{columns}
+	
+	 \begin{column}{6cm}
+	\begin{table}[!ht]	
+	\includegraphics[scale=0.1]{../figs/b3do_conf_matrix}	\\ \ \\
+	\centering
+	\footnotesize \textbf{Wynik: 65.22\%} Wyniki na bazie B3DO, detektor ISS, ekstraktor FPFH, słownik o wielkości 1500 słów.
+	\end{table}
+	 \end{column}
+	 
+	  \begin{column}{6cm}	  
+	  \begin{itemize}
+	   \item Im lepiej rozdzielone kategorie obiektów, tym wyższa wyniki
+	   \item Najwyższy wynik: stół, 100\%
+	   \item Niskie wyniki wynikają bezpośrednio z podobieństwa między klasami: 
+	   \begin{itemize}
+	    \item książka, 35\%, mylona z filiżanką i butelką
+	    \item butelka, 45\%, mylona z filiżanką
+	   \end{itemize}
+	  \end{itemize}
+	  
+	 \end{column}
+	\end{columns}	
 \end{frame}
 
-\begin{frame}
-	\frametitle{}
+\begin{frame}{Wyniki Tokyo}
+	\begin{columns}
+	
+	 \begin{column}{5cm}
+	\begin{table}[!ht]	
+	\includegraphics[scale=0.1]{../figs/tokyo_conf_matrix} \\ \ \\
+	\centering
+	\footnotesize \textbf{Wynik: 62.30\%} Wyniki na bazie Tokyo, detektor ISS, ekstraktor PFH, słownik o wielkości 3000 słów.
+	\end{table}
+	
+	 \end{column}
+	 
+	  \begin{column}{6cm}	  
+	  \begin{itemize}
+	   \item Wyraźna zależność między ilością instancji w danej klasie i skutecznością klasyfikacji
+	   \item Najwyższy wynik: rower, 94\%, największa ilośc obiektów
+	   \item Najniższe wyniki przy klasach, w których są odpowiednio 4, 2 i 2 obiekty: 
+	    \begin{itemize}
+	      \item wózek, 0\%
+	      \item skaner, 0\%
+	      \item drukarka, 0\%
+	    \end{itemize}
+	   \item Notebook jest mylon z pudełkiem
+	   \item Wiadro jest mylone z pudełkiem
+	   \item Kosz jest mylony z wiadrem
+	  \end{itemize}
+	  
+	 \end{column}
+	\end{columns}	
 \end{frame}
 
-\begin{frame}
-	\frametitle{}
-\end{frame}
+\begin{frame}{Podsumowanie}
+	\begin{itemize}
+	 \item Uzyskane wyniki na bazach B3DO i TOKYO są odpowiednio $5.21$ i $6.23$ razy lepsze od kategoryzacji losowej (odpowiednio 12.5\% i 10\%)
+	 \item Zrealizowano wszystkie założenia projektowe
+	 \item Wystąpiły następujące problemy
+	  \begin{itemize}
+	    \item W zasadzie brak baz danych nadających się do zadania klasyfikacji obiektów na podstawie danych RGBD
+	    \item Bardzo wymagające przetwarzanie chmur punktów ze względu na brak jakiejkolwiek struktury
+	    \item Najlepsze algorytmy dostępne są tylko do 2D, brak możliwości ich prostego uogólnienia do 3D
+	  \end{itemize}
+	  
+	  \item Możliwości poprawy skuteczności i/lub szybkości działania aplikacji:
+	    \begin{itemize}
+	      \item Przeniesienie obliczeń do domeny 2D; RGB i D jako niezależne obrazy + złożenie wyników klasyfikacji
+	      \item Trening klasyfikatorów na znacznie większych bazach danych
+	      \item Przeniesienie obliczeń na GPU
+	    \end{itemize}
+	    
+	\end{itemize}
 
-\begin{frame}
-	\frametitle{}
-\end{frame}
-
-\begin{frame}
-	\frametitle{}
 \end{frame}
 
 \end{document}

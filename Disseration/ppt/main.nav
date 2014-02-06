@@ -15,18 +15,31 @@
 \headcommand {\beamer@framepages {5}{5}}
 \headcommand {\slideentry {2}{0}{5}{6/6}{}{0}}
 \headcommand {\beamer@framepages {6}{6}}
-\headcommand {\slideentry {2}{0}{6}{7/7}{}{0}}
+\headcommand {\sectionentry {3}{Projekt Aplikacji}{7}{Projekt Aplikacji}{0}}
+\headcommand {\beamer@sectionpages {5}{6}}
+\headcommand {\beamer@subsectionpages {5}{6}}
+\headcommand {\slideentry {3}{0}{6}{7/7}{}{0}}
 \headcommand {\beamer@framepages {7}{7}}
-\headcommand {\slideentry {2}{0}{7}{8/8}{}{0}}
+\headcommand {\sectionentry {4}{Bazy danych}{8}{Bazy danych}{0}}
+\headcommand {\beamer@sectionpages {7}{7}}
+\headcommand {\beamer@subsectionpages {7}{7}}
+\headcommand {\slideentry {4}{0}{7}{8/8}{}{0}}
 \headcommand {\beamer@framepages {8}{8}}
-\headcommand {\slideentry {2}{0}{8}{9/9}{}{0}}
+\headcommand {\slideentry {4}{0}{8}{9/9}{}{0}}
 \headcommand {\beamer@framepages {9}{9}}
-\headcommand {\slideentry {2}{0}{9}{10/10}{}{0}}
+\headcommand {\sectionentry {5}{Wyniki i podsumowanie}{10}{Wyniki i podsumowanie}{0}}
+\headcommand {\beamer@sectionpages {8}{9}}
+\headcommand {\beamer@subsectionpages {8}{9}}
+\headcommand {\slideentry {5}{0}{9}{10/10}{}{0}}
 \headcommand {\beamer@framepages {10}{10}}
-\headcommand {\slideentry {2}{0}{10}{11/11}{}{0}}
+\headcommand {\slideentry {5}{0}{10}{11/11}{}{0}}
 \headcommand {\beamer@framepages {11}{11}}
-\headcommand {\beamer@partpages {1}{11}}
-\headcommand {\beamer@subsectionpages {5}{11}}
-\headcommand {\beamer@sectionpages {5}{11}}
-\headcommand {\beamer@documentpages {11}}
-\headcommand {\def \inserttotalframenumber {9}}
+\headcommand {\slideentry {5}{0}{11}{12/12}{}{0}}
+\headcommand {\beamer@framepages {12}{12}}
+\headcommand {\slideentry {5}{0}{12}{13/13}{}{0}}
+\headcommand {\beamer@framepages {13}{13}}
+\headcommand {\beamer@partpages {1}{13}}
+\headcommand {\beamer@subsectionpages {10}{13}}
+\headcommand {\beamer@sectionpages {10}{13}}
+\headcommand {\beamer@documentpages {13}}
+\headcommand {\def \inserttotalframenumber {12}}
