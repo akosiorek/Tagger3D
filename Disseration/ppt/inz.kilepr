@@ -40,13 +40,13 @@ archive=true
 column=0
 encoding=UTF-8
 highlight=LaTeX
-line=8
+line=39
 mode=LaTeX
-open=true
+open=false
 order=0
 
 [view-settings,view=0,item:main.tex]
 CursorColumn=0
-CursorLine=8
+CursorLine=39
 JumpList=
 ViMarks=

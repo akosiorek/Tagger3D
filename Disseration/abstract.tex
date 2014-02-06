@@ -4,20 +4,28 @@
 
 \vspace{1.0cm}
 
-	W pracy przedstawiono podejście Bag of Words do klasyfikacji obiektów na podstawie trójwymiarowych chmur punktów. Wykorzystano metodę uczenia nadzorowanego, dzięki czemu można rozpoznawać dowolne kategorie obiektów. Opisano metodologię BoW, jej znaczenie w wizjii komputerowej, a także algorytmy znajdujące zastosowanie w poszczególnych stadiach procesu. Następnie przedstawiono problem klasyfikacji. Określono wymaganą funkcjonalność, zaprojektowano konfigurowalną i łatwo rozszerzalną aplikację oraz zaimplementowano ją w C++. Zbadano algorytmy pod kątem przydatności do BoW oraz sprawdzono skuteczność aplikacji na dwóch powszechnie uznawanych zbiorach danych.
-
+	W pracy przedstawiono podejście Bag of Words (BoW) w semantycznej klasyfikacji obiektów na podstawie danych RGBD zarejestrowanych kamerą Microsoft Kinect. Omówiono koncepcję BoW w przetwarzaniu języka naturalnego oraz opisano ścieżkę przetwarzania BoW w widzeniu maszynowym. Opisano etapy ścieżki przetwarzania, to jest: detekcję punktów charakterystycznych, opis tych punktów, kwantyzację oraz krótko scharakteryzowano najpopularniejsze algorytmy. Omówiono zastosowania BoW w widzeniu maszynowym. Następnie omówiono problem klasyfikacji i najpopularniejsze klasyfikatory, m. in.: Na\'ive Bayes i k-Najbliższych Sąsiadów. 
+	
+	Przegląd literatury pozwolił na wyodrębnienie szeregu wymagań, które aplikacja powinna spełniać. Zaprojektowano proces przetwarzania oraz architekturę aplikacji. Omówiono zewnętrzne biblioteki programistyczne używane w projekcie. Są to: STL, Boost, OpenCV, PointCloud Library, Apache log4cxx i libsvm. Program napisano w języku C++ w sposób zorientowany obiektowo. Pozwoliło to na stworzenie aplikacji wydajnej, rozszerzalnej oraz konfigurowalnej. Algorytmy mogą być wybierane i konfigurowane w czasie działania programu. Nowe algorytmy mogą być łatwo dodawane, z tylko niewielką ingerencją w kod źródłowy. Uczenie aplikacji polega na przetworzeniu przykładów wraz z odpowiadającymi im etykietami. Dzięki temu użytkownik może wytrenować aplikację na własnych przykładach i wykorzystywać ją do rozpoznawanie obiektów dowolnej kategorii. 
+	
+	Kroki przetwarzania BoW są dosyć ogólne, dlatego też istnieje wiele algorytmów, które mogą być w tym celu stosowane. Przegląd literatury pozwolił na wstępną selekcję obiecujących pod względem wydajności i skuteczności kandydatów. W poniższej pracy przetestowano następujące algorytmu: detekcja odbywa się za pomocą algorytmów SIFT, ISS3D i Uniform Sampling; do opisu punktów wykorzystano FPFH, PFH i PFHRGB; kwantyzację wykonano za pomocą algorytmu KMeans; jako klasyfikator użyto SVM z jądrem RBF trenowany metodą All-vs-All.
+	
+	Uzyskano skuteczność klasyfikacji 65.22\% na zbiorze 8 kategorii z Berkely 3D Object Dataset oraz 62.3\% na zabiorze 10 kategorii udostępnionych przez Zhanga z Tokyo University.
+	
 \vspace{3.0cm}
+
+\pagebreak
 
 \begin{center}
 \begin{LARGE}\textbf{Abstract}\end{LARGE}
 \end{center}
 
 \vspace{1.0cm}
-
-	This paper introduces a Bag of Words semantic object classification framework based on three dimensional point clouds. The framework uses machine learning algorithms and a learning by example approach, thus an arbitrary set of categories can be used. Basic concepts of BoW and its role in computer vision are introduced. Then, the most popular algorithms for different steps of BoW are described and a problem of classification is explained. After a requirement analysis was performed a configurable and extensible application was designed and implemented in C++. Finally, algorithms for different steps of BoW classification are evaluated and results on two benchmark datasets are discussed.
 	
-
+	This paper introduces a Bag of Words (BoW) semantic object classification framework based on RGBD data registered by the Microsoft Kinect camera. The concept of the BoW in natural language processing is introduced. Then, we describe the BoW pipeline for image processing. Each stage of the pipeline is described, namely: region detection, feature extraction and vector quantization and some famous algorithms are characterised. Applications of BoW in image processing and their results are discussed. Additionally, we describe the problem of classification and elaborate on the most popular classifiers, e.g. Na\'ive Bayes or k-Nearest Neighbours.
 	
+	After a thorough literature review we assembled a set of core requirements the application should meet. Then, we designed a processing pipeline and the programme's architecture. We provide a short description of third party libraries used in the project. They are: STL, Boost, OpenCV, PointCloud Library, Apache log4cxx and libsvm. We implemented the application solely in the C++ programming language in an object oriented way. The efforts resulted in an efficient, extensible and configurable application. Every algorithm can be chosen and configured at runtime. New algorithms can be easily added, with only a little adjustment of the source code. The application employs a learning-by-example paradigm and therefore can be retrained on any user-specified data in order to classify objects into a set of arbitrary categories. 
 	
-
+	There is a plethora of algorithms available for every step of the Bag of Words pipeline. After identifying candidates with high performance potential we integrated  and evaluated the following algorithms: Salient region detection is done by SIFT, ISS3D and Uniform Sampling. The description is performed by FPFH, PFH and PFHRGB. Vector quantization was carried out by the KMeans algorithm. As a classifier we used an SVM with the RBF kernel trained with an All-vs-All.
+	We achieved the accuracy of 65.22\% on 8 categories of the Berkely 3D Object Dataset and 62.3\% on a 10 category dataset compiled by Zhang from the Tokyo University.
 

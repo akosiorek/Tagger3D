@@ -1,4 +1,41 @@
-    \vspace*{1\baselineskip}
+  \documentclass[12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{cite}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage[font=footnotesize]{caption}
+\usepackage{amsmath}
+\usepackage[hidelinks]{hyperref}
+\usepackage{paralist}
+\usepackage{tocbibind}
+%\usepackage[nottoc,notlof,notlot]{tocbibind}
+
+%\renewcommand{\chaptername}{}
+%\renewcommand{\thechapter}{}
+
+\linespread{1.5}
+
+\newcommand{\superscript}[1]{\ensuremath{^{\textrm{#1}}}}
+\newcommand{\subscript}[1]{\ensuremath{_{\textrm{#1}}}}
+\newcommand\rednote[1]{\textcolor{red}{#1}}
+
+\makeatletter
+% Redefine the \chapter* header macro to remove vertical space
+\def\@makeschapterhead#1{%
+  %\vspace*{50\p@}% Remove the vertical space
+  {\parindent \z@ \raggedright
+    \normalfont
+    \interlinepenalty\@M
+    \Huge \bfseries  #1\par\nobreak
+    \vskip 20\p@
+  }}
+\makeatother
+
+\begin{document}
+  
+  \vspace*{1\baselineskip}
     \begin{tabular}{p{5cm} p{10cm}}
     \begin{minipage}{5cm}
     \center
@@ -40,3 +77,6 @@
     \hfill\parbox{15em}{{\small\dotfill}\\[-.3ex]
     \centerline{\footnotesize signature}}\par
     \vspace{3\baselineskip}
+    
+    
+\end{document}
