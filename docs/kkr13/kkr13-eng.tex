@@ -1,0 +1,182 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This file is delivered as an usage example of the file 'kkr13-eng.sty'.
+% The style file 'kkr13-eng.sty' has been prepared for papers intended 
+% to be presented at the XIII National Conference on Robotics in Poland.
+%
+% The file 'kkr13-eng.sty' contains definitions of macros for English
+% and Polish authors. Thus their names are in English and Polish respectively.
+% They define the same operations. English and Polish names are used
+% only for authors' convenience. 
+% Therefore both types of macros can be used in this type of the document.
+% The same type of macros are defined in the style file defined for papers 
+% written in Polish.
+% Below there is a list of macros names in English and their equivalent forms
+% in Polish.
+%
+%       \articleTitle          =   \tytulArtykulu
+%       \titleFootNote         =   \stopkaPrzypisTytulu
+%       \articleAuthor         =   \autorArtykulu
+%       \affiliation           =   \instytucja
+%       \theSameAffiliationAs  =   \instytucjaTaSamaJak
+%       \articleShortTitle     =   \naglowekTytulSkrocony
+%       \breakAuthorsLine      =   \zlamLinieAutorow
+%       \authorsForHeader      =   \naglowekAutorzyArtykulu
+%       \authorsCustomizedList =   \wlasnaListaAutorow
+%       \abstract              =   \streszczenie
+%       \Equation              =   \wzor
+%       \refeq                 =   \refwzor
+%       \reffig                =   \refrys
+%       \refFig                =   \refRys
+%
+% Author: Bogdan Kreczmer 
+% Last modification:      2013.12.09
+% 
+% In the case of any doubt, please, contact via e-mail.
+% The address of the author is:
+%  bogdan.kreczmer@pwr.wroc.pl
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,twoside]{article}
+\usepackage{kkr13-eng}
+
+
+\articleTitle{3D Object Recognition Based on RGBD Images}
+
+%
+% For information of a project (if any)
+%
+\titleFootNote{The work described in this paper was conducted with author's Bachelor's dissertation}
+
+%
+% Parameters:
+%   1 - initials of the first and middle name of an author
+%   2 - the first and middle name of an author
+%   3 - the last name of an author
+%
+\articleAuthor{A.}{Adam}{Kosiorek}
+
+\affiliation[institute1]{ Institute of Automation and Robotics, The Faculty of Mechatronics of Warsaw University of\\ Technology, email: iair@mchtr.pw.edu.pl, website: http://iair.mchtr.pw.edu.pl}
+
+
+\begin{document}
+
+\abstract{ %
+ The paper presents a very short example of usage of the style file named
+ {\tt kkr13-eng.sty}.
+}
+
+\maketitle
+
+\section{ TEXT OF THE PAPER }
+
+The instruction presents typographic layout of the text
+and technical requirements 
+ to the papers intendant to be presented at the Conference.
+Fonts sizes are declared in points (1pt =  0,35146mm).
+
+
+\subsection{For {\LaTeX} users}
+
+ To fulfill the requirements described below a style file {\tt kkr13-eng.sty}
+ can be used. It is available at the Conference website
+ {\tt http://kkr13.pwr.wroc.pl}. The bibliography style coincides with 
+ the plain BibTeX style {\tt plain.bst}.
+
+
+\subsection{ The manuscript preparation}
+
+ The total number of pages for a regular paper should not exceed 10 pages.
+ The authors of the papers for plenary sessions are recommended not to
+ exceed 20 pages (the number of pages should be even).
+ The text of the paper has to be written using 
+ the 11pt font size. The space between lines should be equal to 5mm, 
+ the width of the text is 13.1cm, the height is 20.8cm. 
+ The indentation is 1.25cm 
+ (the indentation must not be created at the beginning of a section or 
+ subsection). The alignment of the text is centered along horizontal line.
+ The format of a page is A4. 
+
+
+
+\subsubsection{\small Mathematical formulae}
+
+ The number of a formula has to be written
+ in parentheses shifted to the right (see below). Symbols of variables 
+ should be written in italic.
+ \begin{equation}
+   x = \frac{a^{(1-z)} + b}{10 - d_2}
+ \end{equation}
+
+ \noindent
+ Intervals of values should be written without spaces, e.g.\ 4--45MPa.
+
+
+\section{FIGURES AND TABLES}
+
+\subsection{Figures and their arrangement}
+
+ Figures should be numbered with the Arabic numerals (see fig. 
+ \ref{fig-example}). 
+
+ \begin{figure}[hbtp]
+  \fbox{\rule{0mm}{45mm}\rule{85mm}{0mm}}
+  \caption{The figure caption}
+  \label{fig-example}
+ \end{figure}
+
+\subsection{Tables}
+
+ Tables have to be formated in the way presented below (see table 
+ \ref{tab-example}). The tables have to be numbered  separately from 
+ the figures.
+
+ \begin{table}[hbtp]
+  \caption{The table caption}
+   \label{tab-example}
+   \begin{tabular}{|c|c|c|c|c|}\hline
+       Column 1 & Column 2 & Column 3 &  Column 4 & Column 5\\ \hline
+       $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$\\ \hline
+    \end{tabular}
+ \end{table}
+
+\section{CITATIONS}
+
+Citations of papers should be marked  with square brackets, e.g.
+\cite{Ming}. The references have to be arranged in 
+the alphabetic order relative to the authors' surnames (see the example
+below).
+
+\begin{thebibliography}{99}
+\bibitem{Litwiniec}
+    A. Litwin et al. Transport phenomena in InSb doped with various impurities.
+    In: 11 International Conference on the Physics of Semiconductors.
+   {\em Proceedings}. Warszawa -- Poland, July 25--29, 
+    1972. Vol. 2, pp. 952--957.
+
+ \bibitem{Lamadrid} 
+  J.~G. de~Lamadrid.
+  \newblock Avoidance of obstacles with unknown trajectories: Locally optimal
+   paths and periodic sensor readings.
+   \newblock {\em The Inter. Journal of Robotics Research}, 13(6):496--507,
+   December 1994.
+
+ \bibitem{Ming}
+   A~Ming, K.~Kajihara, M.~Kajitani, and M.~Shimojo.
+   \newblock Development of a rapid obstacle sensing system using sonar 
+   ring for mobile robot.
+   \newblock In {\em Proc. Int. Conf. on Robotics and Automation}, 
+   volume~3, pp. 3068 -- 3073, Washington, D.C., May 2002.
+
+ \bibitem{Singh:1987:Convex:Shapes}
+   J.~Sanjiv Singh and Meghanad~D. Wagh.
+   \newblock Robot path planning using intersecting convex shapes: Analysis and
+   simulation.
+   \newblock {\em IEEE Journal of Robotics and Automation}, RA-3(2):101 -- 108,
+   April 1987.
+\end{thebibliography}
+\end{document}
+
+
+

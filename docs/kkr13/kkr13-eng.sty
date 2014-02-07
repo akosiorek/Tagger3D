@@ -1,0 +1,794 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This file defines the style for papers delivered to the 13 Polish National
+% Conference on Robotics.
+%
+% Author: Bogdan Kreczmer 
+% Last modification:      2013.12.10
+% 
+% Warning: This file should be attached to a document as the last package.
+%
+% In the case of any doubt, please, contact via e-mail.
+% The address of the author is:
+%  bogdan.kreczmer@pwr.wroc.pl
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{pslatex}
+\usepackage{ifthen}
+\usepackage{fancyhdr}
+\usepackage{calc}
+
+\ifx\l@nohyphenation\@undefined
+        \newlanguage\l@nohyphenation
+\fi
+\def\selecthyphenation#1{%
+  \expandafter\ifx\csname l@#1\endcsname\relax
+    \PackageError{kkr13-eng}{No hyphenation patterns for language `#1'}
+      {Hyphenation in this language will be disabled.}%
+    \selecthyphenation{nohyphenation}%
+  \else
+    \language\csname l@#1\endcsname
+  \fi
+}
+
+
+\selecthyphenation{english}
+\makeatletter
+
+%
+% Makro przeznaczone jest do wlasciwego umieszczenia tytulu artykulu.
+% Zapewnia ono rowniez jego umieszczenie w naglowkach nieparzystych stron .
+%
+% Parametry:
+%  1 - (opcjonalny) Skrocona tytul, ktory pojawi sie w naglowkach 
+%      nieparzystych stron.
+%  2 - Tytul artykulu
+%
+\newcommand{\tytulArtykulu}[2][\setcounter{KKR:userheader}{0}]{%
+                                             \x@articleTitle[#1]{#2}}
+\newcommand{\articleTitle}[2][\setcounter{KKR:userheader}{0}]{%
+                                             \x@articleTitle[#1]{#2}}
+
+
+
+%
+% Umozliwia umieszczenie imienia i nazwiska 
+% autora zarowno pod tytulem artykulu jak tez w naglowkach kolejnych
+% stron. W tym drugim przypadku potrzebny jest inicjal imienia zamiast
+% jego pelnej formy.
+%
+% Parametry:
+%   1 - inicjal(y) imienia (imion) autora,
+%   2 - imie (imona) autora,
+%   3 - nazwisko autora.
+%
+\newcommand{\autorArtykulu}[3]{\articleAuthor{#1}{#2}{#3}}
+
+% Umieszcza w stopce z odpowiednim odnosnikiem dane dotyczace instytucji, 
+% ktora reprezentuje autor.
+% Musi ono wystapic bezposrednio po makrze \autorArtykulu.
+%
+% Parametry:
+%  1 - (opcjonalny) etykieta umozliwiajaca odwolanie sie do danych
+%      o instytucji w odniesieniu do autorow, ktorzy wystepuja 
+%      w dalszej czesci (nie bezposrednio za pierwszym autorem)
+%      listy autorow.
+%  2 - Dane dotyczace instytucji.
+%
+\newcommand{\instytucja}[2][KKRInstytucja-\arabic{kkr:instytucja}]%
+                         {\x@affiliation{#2}{#1}}
+\newcommand{\affiliation}[2][KKRInstytucja-\arabic{kkr:instytucja}]%
+                         {\x@affiliation{#2}{#1}}
+
+
+
+%
+%  Pozwala samodzielnie wprowadzic liste autorow,
+%  gdy dostarczony system makr okaze sie niewystarczajacy.
+%  Makro umozliwia pelna kontrole nad postacia listy autorow.
+% 
+%  Paremtry:
+%   1 - lista autorow wraz z odwolaniami do danych odnoszacych
+%       sie do instytucji reprezentowanych przez autorow
+% 
+\newcommand{\wlasnaListaAutorow}[1]{%
+  \renewcommand{\@authorsUserList}{#1}\setcounter{authors:userlist}{1}%
+}
+\newcommand{\authorsCustomizedList}[1]{\wlasnaListaAutorow{#1}}
+
+% Ponizsze makro moze byc wykorzystane do wymuszenia wlasnej postaci
+% naglowka z nazwiskami autorow, jezeli standardowo generowany napis
+% nie jest zadawalajacy.
+%
+% Parametr:
+%  1 - lista autorow artykulu. Lista ta zostanie umieszczona w naglowkach
+%      parzystych stron artykulu. Musi byc ona zgodna z wymogami
+%      typograficznymi sformulowanych w zaleceniach dostepnych na
+%      stronie http://kkr13.pwr.wroc.pl .
+%
+\newcommand{\naglowekAutorzyArtykulu}[1]{\authorsForHeader{#1}}
+
+%
+% W przypadku gdy kolejny autor reprezentuje te sama instytucje jak
+% jeden z autorow, ktory znajduje sie wczesniej na liscie autorow,
+% to odwolanie do tych danych mozna zrealizowac poprzez makro
+% \instytucjaTaSamaJak. Makro to pozwala rozwiazac problem niezachowania
+% kolejnosci odwolywania sie do poszczegolnych danych instytucji.
+%
+% Parametry:
+%  1 - etykieta uzyta w makrze \instytucja zawierajaca
+%      dane instytucji, na ktora pragniemy sie powolac.
+%
+\newcommand{\instytucjaTaSamaJak}[1]{%
+ \setcounter{aff:label:\arabic{authors}}{1}%
+ \ifthenelse{\value{authors} = 1}{%
+       \renewcommand{\AuthAffilLabelI}{#1}}{%
+  \ifthenelse{\value{authors} = 2}{%
+       \renewcommand{\AuthAffilLabelII}{#1}}{%
+  \ifthenelse{\value{authors} = 3}{%
+       \renewcommand{\AuthAffilLabelIII}{#1}}{%
+  \ifthenelse{\value{authors} = 4}{%
+       \renewcommand{\AuthAffilLabelIV}{#1}}{%
+  \ifthenelse{\value{authors} = 5}{%
+       \renewcommand{\AuthAffilLabelV}{#1}}{%
+  \ifthenelse{\value{authors} = 6}{%
+       \renewcommand{\AuthAffilLabelVI}{#1}}{%
+  \ifthenelse{\value{authors} = 7}{%
+       \renewcommand{\AuthAffilLabelVII}{#1}}{%
+  \ifthenelse{\value{authors} = 8}{%
+       \renewcommand{\AuthAffilLabelVIII}{#1}}{%
+  \ifthenelse{\value{authors} = 9}{%
+       \renewcommand{\AuthAffilLabelIX}{#1}}{%
+  \ifthenelse{\value{authors} = 10}{%
+       \renewcommand{\AuthAffilLabelX}{#1}}{%
+  }}}}}}}}}}%
+}
+\newcommand{\theSameAffiliationAs}[1]{\instytucjaTaSamaJak{#1}}
+
+%
+% W przypadku wiekszej ilosci wspolatorow automatyczny sposob 
+% przeniesienia do nowej linii moze okazac sie niezadawalajacy
+% (dane dotyczace autorow z poprzedniej linii zostaja rozsuniete lub
+%  jedno z nazwisk moze wyjsc poza dopuszczalny margines). 
+% Ponizsze makro umozliwia rozwiazanie tego problemu poprzez wymuszenie
+% zlamania linii.
+%
+\newcommand{\zlamLinieAutorow}{\setcounter{author:nl:\arabic{authors}}{1}}
+\newcommand{\breakAuthorsLine}{\zlamLinieAutorow}
+
+%
+% Makro przeznaczone jest do wprowadzenia streszczenia w jezyku 
+% angielskim, ktore powinno zostac umieszczone na koncu artykulu.
+%
+% Parametry:
+%  1 - Tytul referatu w jezyku angielskim
+%  2 - Streszczenie w jezyku angielskim
+%
+\newcommand{\streszczenieAngielskie}[2]{\englishAbstract{#1}{#2}}
+
+
+% Umieszcza w tekscie poprawna forme odwolania sie do wzoru.
+% Przyklad rezultatu odwolania:  (3)
+%
+% Parametry:
+%  1 - etykieta wzoru.
+%
+\newcommand{\refwzor}[1]{\refeq{#1}}
+
+% Umieszcza w tekscie poprawna forme odwolania sie do tabeli.
+% Przyklad rezultatu odwolania:  tab. 2
+%
+% Parametr:
+%  1 - etykieta tabeli.
+%
+\newcommand{\reftab}[1]{tab.~\ref{#1}}
+
+% Umieszcza w tekscie poprawna forme odwolania sie do tabeli.
+% Przyklad rezultatu odwolania:  Tab. 2
+%
+% Parametr:
+%  1 - etykieta tabeli.
+%
+\newcommand{\refTab}[1]{Tab.~\ref{#1}}
+
+% Umieszcza w tekscie poprawna forme odwolania sie do rysunku.
+% Przyklad rezultatu odwolania:  rys. 2
+%
+% Parametr:
+%  1 - etykieta rysunku.
+%
+\newcommand{\refrys}[1]{\reffig{#1}}
+
+% Umieszcza w tekscie poprawna forme odwolania sie do rysunku.
+% Przyklad rezultatu odwolania:  Rys. 2
+%
+% Parametr:
+%  1 - etykieta rysunku.
+%
+\newcommand{\refRys}[1]{\refFig{#1}}
+
+\newcommand{\@makroPoTytule}{}
+
+% Umozliwia zdefiniowanie dowolnego makra, ktore zostanie umieszczone
+% po tytule artykulu na pierwszej stronie. W ten sposob ``mozna podciagac''
+% linie za tytulem, jesli nie wymienieni sa autorzy.
+%
+% Parametr:
+%  1 - tresc makra, ktore ma znalezc sie po tytule artykulu na pierwszej
+%      stronie.
+%
+\newcommand{\makroPoTytule}[1]{\renewcommand{\@makroPoTytule}{#1}}
+
+
+\def\baselinestretch{0.89}
+
+\newcommand{\refeq}[1]{(\ref{#1})}
+
+\newcommand{\reffig}[1]{fig.~\ref{#1}}
+\newcommand{\refFig}[1]{Fig.~\ref{#1}}
+
+
+\def\@makefnmark{\rlap{\@textsuperscript{\normalfont\@thefnmark}}}%
+\long\def\@makefntext#1{\parindent 1em%
+            \noindent  %
+            \hb@xt@0.4em{%
+                \hss\@textsuperscript{\normalfont\@thefnmark}}#1}%
+
+\newcounter{titlefootnote}\setcounter{titlefootnote}{0}
+\newcounter{usr:header:authors}\setcounter{usr:header:authors}{0}
+\newcounter{kkr:instytucja}\setcounter{kkr:instytucja}{0}
+
+
+\newcommand{\@titleFootNote}{}
+\newcommand{\titleFootNote}[1]{\setcounter{titlefootnote}{1}%
+                               \renewcommand{\@titleFootNote}{#1}}
+\newcommand{\stopkaPrzypisTytulu}[1]{\titleFootNote{#1}}
+
+\renewcommand\maketitle{\par
+  \begingroup
+      \newpage
+      \global\@topnum\z@ %
+      \@maketitle
+    \thispagestyle{plain}\@thanks
+  \endgroup
+    \renewcommand\thefootnote{\@fnsymbol\c@footnote}%
+  \setcounter{footnote}{1}%
+  \global\let\thanks\relax
+  \global\let\maketitle\relax
+  \global\let\@maketitle\relax
+  \global\let\@thanks\@empty
+  \global\let\@author\@empty
+  \global\let\@date\@empty
+  \global\let\@title\@empty
+  \global\let\title\relax
+  \global\let\author\relax
+  \global\let\date\relax
+  \global\let\and\relax
+}
+
+
+\def\@makefnmark{\hbox{\@textsuperscript{\normalfont\it\@thefnmark}}}
+
+\newcommand{\@authorsForHeader}{}
+\newcommand{\@titleForHeader}{}
+\newcommand{\@authorsUserList}{}
+\newcommand{\@tmpTitle}{}
+\newcommand{\authorsForHeader}[1]{\setcounter{usr:header:authors}{1}%
+                                   \renewcommand{\@authorsForHeader}{#1}}
+\newcommand{\titleForHeader}[1]{\renewcommand{\@titleForHeader}{#1}}
+
+\newcounter{KKR:userheader}\setcounter{KKR:userheader}{1}
+\newcommand{\@userHeader}{}
+\newcommand{\userHeader}[1]{\renewcommand{\@userHeader}{#1}}
+\newcommand{\x@articleTitle}[2][\setcounter{KKR:userheader}{0}]{%
+         \userHeader{#1}%
+         \titleForHeader{#2}\title{#2}}
+\newcommand{\articleShortTitle}[1]{\titleForHeader{#1}}
+\newcommand{\naglowekTytulSkrocony}[1]{\articleShortTitle{#1}}
+
+\newcounter{authors}\setcounter{authors}{0}
+\newcounter{authors:it}\setcounter{authors:it}{0}
+\newcounter{authors:i}
+\newcounter{authors:userlist}\setcounter{authors:userlist}{0}
+
+\newcommand{\@allAuthors}{}
+\newcommand{\@allAv}{}
+\newcommand{\@allAx}{}
+
+\newcommand{\AuthFNameI}{}\newcommand{\AuthSNameI}{}
+\newcommand{\AuthInitI}{}\newcommand{\AuthAffilI}{}
+\newcommand{\AuthAffilLabelI}{}
+\newcommand{\AuthFNameII}{}\newcommand{\AuthSNameII}{}
+\newcommand{\AuthInitII}{}\newcommand{\AuthAffilII}{}
+\newcommand{\AuthAffilLabelII}{}
+\newcommand{\AuthFNameIII}{}\newcommand{\AuthSNameIII}{}
+\newcommand{\AuthInitIII}{}\newcommand{\AuthAffilIII}{}
+\newcommand{\AuthAffilLabelIII}{}
+\newcommand{\AuthFNameIV}{}\newcommand{\AuthSNameIV}{}
+\newcommand{\AuthInitIV}{}\newcommand{\AuthAffilIV}{}
+\newcommand{\AuthAffilLabelIV}{}
+\newcommand{\AuthFNameV}{}\newcommand{\AuthSNameV}{}
+\newcommand{\AuthInitV}{}\newcommand{\AuthAffilV}{}
+\newcommand{\AuthAffilLabelV}{}
+\newcommand{\AuthFNameVI}{}\newcommand{\AuthSNameVI}{}
+\newcommand{\AuthInitVI}{}\newcommand{\AuthAffilVI}{}
+\newcommand{\AuthAffilLabelVI}{}
+\newcommand{\AuthFNameVII}{}\newcommand{\AuthSNameVII}{}
+\newcommand{\AuthInitVII}{}\newcommand{\AuthAffilVII}{}
+\newcommand{\AuthAffilLabelVII}{}
+\newcommand{\AuthFNameVIII}{}\newcommand{\AuthSNameVIII}{}
+\newcommand{\AuthInitVIII}{}\newcommand{\AuthAffilVIII}{}
+\newcommand{\AuthAffilLabelVIII}{}
+\newcommand{\AuthFNameIX}{}\newcommand{\AuthSNameIX}{}
+\newcommand{\AuthInitIX}{}\newcommand{\AuthAffilIX}{}
+\newcommand{\AuthAffilLabelIX}{}
+\newcommand{\AuthFNameX}{}\newcommand{\AuthSNameX}{}
+\newcommand{\AuthInitX}{}\newcommand{\AuthAffilX}{}
+\newcommand{\AuthAffilLabelX}{}
+
+\newcommand{\DefineAffCounter}{%
+  \newcounter{aff:\arabic{authors}}\setcounter{aff:\arabic{authors}}{0}%
+  \newcounter{aff:label:\arabic{authors}}%
+  \setcounter{aff:label:\arabic{authors}}{0}%
+}
+
+%
+% 1 - Inicjal imienia (lub imion)
+% 2 - Imiona
+% 3 - Nazwisko
+%
+\newcommand{\articleAuthor}[3]{%
+  \stepcounter{authors}%
+  \newcounter{author:nl:\arabic{authors}}%
+  \setcounter{author:nl:\arabic{authors}}{0}%
+  \DefineAffCounter%
+  \ifthenelse{\value{authors} = 1}{\renewcommand{\AuthInitI}{\mbox{#1}}%
+       \renewcommand{\AuthFNameI}{#2}\renewcommand{\AuthSNameI}{#3}}{%
+  \ifthenelse{\value{authors} = 2}{\renewcommand{\AuthInitII}{\mbox{#1}}%
+       \renewcommand{\AuthFNameII}{#2}\renewcommand{\AuthSNameII}{#3}}{%
+  \ifthenelse{\value{authors} = 3}{\renewcommand{\AuthInitIII}{\mbox{#1}}%
+       \renewcommand{\AuthFNameIII}{#2}\renewcommand{\AuthSNameIII}{#3}}{%
+  \ifthenelse{\value{authors} = 4}{\renewcommand{\AuthInitIV}{\mbox{#1}}%
+       \renewcommand{\AuthFNameIV}{#2}\renewcommand{\AuthSNameIV}{#3}}{%
+  \ifthenelse{\value{authors} = 5}{\renewcommand{\AuthInitV}{\mbox{#1}}%
+       \renewcommand{\AuthFNameV}{#2}\renewcommand{\AuthSNameV}{#3}}{%
+  \ifthenelse{\value{authors} = 6}{\renewcommand{\AuthInitVI}{\mbox{#1}}%
+       \renewcommand{\AuthFNameVI}{#2}\renewcommand{\AuthSNameVI}{#3}}{%
+  \ifthenelse{\value{authors} = 7}{\renewcommand{\AuthInitVII}{\mbox{#1}}%
+       \renewcommand{\AuthFNameVII}{#2}\renewcommand{\AuthSNameVII}{#3}}{%
+  \ifthenelse{\value{authors} = 8}{\renewcommand{\AuthInitVIII}{\mbox{#1}}%
+       \renewcommand{\AuthFNameVIII}{#2}\renewcommand{\AuthSNameVIII}{#3}}{%
+  \ifthenelse{\value{authors} = 9}{\renewcommand{\AuthInitIX}{\mbox{#1}}%
+       \renewcommand{\AuthFNameIX}{#2}\renewcommand{\AuthSNameIX}{#3}}{%
+  \ifthenelse{\value{authors} = 10}{\renewcommand{\AuthInitX}{\mbox{#1}}%
+       \renewcommand{\AuthFNameX}{#2}\renewcommand{\AuthSNameX}{#3}}{%
+  }}}}}}}}}}%
+}
+
+\newcommand{\SetAffCounter}{\setcounter{aff:\arabic{authors}}{1}}
+
+\newcommand{\x@affiliation}[2]{%
+  \stepcounter{kkr:instytucja}%
+  \newcounter{KKR:AFF:#2}\setcounter{KKR:AFF:#2}{\arabic{kkr:instytucja}}%
+  \ifthenelse{\value{authors} = 1}{%
+       \renewcommand{\AuthAffilI}{#1}\SetAffCounter}{%
+  \ifthenelse{\value{authors} = 2}{%
+       \renewcommand{\AuthAffilII}{#1}\SetAffCounter}{%
+  \ifthenelse{\value{authors} = 3}{%
+       \renewcommand{\AuthAffilIII}{#1}\SetAffCounter}{%
+  \ifthenelse{\value{authors} = 4}{%
+       \renewcommand{\AuthAffilIV}{#1}\SetAffCounter}{%
+  \ifthenelse{\value{authors} = 5}{%
+       \renewcommand{\AuthAffilV}{#1}\SetAffCounter}{%
+  \ifthenelse{\value{authors} = 6}{%
+       \renewcommand{\AuthAffilVI}{#1}\SetAffCounter}{%
+  \ifthenelse{\value{authors} = 7}{%
+       \renewcommand{\AuthAffilVII}{#1}\SetAffCounter}{%
+  \ifthenelse{\value{authors} = 8}{%
+       \renewcommand{\AuthAffilVIII}{#1}\SetAffCounter}{%
+  \ifthenelse{\value{authors} = 9}{%
+       \renewcommand{\AuthAffilIX}{#1}\SetAffCounter}{%
+  \ifthenelse{\value{authors} = 10}{%
+       \renewcommand{\AuthAffilX}{#1}\SetAffCounter}{%
+  }}}}}}}}}}%
+}
+
+
+
+
+\newcommand{\OnlyFootNoteMark}{\footnotemark[\arabic{footnote}]}
+\newcommand{\FootNoteMarkByLabel}[1]{\footnotemark[\arabic{KKR:AFF:#1}]}
+\newcommand{\InsertComma}{%
+    \ifthenelse{\value{authors:i} < \value{authors}}{,}{}}
+
+\newcommand{\UserBreakLine}{%
+    \ifthenelse{\value{author:nl:\arabic{authors:i}} = 1}{\newline}{}}
+
+\newcommand{\printAuthorI}{%
+   \mbox{\AuthFNameI~\AuthSNameI}\ifthenelse{\value{aff:\arabic{authors:i}} = 1}%
+     {\footnote{\AuthAffilI}}{%
+        \ifthenelse{\value{aff:label:\arabic{authors:i}} = 1}%
+              {\FootNoteMarkByLabel{\AuthAffilLabelI}}%
+              {\OnlyFootNoteMark}}\InsertComma\UserBreakLine}
+\newcommand{\printAuthorII}{%
+   \mbox{\AuthFNameII~\AuthSNameII}\ifthenelse{\value{aff:\arabic{authors:i}} = 1}%
+     {\footnote{\AuthAffilII}}{%
+        \ifthenelse{\value{aff:label:\arabic{authors:i}} = 1}%
+              {\FootNoteMarkByLabel{\AuthAffilLabelII}}%
+              {\OnlyFootNoteMark}}\InsertComma\UserBreakLine}
+\newcommand{\printAuthorIII}{%
+   \mbox{\AuthFNameIII~\AuthSNameIII}%%
+    \ifthenelse{\value{aff:\arabic{authors:i}} = 1}%
+     {\footnote{\AuthAffilIII}}{%
+        \ifthenelse{\value{aff:label:\arabic{authors:i}} = 1}%
+              {\FootNoteMarkByLabel{\AuthAffilLabelIII}}%
+              {\OnlyFootNoteMark}}\InsertComma\UserBreakLine}
+\newcommand{\printAuthorIV}{%
+   \mbox{\AuthFNameIV~\AuthSNameIV}%%
+    \ifthenelse{\value{aff:\arabic{authors:i}} = 1}%
+     {\footnote{\AuthAffilIV}}{%
+        \ifthenelse{\value{aff:label:\arabic{authors:i}} = 1}%
+              {\FootNoteMarkByLabel{\AuthAffilLabelIV}}%
+              {\OnlyFootNoteMark}}\InsertComma\UserBreakLine}
+\newcommand{\printAuthorV}{%
+   \mbox{\AuthFNameV~\AuthSNameV}%%
+    \ifthenelse{\value{aff:\arabic{authors:i}} = 1}%
+     {\footnote{\AuthAffilV}}{%
+        \ifthenelse{\value{aff:label:\arabic{authors:i}} = 1}%
+              {\FootNoteMarkByLabel{\AuthAffilLabelV}}%
+              {\OnlyFootNoteMark}}\InsertComma\UserBreakLine}
+\newcommand{\printAuthorVI}{%
+   \mbox{\AuthFNameVI~\AuthSNameVI}%%
+    \ifthenelse{\value{aff:\arabic{authors:i}} = 1}%
+     {\footnote{\AuthAffilVI}}{%
+        \ifthenelse{\value{aff:label:\arabic{authors:i}} = 1}%
+              {\FootNoteMarkByLabel{\AuthAffilLabelVI}}%
+              {\OnlyFootNoteMark}}\InsertComma\UserBreakLine}
+\newcommand{\printAuthorVII}{%
+   \mbox{\AuthFNameVII~\AuthSNameVII}%%
+    \ifthenelse{\value{aff:\arabic{authors:i}} = 1}%
+     {\footnote{\AuthAffilVII}}{%
+        \ifthenelse{\value{aff:label:\arabic{authors:i}} = 1}%
+              {\FootNoteMarkByLabel{\AuthAffilLabelVII}}%
+              {\OnlyFootNoteMark}}\InsertComma\UserBreakLine}
+\newcommand{\printAuthorVIII}{%
+   \mbox{\AuthFNameVIII~\AuthSNameVIII}%%
+    \ifthenelse{\value{aff:\arabic{authors:i}} = 1}%
+     {\footnote{\AuthAffilVIII}}{%
+        \ifthenelse{\value{aff:label:\arabic{authors:i}} = 1}%
+              {\FootNoteMarkByLabel{\AuthAffilLabelVIII}}%
+              {\OnlyFootNoteMark}}\InsertComma\UserBreakLine}
+\newcommand{\printAuthorIX}{%
+   \mbox{\AuthFNameIX~\AuthSNameIX}%%
+    \ifthenelse{\value{aff:\arabic{authors:i}} = 1}%
+     {\footnote{\AuthAffilIX}}{%
+        \ifthenelse{\value{aff:label:\arabic{authors:i}} = 1}%
+              {\FootNoteMarkByLabel{\AuthAffilLabelIX}}%
+              {\OnlyFootNoteMark}}\InsertComma\UserBreakLine}
+\newcommand{\printAuthorX}{%
+   \mbox{\AuthFNameX~\AuthSNameX}%%
+    \ifthenelse{\value{aff:\arabic{authors:i}} = 1}%
+     {\footnote{\AuthAffilX}}{%
+        \ifthenelse{\value{aff:label:\arabic{authors:i}} = 1}%
+              {\FootNoteMarkByLabel{\AuthAffilLabelX}}%
+              {\OnlyFootNoteMark}}\InsertComma\UserBreakLine}
+
+\newcommand{\printAuthors}{%
+ \setcounter{authors:i}{0}
+ \whiledo{\value{authors:i} < \value{authors}}{%
+  \stepcounter{authors:i}
+  \ifthenelse{\value{authors:i} = 1}{\printAuthorI}{%
+  \ifthenelse{\value{authors:i} = 2}{\printAuthorII}{%
+  \ifthenelse{\value{authors:i} = 3}{\printAuthorIII}{%
+  \ifthenelse{\value{authors:i} = 4}{\printAuthorIV}{%
+  \ifthenelse{\value{authors:i} = 5}{\printAuthorV}{%
+  \ifthenelse{\value{authors:i} = 6}{\printAuthorVI}{%
+  \ifthenelse{\value{authors:i} = 7}{\printAuthorVII}{%
+  \ifthenelse{\value{authors:i} = 8}{\printAuthorVIII}{%
+  \ifthenelse{\value{authors:i} = 9}{\printAuthorIX}{%
+  \ifthenelse{\value{authors:i} = 10}{\printAuthorX}{%
+   }}}}}}}}}}%
+ }%
+}
+
+\newcommand{\authorsForHHHeader}{%
+  \ifthenelse{\arabic{usr:header:authors} = 1}{%
+     \@authorsForHeader}{%
+  \ifthenelse{\arabic{authors} = 1}{\AuthInitI~\AuthSNameI}{%
+  \ifthenelse{\arabic{authors} = 2}{\AuthInitI~\AuthSNameI, 
+                                    \AuthInitII~\AuthSNameII}{%
+  \ifthenelse{\arabic{authors} = 3}{\AuthInitI~\AuthSNameI, 
+                                    \AuthInitII~\AuthSNameII, 
+                                    \AuthInitIII~\AuthSNameIII}{%
+  \ifthenelse{\arabic{authors} > 3}{\AuthInitI~\AuthSNameI~et al.}{%
+  }}}}}%
+}
+
+
+
+%
+% Makro przeznaczone jest do wprowadzenia streszczenia w jezyku 
+% angielskim, ktore powinno zostac umieszczone na koncu artykulu.
+%
+% Parametry:
+%  1 - Tytul referatu w jezyku angielskim
+%  2 - Streszczenie w jezyku angielskim
+%
+\newcommand{\englishAbstract}[2]{%
+  \begin{center}
+    \selecthyphenation{nohyphenation}
+    \bf #1\vspace*{-1mm}
+  \end{center}%
+ {\selecthyphenation{english}\noindent\small\mbox{}\\[-5.65mm] #2}
+}
+
+
+
+
+\def\@maketitle{\newpage
+  \renewcommand\thefootnote{\@fnsymbol\c@footnote}%
+  \noindent
+    \mbox{}\\[-1mm]
+   {\huge \bf {\selecthyphenation{nohyphenation}\@title}%
+          \ifthenelse{\arabic{titlefootnote} = 1}%
+          {\footnote{\@titleFootNote}}{} \par}\setcounter{footnote}{0}%
+   {\large \lineskip .5em\par}\vspace*{0mm}\mbox{}\\
+   \renewcommand\thefootnote{\arabic{footnote}}%
+   \ifthenelse{\value{authors} > 0}{%
+    {\large \it %
+      \ifthenelse{\value{authors:userlist} = 0}{\printAuthors}%
+                                              {\@authorsUserList}%
+    \vspace*{2.5mm}}}{}\@makroPoTytule%
+  \par\noindent\hrulefill %
+  \vspace*{10mm}\par\noindent
+  \ifthenelse{\arabic{pabstract} = 1}{%
+   {  \mbox{}\hfill\small\begin{tabular}{p{11.6cm}}
+     \mbox{}\hfill{\normalsize\bf Abstract}\hfill\mbox{}\\[1mm]
+     \@abstract
+   \end{tabular}}}{}%
+}
+\newcommand{\@abstract}{}
+\newcounter{pabstract}
+\setcounter{pabstract}{0}
+\renewcommand{\abstract}[1]{\setcounter{pabstract}{1}\renewcommand{\@abstract}{#1}}
+\newcommand{\streszczenie}[1]{\abstract{#1}}
+
+
+\renewcommand\thesection {\@arabic\c@section}
+\renewcommand\thesubsection   {\thesection.\@arabic\c@subsection}
+\renewcommand\thesubsubsection{\thesubsection.\@arabic\c@subsubsection}
+\renewcommand\theparagraph    {\thesubsubsection.\@arabic\c@paragraph}
+\renewcommand\thesubparagraph {\theparagraph.\@arabic\c@subparagraph}
+
+
+\def\@seccntformat#1{\csname the#1\endcsname.\quad}
+
+\def\section{\@startsection {section}{1}{\z@}{-4.5ex plus -1ex minus
+ -.2ex}{2.3ex plus .2ex}{\Large\selecthyphenation{nohyphenation}}}
+\def\subsection{\@startsection{subsection}{2}{\z@}{-3.25ex plus -1ex minus
+ -.2ex}{1.5ex plus .2ex}{\large\bf\selecthyphenation{nohyphenation}}} % footnotesize
+\def\subsubsection{\@startsection{subsubsection}{3}{\z@}{-3.25ex plus
+ -1ex minus -.2ex}{1.5ex plus .2ex}{\normalsize\bf\selecthyphenation{nohyphenation}}}
+\def\paragraph{\@startsection
+ {paragraph}{4}{\z@}{3.25ex plus 1ex minus .2ex}{-1em}%
+                                   {\footnotesize\selecthyphenation{nohyphenation}}}
+\def\subparagraph{\@startsection
+ {subparagraph}{4}{\parindent}{3.25ex plus 1ex minus
+ .2ex}{-1em}{\footnotesize\selecthyphenation{nohyphenation}}}
+
+
+\def\figurename{Fig.}
+\def\tablename{Tab.}
+\def\refname{REFERENCES}
+
+\addtolength{\belowcaptionskip}{1.5mm}
+
+\long\def\@makecaption#1#2{%
+  \vskip\abovecaptionskip%
+  \setlength{\baselineskip}{4mm}
+  \sbox\@tempboxa{\small{\bf #1.} #2}%
+  \ifdim \wd\@tempboxa >\hsize
+   {\small {\bf #1.} #2}\par
+  \else
+    \global \@minipagefalse
+    \hb@xt@\hsize{\box\@tempboxa\hfil}%
+  \fi
+  \vskip\belowcaptionskip}
+
+\pagestyle{fancy}
+\fancyhf{}
+%\addtolength{\headwidth}{\marginparsep}
+%\setlength{\headwidth}{\textwidth}
+\chead[\fancyplain{}%
+   {\it\authorsForHHHeader}]{\fancyplain{}%
+   {\ifthenelse{\arabic{page} = 1}%
+   {\vspace*{-4mm}}{\renewcommand{\\}{}%
+      \it\@userHeader\ifthenelse{\value{KKR:userheader} = 0}{\@titleForHeader}{}}}}
+\fancypagestyle{plain}
+
+
+\def\tabular{\footnotesize\let\@halignto\@empty\@tabular}
+
+\def\endlist{%
+  \global\advance\@listdepth\m@ne
+  \endtrivlist\vspace*{-2mm}}
+
+\def\itemize{%
+  \ifnum \@itemdepth >\thr@@\@toodeep\else
+    \advance\@itemdepth\@ne
+    \edef\@itemitem{labelitem\romannumeral\the\@itemdepth}%
+
+    \ifthenelse{\@itemdepth > 1}{\vspace*{-2mm}%
+      \expandafter
+      \list
+       \csname\@itemitem\endcsname
+       {\def\makelabel##1{\hss\llap{##1}}%
+        \setlength{\leftmargin}{5mm}%
+        \setlength{\labelsep}{3mm}\setlength{\parsep}{0mm}%
+        \setlength{\itemsep}{0mm}%
+        \setlength{\listparindent}{1.25cm}%
+        \setlength{\topsep}{2.1mm}%
+        \setlength{\partopsep}{0mm}%
+        \setlength{\parskip}{0mm}}%
+      }{%
+      \expandafter
+      \list
+       \csname\@itemitem\endcsname
+       {\def\makelabel##1{\hss\llap{##1}}%
+        \setlength{\leftmargin}{1.25cm}%
+        \setlength{\labelsep}{5mm}\setlength{\parsep}{0mm}%
+        \setlength{\itemsep}{0mm}%
+        \setlength{\listparindent}{1.25cm}%
+        \setlength{\topsep}{2.1mm}%
+        \setlength{\partopsep}{0mm}%
+        \setlength{\parskip}{0mm}}%
+      }%
+  \fi}
+\let\enditemize =\endlist
+
+
+\def\enumerate{%
+  \ifnum \@enumdepth >\thr@@\@toodeep\else
+    \advance\@enumdepth\@ne
+    \edef\@enumctr{enum\romannumeral\the\@enumdepth}%
+    \ifthenelse{\@enumdepth > 1}{\vspace*{-2mm}}{}%
+      \expandafter
+      \list
+        \csname label\@enumctr\endcsname
+        {\usecounter\@enumctr\def\makelabel##1{\hss\llap{##1}}%
+       \setlength{\leftmargin}{1.25cm}%
+       \setlength{\labelsep}{6mm}\setlength{\parsep}{0mm}%
+       \setlength{\itemsep}{0mm}%
+       \setlength{\listparindent}{1.25cm}%
+       \setlength{\topsep}{1.1mm}%
+       \setlength{\partopsep}{0mm}%
+       \setlength{\parskip}{0mm}}%
+  \fi}
+\let\endenumerate =\endlist
+
+
+\def\wzor#1{%
+    \par \vspace{-9mm}%\vskip\abovedisplayskip
+    \kern\parindent\refstepcounter{equation}%
+    $\displaystyle#1$\hfill$\hbox{\@eqnnum}$\\%
+    \vspace{\belowdisplayskip}\vspace{-1.5mm}\\%
+    \noindent}
+
+\def\Equation#1{%
+    \par \vspace{-9mm}%\vskip\abovedisplayskip
+    \kern\parindent\refstepcounter{equation}%
+    $\displaystyle#1$\hfill$\hbox{\@eqnnum}$\\%
+    \vspace{\belowdisplayskip}\vspace{-1.5mm}\\%
+    \noindent}
+
+
+\def\equation{$$\DisplayEquation}
+\def\endequation{$$\@ignoretrue}
+
+ \def\[{%
+    \relax\ifmmode
+       \@badmath
+    \else
+       \ifvmode
+          \nointerlineskip
+          \makebox[.6\linewidth]%
+       \fi
+         $$
+         \mbox{}\hspace*{1.25cm}
+    \fi
+ }
+ \def\]{%
+    \relax\ifmmode
+       \ifinner
+          \@badmath
+       \else
+         \hspace{\textwidth}\mbox{}$$
+       \fi
+    \else
+       \@badmath
+    \fi
+    \ignorespaces
+ }
+
+
+
+\newcounter{KKR:equation}\setcounter{KKR:equation}{0}
+\everydisplay{\ifthenelse{\value{KKR:equation} = 1}{\IndentedDisplay}{}}
+\def\ExtractEq#1\eqno#2\eqno#3\relax
+   {\def\Equation{#1}}
+\def\IndentedDisplay#1
+   \end#2{%
+    \ExtractEq#1\eqno\eqno\relax
+    \hbox to \displaywidth
+          {\kern\parindent
+           $\displaystyle\Equation$\hfil$\hbox{\@eqnnum}$}\end{equation}
+    }
+\def\equation{\setcounter{KKR:equation}{1}$$\refstepcounter{equation}}
+\def\endequation{$$\@ignoretrue\setcounter{KKR:equation}{0}} 
+
+%
+% Definicja srodowiska equation*
+%
+\expandafter\def\csname equation*\endcsname{\[}
+\expandafter\def\csname endequation*\endcsname{\]\global\@ignoretrue}
+
+%
+% Dodana zostaje kropka po liczniku zdefiniowanego srodowiska
+% typu 'theorem'.
+%
+\def\@begintheorem#1#2{\trivlist
+   \item[\hskip \labelsep{\bfseries #1\ #2.}]\itshape}
+
+
+
+\renewenvironment{thebibliography}[1]
+     {\section*{\refname}\vspace*{-1.4mm}%
+      \@mkboth{\MakeUppercase\refname}{\MakeUppercase\refname}%
+      \list{\@biblabel{\@arabic\c@enumiv}}%
+           {\settowidth\labelwidth{\@biblabel{#1}}%
+            \setlength{\itemsep}{0mm}%
+            \setlength{\parsep}{0mm}%
+            \leftmargin\labelwidth
+            \advance\leftmargin\labelsep
+            \@openbib@code
+            \usecounter{enumiv}%
+            \let\p@enumiv\@empty
+            \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+      \sloppy
+      \clubpenalty4000
+      \@clubpenalty \clubpenalty
+      \widowpenalty4000%
+      \sfcode`\.\@m}
+     {\def\@noitemerr
+       {\@latex@warning{Empty `thebibliography' environment}}%
+      \endlist}
+
+
+
+
+\newcommand{\xumlaut}{\"a}
+
+\voffset -1in
+%\topmargin 50.7mm 
+\topmargin 41.7mm 
+\headsep  3mm
+
+
+\textheight  199.4mm
+\textwidth 131mm
+\parindent  1.25cm
+\marginparwidth 0in
+\marginparsep   0in       
+\renewcommand{\thepage}{}
+
+\hoffset -1in
+\evensidemargin 40mm
+\oddsidemargin  40mm
+\setlength{\headwidth}{\textwidth}
+
+\def\figurename{Fig.}
+\def\tablename{Tab.}
+\def\refname{REFERENCES}
+
+\makeatother
