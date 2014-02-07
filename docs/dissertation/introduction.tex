@@ -1,5 +1,5 @@
 \chapter{Introduction}
-\addcontentsline{toc}{chapter}{Introduction}
+%\addcontentsline{toc}{chapter}{Introduction}
 
 	It has never been easier to capture visual information. Popular storage services grow lighting fast due to terabytes of photographs and movies we upload every day. The growth is so fast that hand-tagging and description, the traditional means of annotation, cease to suffice. They are ambiguous, emotional and rarely optimal. With no better solution at hand, databases are becoming increasingly harder to browse. Another but quite similar setting occurs in the field of mobile robotics. A mobile robot is there to interact with its environment. If so, it would be desirable for the robot to know what kind of surroundings it is in. The problem can be treated as a scene or object classification problem, one of the most popular computer vision issues in the last decade. As Forsyth and Ponce \cite{ponce2011cv} have it:
 	
@@ -11,7 +11,7 @@
 	
 	This paper tackles two issues. Firstly, the Bag of Words (or BoW for short) approach to image classification is reviewed. The Bag of Words method has originated from the natural language processing domain \cite{tsai2012bag}. It makes a strong assumption that the word occurrence in a text document define the meaning of the document. It were Csurka \textit{et al} who have first used BoW for image classification in 2004 \cite{csurka2004visual}. Since we cannot simply translate an image into natural language a pipeline that help us achieve this goal is needed. It usually consist of: keypoint detection, feature extraction, vector quantization and classification, steps that will be discussed later.
 	
-	Secondly, a configurable and flexible application for point cloud classification is designed and implemented in C++. Many algorithms are suitable for the bag of words pipeline. To choose an optimal combination for a specific problem we have to perform extensive evaluation of those algorithms. The process can be greatly simplified by a programme that would be: (1) easily extensible, that is adding new algorithms wold be painless and (2) configurable, with every parameter (and algorithm) adjustable at runetime.
+	Secondly, a configurable and flexible application for point cloud classification is designed and implemented in C++. Many algorithms are suitable for the bag of words pipeline. To choose an optimal combination for a specific problem we have to perform extensive evaluation of those algorithms. The process can be greatly simplified by a programme that would be: (1) easily extensible, that is adding new algorithms wold be painless and (2) configurable, with every parameter (and algorithm) adjustable at runtime.
 	
 	The rest of this work is organised as follows: Section 1 summarises purpose and scope of this work. Section 2 describes the Bag of Words technique in detail. Construction of an image model is discussed and the most popular algorithms are outlined. Section 3 provides basic information on the problem of classification, introduces basic concepts and methods of classification. Section 4 names C++ computer vision and general purpose libraries used in this project. Finally, in Section 6 we describe two renown RGBD image datasets we have chosen to test our application at. The following chapters are titled ``Design'' and ``Experiments and Results''. The former analyses functionality of a programme for BoW object classification, its design and implementation details. The latter addresses the topics of experimental setup, performed experiments and a summary of results.
 	
@@ -32,7 +32,7 @@
 
 	\begin{figure}[!ht]
 	\centering
-	\includegraphics[width=0.7\textwidth]{figs/bow_example}
+	\includegraphics[width=0.7\textwidth]{../figs/bow_example}
 	\caption{Bag of Words histogram}
 	\label{fig:bow_example}
 	\end{figure}
@@ -46,7 +46,7 @@
 	
 	\begin{figure}[!ht]
 	\centering
-	\includegraphics[width=0.75\textwidth]{figs/tsai2012}
+	\includegraphics[width=0.75\textwidth]{../figs/tsai2012}
 	\caption{Bag of Words pipeline. The figure comes from \cite{tsai2012bag}}
 	\label{fig:bow_pipeline}
 	\end{figure}
@@ -106,7 +106,7 @@
 	\subsubsection{Support Vector Machine (SVM)}
 	\begin{figure}[!ht]
 	\centering
-	\includegraphics[width=0.75\textwidth]{figs/svm}
+	\includegraphics[width=0.75\textwidth]{../figs/svm}
 	\caption{Classification by a Support Vector Machine. The distance of the separating plane from both datasets is maximal. The figure was originally published in \cite{ponce2011cv}}
 	\label{fig:svm}
 	\end{figure}
@@ -148,7 +148,7 @@
 	\subsection{Berkeley 3D Object Dataset}
 	\begin{figure}[!ht]
 	\centering
-	\includegraphics[width=0.5\textwidth]{figs/b3do_dataset}
+	\includegraphics[width=0.5\textwidth]{../figs/b3do_dataset}
 	\caption{Berkeley 3D Object Dataset. The figure comes from \cite{B3DO}}
 	\label{fig:b3do}
 	\end{figure}
@@ -158,7 +158,7 @@
 	\subsection{The University of Tokyo Dataset}	
 	\begin{figure}[!ht]
 	\centering
-	\includegraphics[width=1\textwidth]{figs/tokyo_horizontal}
+	\includegraphics[width=1\textwidth]{../figs/tokyo_horizontal}
 	\caption{The Tokyo dataset: a) basket b) bicycle c) box d) bucket e) cart f) freezer g) notebook h) printer i) scanner j) scene}
 	\label{fig:tokyo}
 	\end{figure}

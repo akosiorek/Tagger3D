@@ -63,7 +63,7 @@
 	
 	\begin{figure}[ht]
 	\centering
-	\includegraphics[width=1.0\textwidth]{figs/class}
+	\includegraphics[width=1.0\textwidth]{../figs/class}
 	\caption{Tagger3D class diagram}
 	\label{fig:class_diagram}
 	\end{figure}
@@ -71,13 +71,11 @@
 	C++ is one of the most efficient languages on the market. It is perfect for Object Oriented Programming (OOP) --- a paradigm that makes writing modular, flexible and extensible software easier. The excellent meta-programming tools provided by the language help to minimise the length of the hand-written code. Among OOP's best practices is to use design patterns - a set of well-known, documented and tested methods of solving certain architectural problems. Using design patterns leads to cleaner code which is easier to maintain and reuse. 
 	
 	\subsubsection{Configurability}
-	The programme is configurable through a text file of a standard *.ini format. It should be formatted as follows:
-	\begin{tabular}{c}
-	 param1 = 2
-	 param2 = aha
-	 [section]
-	 param3 = no
-	\end{tabular}
+	The programme is configurable through a text file of a standard *.ini format. It should be formatted as follows:\\ \ \\
+	 param1 = 2\\
+	 param2 = aha\\
+	 {[section]}\\
+	 param3 = no\\
 	
 	On top of the file there is a global section. Parameters can be accessed by their names. We can define sections but putting a section's name in brackets. the param3 can be accessed as ``section.param3''. An object ``Config'' was created for the purpose of configuration file parsing. It uses the Boost.program\_options module. Returned associative array of (parameter, value) pairs contains all parameters from a configuration file. We use a convention that if any object has to be configured by the configuration map it has to accept this map in it's constructor.
 	
@@ -85,7 +83,7 @@
 	
 	\begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.5\textwidth]{figs/strategy}
+	\includegraphics[width=0.5\textwidth]{../figs/strategy}
 	\caption{Strategy pattern}
 	\label{fig:strategy}
 	\end{figure}
@@ -124,6 +122,10 @@
 			$Y = depth * factorV * (pixelX / 240)$\\
 			$Z = depth$\\
 		\end{centering}
+		
+	\subsection{Input/Output Objects}
+	
+		As stated in the input/output section above, the application is very data dependent. Therefore, some objects for input/output operations were designed and implemented. The whole public API is delivered by the IoUtils class. It's methods allow reading and writing of text files, binary files of different formats, vectors of elements, vectors of vectors of elements and OpenCV's Mat objects. Elements that can be worked with are all C/C++ primitive types, all user defined types with defined std::string toString() method and OpenCV's Mat objects. In order to enhance performance, the IoUtils statically uses an object of type VectorIO for any vector input/output operation. The VectorIO is a template class parametrized by a type that is to be read into or written from a vector to a file on a hard drive. The VectorIO class uses a default implementation for all C/C++ primitive type and has template specialisations for the following types: std::vector, std::string, cv::Mat, any user defined object with a public std::string toString() method. Moreover, both IoUtils and VectorIO uses custom type trait classes that provide file extensions, size of types in bytes or processing algorithms for different data types.
 		
 		
 

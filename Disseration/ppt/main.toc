@@ -1,7 +1,0 @@
-\beamer@endinputifotherversion {3.10pt}
-\select@language {polish}
-\beamer@sectionintoc {1}{Za\IeC {\l }o\IeC {\.z}enia i zakres pracy}{3}{0}{1}
-\beamer@sectionintoc {2}{Podej\IeC {\'s}cie Bag of Words}{5}{0}{2}
-\beamer@sectionintoc {3}{Projekt Aplikacji}{7}{0}{3}
-\beamer@sectionintoc {4}{Bazy danych}{8}{0}{4}
-\beamer@sectionintoc {5}{Wyniki i podsumowanie}{10}{0}{5}
