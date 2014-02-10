@@ -6,6 +6,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{polski}
 \usepackage[polish]{babel}
+\usepackage{mathptmx}
 
 
 \newcommand{\argmax}[1]{\underset{#1}{\operatorname{arg}\,\operatorname{max}}\;}
@@ -31,7 +32,7 @@
 \makeatother
 
 
-\author[Adam Kosiorek]{Adam Kosiorek\\ \footnotesize pod kierunkiem prof. dr hab. B. Siemiątkowskiej}
+\author[Adam Kosiorek]{Adam Kosiorek \\ \footnotesize pod kierunkiem prof. dr hab. B. Siemiątkowskiej}
 \begin{document}
 \title[Rozpoznawanie obiektów 3D na podstawie danych RGBD]{\HUGE Politechnika Warszawska\\ Wydział Mechatroniki \\ \ \\ \Large Rozpoznawanie obiektów 3D na podstawie danych RGBD} 
 \date{11 lutego 2014} 
@@ -39,7 +40,7 @@
 \thispagestyle{empty}
 \titlepage
 \thispagestyle{empty}
-\frame{\frametitle{Spis treści}\tableofcontents}
+\frame{\frametitle{Plan prezentacji}\tableofcontents}
 \begin{document}
 
 \section{Założenia i zakres pracy} 
@@ -70,16 +71,16 @@
 \section{Podejście Bag of Words}
 \begin{frame} {Bag of Words - Wprowadzenie}
   \begin{figure}
-    \includegraphics[scale=0.3]{../figs/bow_example-eps-converted-to}
+    \includegraphics[scale=0.15]{../figs/bow_example}
   \end{figure}
   
   \begin{itemize}
-   \item Częstośc występowania słów
-   \item Usunięcie gramatyki, kolejności słów
    \item Histogram jako forma pośrednia
+   \item Częstość występowania słów
+   \item Usunięcie gramatyki, kolejności słów  
    \item Wymaga utworzenia słownika
    \item Reprezentacja rzadka w przypadku dużego słownika
-   \item Używany m. in. do znajdowania rozkładu tematów w obrazie
+   \item Używany m. in. do znajdowania rozkładu tematów w dokumencie (pLSA, LDA)
   \end{itemize}
 
 
@@ -93,7 +94,7 @@
 	   \includegraphics[scale=0.15]{../figs/tsai2012}
 	   \end{figure}
 	 \end{column}
-	 
+	 -
 	 \begin{column}{3cm}
 	  \footnotesize Grafika pochodzi z C. Tsai. \textit{Bag-of-words representation in image annotation: A review. ISN Artificial Intelligence, 2012}.
 	 \end{column}
@@ -103,39 +104,39 @@
 	\begin{enumerate}
 	 \item Wykrycie punktów charakterystycznych
 	 \begin{itemize}
-	  \item współrzędne (x, y) oraz skala obrazka
+	  \item współrzędne (x, y) oraz skala obrazka (SIFT, FAST)
 	 \end{itemize}
 
 	 \item Opisanie otoczenia wykrytych punktów
 	 \begin{itemize}
- 	  \item opis jednoznaczny, zazwyczaj poprzez przestrzenny histogram gradientów
+ 	  \item opis jednoznaczny, zazwyczaj poprzez przestrzenny histogram gradientów (SIFT, SURF, HOG)
 	 \end{itemize}
-	 \item Budowanie słownika i kwantyzacja
+	 \item Budowanie słownika i kwantyzacja 
 	 \begin{itemize}
-	  \item punkty układają się w obszary, które można wykryć - klasteryzacja
+	  \item punkty układają się w obszary, które można wykryć - klasteryzacja (KMeans, GMM, Fisher Vector)
 	 \end{itemize}
 	 \item Klasyfikacja
 	 \begin{itemize}
-	  \item klasyfikator uczący się - Support Vector Machine, Modele graficzne, Boosting
+	  \item klasyfikator uczący się - (SVM, PGM, Boosting)
 	 \end{itemize}
 	\end{enumerate}	
 \end{frame}{}
 
-\section{Projekt Aplikacji}
+\section{Projekt aplikacji}
 
-\begin{frame}{Projekt Aplikacji}
+\begin{frame}{Projekt aplikacji}
 	 \begin{columns}
 	
 	 \begin{column}{6cm}
 	  \begin{figure}
-	    \includegraphics[width=1.0\textwidth]{../figs/class}	   
+	    \includegraphics[width=1.1\textwidth]{../figs/class}	   
 	  \end{figure}
 	  \centering \footnotesize Architektura
 	 \end{column}
 	 
 	 \begin{column}{6cm}
 	  \begin{figure}
-	  \includegraphics[width=0.5\textwidth]{../figs/strategy}	
+	  \includegraphics[width=0.6\textwidth]{../figs/strategy}	
 	  \end{figure}
 	  \centering \footnotesize Strategia
 	 \end{column}
@@ -177,9 +178,8 @@
 	 \begin{column}{6cm}
 	 \begin{figure}[!ht]
 	    \includegraphics[width=0.65\textwidth]{../figs/b3do_objects}
-	  \footnotesize \caption{Obiekty z B3DO. Zdjęcia w oryginalnej jakości. a) kubek b) butelka c) książka d) klawiatura}
-	  \label{fig:b3do_objects}
 	  \end{figure}
+	  \centering \footnotesize Obiekty z B3DO. Zdjęcia w oryginalnej jakości. a) kubek b) butelka c) książka d) klawiatura
 	 \end{column}
 	 
 	  \begin{column}{6cm}	  
@@ -203,9 +203,9 @@
 	\begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.6\textwidth]{../figs/tokyo_horizontal}
-	\footnotesize \caption{The Tokyo dataset: a) kosz b) rower c) pudełko d) wiadro e) wózek f) lodówka g) notebook h) drukarka i) skaner j) scena}
-	\label{fig:tokyo}
 	\end{figure}
+	\centering \footnotesize Baza danych Tokyo: a) kosz b) rower c) pudełko d) wiadro e) wózek f) lodówka g) notebook h) drukarka i) skaner j) scena
+	\normalsize
 	
 		\begin{columns}
 		\begin{column}{6cm}
@@ -226,7 +226,7 @@
 			  \item skaner i drukarka
 			  \item koszyk i wiadro
 			  \end{itemize}
-			  \item Dane w formie kolorowe: zdjęcie + plik .csv z absolutnymi współrzędnymi wszystkich pixeli
+			  \item Dane w formie: kolorowe zdjęcie + plik .csv z absolutnymi współrzędnymi wszystkich pixeli
 			  \item Skrypty Python i C++ - przeksztąłcenie do chmury punktów w formacie PCD
 			\end{itemize}
 		\end{column}
