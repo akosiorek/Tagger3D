@@ -44,8 +44,6 @@
 \usepackage{kkr13-eng}
 \usepackage{todonotes}
 \usepackage[hidelinks]{hyperref}
-\usepackage{array}
-\usepackage{booktabs}
 \newcommand{\superscript}[1]{\ensuremath{^{\textrm{#1}}}}
 \newcommand{\subscript}[1]{\ensuremath{_{\textrm{#1}}}}
 
@@ -211,20 +209,16 @@
 
     PCL descriptors have been evaluated in terms of object retrieval performance in \cite{pcl_features}. PFHRGB and SHOTCOLOR delivered the best performance, while their simpler counterparts (PFH, FPFH, SHOT) were only a little worse. USC, which is a global descriptor and thus not suitable for the Bag of Words approach, achieved very similar accuracy. We focus on the family of PFH algorithms.
     
-    \begin{table}[!hbtp]
+    \begin{table}[hbtp]
     \centering
       \caption{Highest accuracy obtained with FPFH, PFH and PFHRGB descriptors on the B3DO dataset}
       \label{tab-example}
-     \begin{tabular}{*4c}
-     \toprule
-       Detector & ISS3D & SIFT & Uniform Sampling  \\ 
-       Descriptor & \multicolumn{3}{c}{Accuracy {[\%]}} \\
-     \midrule
-       FPFH & 65.22 &  56.52 & 56.07  \\ 
-       PFH & 59.32 &  54.83 & 59.50 \\
-       PFHRGB & 63.35 & 52.34 & 53.27 \\
-       
-   \bottomrule
+     \begin{tabular}{c | c c c}
+       Detector & ISS3D & SIFT & Uniform Sampling  \\ \hline
+       Descriptor & Accuracy {[\%]} \\ \hline
+       FPFH & 65.22 &  56.52 & 56.07  \\ \hline
+       PFH & 59.32 &  54.83 & 59.50 \\ \hline
+       PFHRGB & 63.35 & 52.34 & 53.27 \\ \hline
     \end{tabular}
     \end{table}
 
