@@ -37,16 +37,16 @@ order=-1
 
 [item:ppt.tex]
 archive=true
-column=0
+column=22
 encoding=UTF-8
 highlight=LaTeX
-line=40
+line=37
 mode=LaTeX
 open=true
 order=0
 
 [view-settings,view=0,item:ppt.tex]
-CursorColumn=0
-CursorLine=40
+CursorColumn=22
+CursorLine=37
 JumpList=
 ViMarks=

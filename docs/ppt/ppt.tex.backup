@@ -69,7 +69,7 @@
 
 
 \section{Podejście Bag of Words}
-\begin{frame} {Bag of Words --- wprowadzenie}
+\begin{frame} {Bag of Words - Wprowadzenie}
   \begin{figure}
     \includegraphics[scale=0.15]{../figs/bow_example}
   \end{figure}
@@ -86,7 +86,7 @@
 
 \end{frame}
 
-\begin{frame}{Bag of Words --- obrazy}	
+\begin{frame}{Bag of Words w obrazach}	
 	\begin{columns}
 	
 	 \begin{column}{6cm}
@@ -147,7 +147,7 @@
   \begin{figure}[!ht]
 	    \includegraphics[scale=0.45]{../figs/b3do_objects}
 	  \end{figure}
-	  \centering Obiekty z B3DO: a)~kubek b)~butelka c)~książka d)~klawiatura
+	  \centering Obiekty z B3DO. Zdjęcia w oryginalnej jakości. a) kubek b) butelka c) książka d) klawiatura
 \end{frame}
 
 
@@ -171,7 +171,7 @@
 	\begin{figure}[!ht]
 	\includegraphics[scale=0.18]{../figs/tokyo_horizontal}
 	\end{figure}
-	\centering Baza danych Tokyo: a)~kosz b)~rower c)~pudełko d)~wiadro e)~wózek f)~lodówka g)~notebook h)~drukarka i)~skaner j)~scena
+	\centering Baza danych Tokyo: a) kosz b) rower c) pudełko d) wiadro e) wózek f) lodówka g) notebook h) drukarka i) skaner j) scena
 \end{frame}
 
 
@@ -200,26 +200,26 @@
 
 \end{frame}
 
-\section{Wyniki}
+\section{Wyniki i podsumowanie}
 
 \begin{frame}{Porównanie algorytmów}
 
 	\begin{columns}
 	
-	\begin{column}{6cm}
+	\begin{column}{5cm}
 	\begin{table}[!ht]	
-	\includegraphics[scale=0.09]{../figs/desc_b3do} \\ 
+	\includegraphics[scale=0.0.08]{../figs/desc_b3do} \\ 
 	\centering
-	\footnotesize Porównanie algorytmów \\
-	\vspace{0.5cm}
-	\includegraphics[scale=0.30]{../figs/clustering_centroids_b3do} \\ 
+	\footnotesize Porównanie algorytmów. \\
+	\vspace{1cm}
+	\includegraphics[scale=0.25]{../figs/clustering_centroids_b3do} \\ 
 	\centering
-	\footnotesize Wpływ rozmiaru słownika na skuteczność klasyfikacji
+	\footnotesize Wpływ rozmiaru słownika na skuteczność klasyfikacji.
 	\end{table}
 	
 	 \end{column}
 	 
-	  \begin{column}{6cm}	  
+	  \begin{column}{7cm}	  
 	  \begin{itemize}
 	   \item Selekcja na podstawie literatury
 	   \item Deskryptory PFH najlepsze w dopasowywaniu chmur punktów:
@@ -246,80 +246,78 @@
 \begin{frame}{Wyniki B3DO}
 		\begin{columns}
 	
-	 \begin{column}{8cm}
+	 \begin{column}{6cm}
 	\begin{table}[!ht]	
-	\includegraphics[scale=0.15]{../figs/b3do_conf_matrix}
+	\includegraphics[scale=0.1]{../figs/b3do_conf_matrix}	\\ \ \\
+	\centering
+	\footnotesize \textbf{Wynik: 65.22\%} Wyniki na bazie B3DO, detektor ISS, ekstraktor FPFH, słownik o wielkości 1500 słów.
 	\end{table}
 	 \end{column}
-	  \begin{column}{2.8cm}	  
-	  \footnotesize \textbf{Wynik: 65.22\%} Wyniki na bazie B3DO, detektor ISS, ekstraktor FPFH, słownik o wielkości 1500 słów
-	 \end{column}
-	\end{columns}		
-		\begin{itemize}
-	   \item Im lepiej rozdzielone kategorie obiektów, tym wyższe wyniki
+	 
+	  \begin{column}{6cm}	  
+	  \begin{itemize}
+	   \item Im lepiej rozdzielone kategorie obiektów, tym wyższa wyniki
 	   \item Najwyższy wynik: stół, 100\%
 	   \item Niskie wyniki wynikają bezpośrednio z podobieństwa między klasami: 
 	   \begin{itemize}
-	    \item książka, 35\%, mylona z kubkiem i butelką
-	    \item butelka, 45\%, mylona z kubkiem
+	    \item książka, 35\%, mylona z filiżanką i butelką
+	    \item butelka, 45\%, mylona z filiżanką
 	   \end{itemize}
 	  \end{itemize}
+	  
+	 \end{column}
+	\end{columns}	
 \end{frame}
 
 \begin{frame}{Wyniki Tokyo}
-	\begin{columns}	
-	 \begin{column}{8cm}
-	\begin{table}[!ht]	
-	\includegraphics[scale=0.18]{../figs/tokyo_conf_matrix}
-	\centering
+	\begin{columns}
 	
+	 \begin{column}{5cm}
+	\begin{table}[!ht]	
+	\includegraphics[scale=0.1]{../figs/tokyo_conf_matrix} \\ \ \\
+	\centering
+	\footnotesize \textbf{Wynik: 62.30\%} Wyniki na bazie Tokyo, detektor ISS, ekstraktor PFH, słownik o wielkości 3000 słów.
 	\end{table}
 	
 	 \end{column}
 	 
-	  \begin{column}{2.8cm}	  
-\footnotesize \textbf{Wynik: 62.30\%} Wyniki na bazie Tokyo, detektor ISS, ekstraktor PFH, słownik o wielkości 3000 słów
+	  \begin{column}{6cm}	  
+	  \begin{itemize}
+	   \item Wyraźna zależność między ilością instancji w danej klasie i skutecznością klasyfikacji
+	   \item Najwyższy wynik: rower, 94\%, największa ilośc obiektów
+	   \item Najniższe wyniki przy klasach, w których są odpowiednio 4, 2 i 2 obiekty: 
+	    \begin{itemize}
+	      \item wózek, 0\%
+	      \item skaner, 0\%
+	      \item drukarka, 0\%
+	    \end{itemize}
+	   \item Notebook jest mylon z pudełkiem
+	   \item Wiadro jest mylone z pudełkiem
+	   \item Kosz jest mylony z wiadrem
+	  \end{itemize}
 	  
 	 \end{column}
 	\end{columns}	
-	
-		  \begin{itemize}
-	   \item liczność w klasie \textasciitilde \ skuteczność klasyfikacji
-	   \item Najwyższy wynik: rower, 94\%, największa ilośc obiektów
-	   \item Najniższe wyniki : wózek, skaner, drukarka --- po 4, 2, 2 obiekty
-	   \item Notebook i wiadro mylone z pudełkiem, a kosz z wiadrem
-	  \end{itemize}
-\end{frame}
-
-\section{Podsumowanie}
-
-\begin{frame}{Podsumowanie --- problemy}
- Wystąpiły następujące problemy:
-	  \begin{itemize}
-	    \item W zasadzie brak baz danych nadających się do zadania klasyfikacji obiektów na podstawie danych RGBD
-	    \item Wymagające przetwarzanie chmur punktów ze względu na brak struktury
-	    \item Najlepsze algorytmy dostępne są tylko do 2D, brak możliwości ich prostego uogólnienia do 3D
-	  \end{itemize}
-\end{frame}
-
-\begin{frame}{Podsumowanie --- poprawa skuteczności i szybkości}
- Możliwości poprawy skuteczności i/lub szybkości działania aplikacji:
-	    \begin{itemize}
-	      \item Przeniesienie obliczeń do domeny 2D; RGB i D jako niezależne obrazy + złożenie wyników klasyfikacji
-	      \item Trening klasyfikatorów na znacznie większych bazach danych
-	      \item Przeniesienie obliczeń na GPU
-	      \end{itemize}
 \end{frame}
 
 \begin{frame}{Podsumowanie}
 	\begin{itemize}
-	\item Zrealizowano wszystkie założenia projektowe
-	 \item Uzyskane wyniki na bazach B3DO i Tokyo są odpowiednio $5.21$ i $6.23$ razy lepsze od kategoryzacji losowej (odpowiednio 12.5\% i 10\%)
-	 \item 6000 linii kodu
-	 \item Użyte technologie:
-	 \begin{itemize}
-	 \item Boost, OpenCV, PointCloud Library, log4cxx, libsvm, CMake, GIT, PIL, SciPy, NumPy, Eclipse, Valgrind, OpenMP
-	 \end{itemize}
+	 \item Uzyskane wyniki na bazach B3DO i TOKYO są odpowiednio $5.21$ i $6.23$ razy lepsze od kategoryzacji losowej (odpowiednio 12.5\% i 10\%)
+	 \item Zrealizowano wszystkie założenia projektowe
+	 \item Wystąpiły następujące problemy
+	  \begin{itemize}
+	    \item W zasadzie brak baz danych nadających się do zadania klasyfikacji obiektów na podstawie danych RGBD
+	    \item Bardzo wymagające przetwarzanie chmur punktów ze względu na brak jakiejkolwiek struktury
+	    \item Najlepsze algorytmy dostępne są tylko do 2D, brak możliwości ich prostego uogólnienia do 3D
+	  \end{itemize}
+	  
+	  \item Możliwości poprawy skuteczności i/lub szybkości działania aplikacji:
+	    \begin{itemize}
+	      \item Przeniesienie obliczeń do domeny 2D; RGB i D jako niezależne obrazy + złożenie wyników klasyfikacji
+	      \item Trening klasyfikatorów na znacznie większych bazach danych
+	      \item Przeniesienie obliczeń na GPU
+	    \end{itemize}
+	    
 	\end{itemize}
 
 \end{frame}
